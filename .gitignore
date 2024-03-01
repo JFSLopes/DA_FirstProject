@@ -30,3 +30,15 @@
 *.exe
 *.out
 *.app
+
+# CLion specific
+/.idea/
+*.iml
+/.idea/workspace.xml
+/.idea/tasks.xml
+/.idea/modules.xml
+/.idea/misc.xml
+/.idea/vcs.xml
+/.cproject
+/.settings/
+
