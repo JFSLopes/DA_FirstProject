@@ -3,11 +3,12 @@
 #include <iostream>
 
 void App::init() {
-    std::string cities = "../Dataset/DataSetSmall/Cities_Madeira.csv";
-    std::string reservoirs = "../Dataset/DataSetSmall/Reservoirs_Madeira.csv";
-    std::string stations = "../Dataset/DataSetSmall/Stations_Madeira.csv";
-    std::string pipes = "../Dataset/DataSetSmall/Pipes_Madeira.csv";
-    std::string path;
+
+    std::string cities = "Cities_Madeira.csv";
+    std::string reservoirs = "Reservoirs_Madeira.csv";
+    std::string stations = "Stations_Madeira.csv";
+    std::string pipes = "Pipes_Madeira.csv";
+    std::string path = "../Dataset/DataSetSmall/";
 
     Graph g;
     FileParse::readFiles(g, cities, pipes, reservoirs, stations, path);
@@ -28,4 +29,14 @@ void App::init() {
             std::cout << city->getName() << "   " << city->getMunicipality() << "   " << city->getMaxDelivery() << "\n";
         }
     }
+
+    std::cout << "\n";
+    int count = 0;
+    for (Vertex* v : g.getVertexSet()){
+        for (Edge* e : v->getAdj()){
+            count++;
+            std::cout << e->getOrig()->getNode()->getCode() << " -> " << e->getDest()->getNode()->getCode() << "\n";
+        }
+    }
+    std::cout << count << "\n";
 }

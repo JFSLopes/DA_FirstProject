@@ -19,6 +19,7 @@ public:
     Station* getStation(stationEnum type, std::string& str, uint32_t id) const;
     Reservoir* getReservoir(reservoirEnum type, std::string& str, uint32_t id) const;
     const std::vector<Vertex*> getVertexSet() const;
+    Vertex* findVertex(std::string& code) const;
 
     bool addVertex(Vertex* node);
 };

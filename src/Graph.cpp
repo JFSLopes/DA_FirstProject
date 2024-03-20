@@ -5,9 +5,15 @@ const std::vector<Vertex *> Graph::getVertexSet() const {
     return vertexSet;
 }
 
-
 bool Graph::addVertex(Vertex* v) {
     vertexSet.push_back(v);
+}
+
+Vertex *Graph::findVertex(std::string &code) const {
+    for (Vertex* v : vertexSet){
+        if (v->getNode()->getCode() == code) return v;
+    }
+    return nullptr;
 }
 
 City *Graph::getCity(cityEnum type, std::string& str, uint32_t id) const {

@@ -9,12 +9,12 @@ class Reservoir : public Node{
 private:
     std::string name;
     std::string municipality;
-    uint32_t maxDelivery;
+    double maxDelivery;
 public:
-    Reservoir(std::string& name, std::string& municipality, std::string& code, uint32_t id, uint32_t maxDelivery);
+    Reservoir(std::string& name, std::string& municipality, std::string& code, uint32_t id, double maxDelivery);
     const std::string& getName() const;
     const std::string& getMunicipality() const;
-    uint32_t getMaxDelivery() const;
+    double getMaxDelivery() const;
 };
 
 #endif
