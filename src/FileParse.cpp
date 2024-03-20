@@ -54,7 +54,7 @@ void FileParse::readCities(Graph& g, std::ifstream &in) {
         std::getline(iss, ID, ',');
         std::getline(iss, code, ',');
         std::getline(iss, demand, ',');
-        std::getline(iss, population);
+        std::getline(iss, population, '\r');
 
         /// population comes with commas, so can be converted using a string to int
         uint32_t numPopulation = 0;
@@ -63,7 +63,7 @@ void FileParse::readCities(Graph& g, std::ifstream &in) {
                 numPopulation = numPopulation * 10 + (ch - '0');
             }
         }
-        uint32_t numDemand = (uint32_t) std::stoul(demand);
+        double numDemand = std::stod(demand);
         uint32_t id = (uint32_t) std::stoul(ID);
         Node* city = new City(id, numDemand, numPopulation, code, name);
         Vertex* vertex = new Vertex(city);
@@ -81,7 +81,7 @@ void FileParse::readStations(Graph &g, std::ifstream &in) {
         std::istringstream iss(line);
 
         std::getline(iss, ID, ',');
-        std::getline(iss, code);
+        std::getline(iss, code, '\r');
 
         uint32_t id = (uint32_t) std::stoul(ID);
         Node* station = new Station(id, code);
@@ -96,22 +96,46 @@ void FileParse::readReservoirs(Graph &g, std::ifstream &in) {
     std::string line;
     std::getline(in, line);
     while (std::getline(in, line)){
-        std::string name, municipality, ID, code;
+        std::string name, municipality, ID, code, maxDelivery;
         std::istringstream iss(line);
 
         std::getline(iss, name, ',');
         std::getline(iss, municipality, ',');
         std::getline(iss, ID, ',');
         std::getline(iss, code, ',');
-        uint32_t maxDelivery;
-        iss >> maxDelivery;
+        std::getline(iss, maxDelivery, '\r');
 
+        double max = std::stod(maxDelivery);
         uint32_t id = (uint32_t) std::stoul(ID);
-        Node* reservoir = new Reservoir(name, municipality, code, id, maxDelivery);
+        Node* reservoir = new Reservoir(name, municipality, code, id, max);
         Vertex* vertex = new Vertex(reservoir);
         g.addVertex(vertex);
     }
     in.close();
 }
 
-void FileParse::readPipes(Graph &g, std::ifstream &in) {}
+#include <chrono>
+void FileParse::readPipes(Graph &g, std::ifstream &in) {
+    ///skip header
+    std::string line;
+    std::getline(in, line);
+    Vertex* prevSource = nullptr, *prevDest = nullptr;
+    while (std::getline(in, line)){
+        std::string serviceA, serviceB, capacity, direction;
+        std::istringstream iss(line);
+
+        std::getline(iss, serviceA, ',');
+        std::getline(iss, serviceB, ',');
+        std::getline(iss, capacity, ',');
+        std::getline(iss, direction, '\r');
+        bool biDirectional = (direction == "0");
+
+        double cap = std::stod(capacity);
+        if (prevSource == nullptr or prevSource->getNode()->getCode() != serviceA) prevSource = g.findVertex(serviceA);
+        if (prevDest == nullptr or prevDest->getNode()->getCode() != serviceB) prevDest = g.findVertex(serviceB);
+        prevSource->addEdge(prevDest, cap);
+
+        if (biDirectional) prevDest->addEdge(prevSource, cap);
+    }
+    in.close();
+}
