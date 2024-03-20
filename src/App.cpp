@@ -1,14 +1,16 @@
 #include "../header/App.h"
+#include "../header/UI.h"
 
 #include <iostream>
 
 void App::init() {
+    std::string cities = "Cities.csv";
+    std::string reservoirs = "Reservoir.csv";
+    std::string stations = "Stations.csv";
+    std::string pipes = "Pipes.csv";
+    std::string path;
 
-    std::string cities = "Cities_Madeira.csv";
-    std::string reservoirs = "Reservoirs_Madeira.csv";
-    std::string stations = "Stations_Madeira.csv";
-    std::string pipes = "Pipes_Madeira.csv";
-    std::string path = "../Dataset/DataSetSmall/";
+    displayChooseDataSet(reservoirs, stations, cities, pipes, path);
 
     Graph g;
     FileParse::readFiles(g, cities, pipes, reservoirs, stations, path);
