@@ -14,8 +14,8 @@ private:
 public:
     Edge(Vertex* orig, Vertex* dest, double weight);
 
-    const Vertex* getDest() const;
-    const Vertex* getOrig() const;
+    Vertex* getDest() const;
+    Vertex* getOrig() const;
     double getWeight() const;
     double getFlow() const;
 

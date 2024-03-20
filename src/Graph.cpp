@@ -1,3 +1,6 @@
+#include <iostream>
+#include <queue>
+#include <cfloat>
 #include "../header/Graph.h"
 
 
@@ -88,3 +91,58 @@ Reservoir *Graph::getReservoir(reservoirEnum type, std::string &str, uint32_t id
     }
     return nullptr;
 }
+
+// 4.1 max flow of specific city
+
+bool Graph::findAugPath(Vertex* source, Vertex* sink) { // bfs search
+
+    for (Vertex* v: vertexSet) {
+        v->setVisited(false);
+    }
+
+    std::queue<Vertex*> q;
+    q.push(source);
+    source->setVisited(true);
+
+    while(!q.empty() && !sink->isVisited()) {
+        Vertex* v = q.front();
+        q.pop();
+        for (Edge* e : v->getAdj()) {
+            Vertex* dest = e->getDest();
+            if (!dest->isVisited() && (e->getWeight() - e->getFlow() > 0)) {
+                dest->setVisited(true);
+                dest->setPath(e);
+                q.push(dest);
+            }
+        }
+
+        for (Edge* e: v->getIncoming()) {
+            Vertex* origin = e->getOrig();
+            if (!origin->isVisited() && (e->getFlow() > 0)) {
+                origin->setVisited(true);
+                origin->setPath(e);
+                q.push(origin);
+            }
+        }
+    }
+    return sink->isVisited();
+}
+
+double Graph::minResAugPath(Vertex *source, Vertex *sink) { // flow máx em cada path
+    double maxFlow = DBL_MAX;
+    for (Vertex* v = sink; v != source;) {
+        Edge* e = v->getPath();
+        if (e->getDest() == v) {
+            maxFlow = std::min(maxFlow, e->getWeight()-e->getFlow());
+            v = e->getOrig();
+        } else {
+            maxFlow = std::min(maxFlow, e->getFlow());
+            v = e->getDest();
+        }
+    }
+    return maxFlow;
+}
+
+
+
+

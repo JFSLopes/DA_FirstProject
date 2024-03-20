@@ -22,6 +22,9 @@ public:
     Vertex* findVertex(std::string& code) const;
 
     bool addVertex(Vertex* node);
+
+    bool findAugPath(Vertex* source, Vertex* sink);
+    double minResAugPath(Vertex* source, Vertex* sink);
 };
 
 #endif
