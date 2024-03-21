@@ -115,7 +115,6 @@ bool Graph::findAugPath(Vertex* source, Vertex* sink) { // bfs search
                 q.push(dest);
             }
         }
-
         for (Edge* e: v->getIncoming()) {
             Vertex* origin = e->getOrig();
             if (!origin->isVisited() && (e->getFlow() > 0)) {
@@ -142,6 +141,57 @@ double Graph::minResAugPath(Vertex *source, Vertex *sink) { // flow máx em cada
     }
     return maxFlow;
 }
+
+void Graph::augmentFlowPath(Vertex *source, Vertex *sink,double  f) {
+    for(Vertex* v = sink ; v!=source){
+        Edge* e = v->getPath();
+        double flow = e->getFlow();
+        if(e->getDest() == v){
+            e->setFlow(flow + f);
+            v = e->getOrig();
+        }
+        else{
+            e->setFlow(flow -f);
+            v = e->getDest();
+        }
+    }
+}
+
+void Graph::createSuperSourceSink() {
+    std::string id = "F";
+    Node s = Node(0, id);
+    std::string id1 = "X";
+    Node t = Node(1, id1);
+    Vertex source = Vertex(&s);
+    Vertex target = Vertex(&t);
+    addVertex(&source);
+    addVertex(&target);
+    for (auto v: getVertexSet()) {
+        char code = v->getNode()->getCode()[0];
+        if (code == 'R') {
+            source.addEdge(v, DBL_MAX);
+        } else if (code == 'C') {
+            v->addEdge(&target, DBL_MAX);
+        }
+    }
+}
+void Graph::edmondsKarp(){
+    std::string id = "F";
+    std::string id1 = "X";
+    auto s = findVertex(id);
+    auto t = findVertex(id1);
+    if(  s == nullptr || t == nullptr || s == t) return;
+    for (auto v:getVertexSet()){
+        for (auto e : v->getAdj()){
+            e->setFlow(0);std::string id1 = "X";
+        }
+    }
+    while (findAugPath(s,t)){
+        double f = minResAugPath(s,t);
+        augmentFlowPath(s,t,f);
+    }
+}
+
 
 
 
