@@ -21,6 +21,10 @@ public:
     std::vector<Edge*> getAdj() const;
     std::vector<Edge*> getIncoming() const;
 
+    bool isVisited() const;
+    void setVisited(bool visited);
+    Edge* getPath() const;
+    void setPath(Edge *path);
 
     void addEdge(Vertex* d, double w);
 };

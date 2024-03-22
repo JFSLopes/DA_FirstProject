@@ -19,3 +19,19 @@ void Vertex::addEdge(Vertex* d, double w) {
     adj.push_back(edge);
     d->incoming.push_back(edge);
 }
+
+bool Vertex::isVisited() const{
+    return this->visited;
+}
+
+void Vertex::setVisited(bool visited) {
+    this->visited = visited;
+}
+
+Edge* Vertex::getPath() const {
+    return this->path;
+}
+
+void Vertex::setPath(Edge *path) {
+    this->path = path;
+}

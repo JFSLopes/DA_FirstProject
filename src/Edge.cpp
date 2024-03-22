@@ -10,11 +10,10 @@ double Edge::getFlow() const {
     return flow;
 }
 
-const Vertex* Edge::getDest() const {
+Vertex* Edge::getDest() const {
     return dest;
 }
-
-const Vertex *Edge::getOrig() const {
+Vertex *Edge::getOrig() const {
     return orig;
 }
 
