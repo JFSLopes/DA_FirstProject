@@ -143,7 +143,7 @@ double Graph::minResAugPath(Vertex *source, Vertex *sink) { // flow máx em cada
 }
 
 void Graph::augmentFlowPath(Vertex *source, Vertex *sink,double  f) {
-    for(Vertex* v = sink ; v!=source){
+    for(Vertex* v = sink ; v!=source;){
         Edge* e = v->getPath();
         double flow = e->getFlow();
         if(e->getDest() == v){
