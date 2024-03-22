@@ -1,4 +1,5 @@
 #include "../header/Vertex.h"
+#include "../header/Reservoir.h"
 
 Vertex::Vertex(Node* node) : node(node), path(nullptr) {}
 
@@ -34,4 +35,12 @@ Edge* Vertex::getPath() const {
 
 void Vertex::setPath(Edge *path) {
     this->path = path;
+}
+
+double Vertex::remainReservoirDelivery() const {
+    if (node->getCode().front() != 'R') return -1;
+    double currDelivery = 0;
+    for (Edge* e : adj) currDelivery += e->getFlow();
+    Reservoir* reservoir = dynamic_cast<Reservoir*>(node);
+    return reservoir->getMaxDelivery() - currDelivery;
 }

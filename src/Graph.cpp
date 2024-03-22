@@ -95,7 +95,6 @@ Reservoir *Graph::getReservoir(reservoirEnum type, std::string &str, uint32_t id
 // 4.1 max flow of specific city
 
 bool Graph::findAugPath(Vertex* source, Vertex* sink) { // bfs search
-
     for (Vertex* v : vertexSet) {
         v->setVisited(false);
     }
@@ -110,6 +109,14 @@ bool Graph::findAugPath(Vertex* source, Vertex* sink) { // bfs search
         for (Edge* e : v->getAdj()) {
             Vertex* dest = e->getDest();
             if (!dest->isVisited() && (e->getWeight() - e->getFlow() > 0)) {
+                /// In case is a reservoir, we need to check if it can send more water. If it can't we don't add it to the queue
+                if (dest->getNode()->getCode().front() == 'R'){
+                    double remainDelivery = dest->remainReservoirDelivery();
+                    if (remainDelivery == 0){
+                        dest->setVisited(true); /// Otherwise it would be a infinite loop
+                        continue;
+                    }
+                }
                 dest->setVisited(true);
                 dest->setPath(e);
                 q.push(dest);
@@ -132,7 +139,13 @@ double Graph::minResAugPath(Vertex *source, Vertex *sink) { // flow máx em cada
     for (Vertex* v = sink; v != source;) {
         Edge* e = v->getPath();
         if (e->getDest() == v){
-            maxFlow = std::min(maxFlow, e->getWeight()-e->getFlow());
+            /// Check if the Reservoir can send more water
+            Vertex* orig = e->getOrig();
+            maxFlow = std::min(maxFlow, e->getWeight() - e->getFlow());
+            if (orig->getNode()->getCode().front() == 'R'){
+                double remainDelivery = orig->remainReservoirDelivery();
+                if (maxFlow > remainDelivery) maxFlow = remainDelivery;
+            }
             v = e->getOrig();
         } else {
             maxFlow = std::min(maxFlow, e->getFlow());
