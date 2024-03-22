@@ -27,7 +27,7 @@ public:
     double minResAugPath(Vertex* source, Vertex* sink);
     void augmentFlowPath(Vertex* source, Vertex* sink, double f);
     void createSuperSourceSink();
-    void edmondsKarp();
+    double edmondsKarp();
 };
 
 #endif

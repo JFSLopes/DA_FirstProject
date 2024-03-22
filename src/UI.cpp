@@ -43,6 +43,6 @@ void displayChooseDataSet(std::string& reservoirs, std::string& stations, std::s
     answer = getYesNoAnswer();
     if (answer){
         path = getNewPath();
-        if (path.back() != '/') path += "/";
+        if (!path.empty() and path.back() != '/') path += "/";
     }
 }

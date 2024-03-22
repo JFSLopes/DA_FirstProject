@@ -8,15 +8,16 @@ void App::init() {
     std::string reservoirs = "Reservoir.csv";
     std::string stations = "Stations.csv";
     std::string pipes = "Pipes.csv";
-    std::string path;
+    std::string path = "../Dataset/LargeDataSet/";
 
-    displayChooseDataSet(reservoirs, stations, cities, pipes, path);
+    //displayChooseDataSet(reservoirs, stations, cities, pipes, path);
 
     Graph g;
     FileParse::readFiles(g, cities, pipes, reservoirs, stations, path);
 
     std::vector<Vertex*> a = g.getVertexSet();
-
+    std::cout << "Max flow: " << g.edmondsKarp() << "\n";
+    /*
     for (Vertex* v : a){
         if (v->getNode()->getCode().front() == 'C'){
             City* city = dynamic_cast<City*>(v->getNode());
@@ -41,4 +42,5 @@ void App::init() {
         }
     }
     std::cout << count << "\n";
+     */
 }
