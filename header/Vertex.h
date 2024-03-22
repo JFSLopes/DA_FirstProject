@@ -27,6 +27,7 @@ public:
     void setPath(Edge *path);
 
     void addEdge(Vertex* d, double w);
+    double remainReservoirDelivery() const;
 };
 
 #endif
