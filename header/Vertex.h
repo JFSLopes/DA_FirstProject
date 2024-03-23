@@ -20,14 +20,21 @@ public:
     Node* getNode() const;
     std::vector<Edge*> getAdj() const;
     std::vector<Edge*> getIncoming() const;
+    Edge* getPath() const;
+    Edge* edgeMoreFull() const;
 
     bool isVisited() const;
     void setVisited(bool visited);
-    Edge* getPath() const;
     void setPath(Edge *path);
 
     void addEdge(Vertex* d, double w);
     double remainReservoirDelivery() const;
+    double cityAmountOfWater() const;
+
+    void removeEdges();
+    void removeEdge(Vertex* target);
+
+    bool operator<(const Vertex other) const;
 };
 
 #endif

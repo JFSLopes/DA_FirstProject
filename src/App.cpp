@@ -17,6 +17,15 @@ void App::init() {
 
     std::vector<Vertex*> a = g.getVertexSet();
     std::cout << "Max flow: " << g.edmondsKarp() << "\n";
+    metrics prev = g.calculateMetrics();
+    while(true){
+        g.balanceLoad();
+        metrics curr = g.calculateMetrics();
+        if (curr.avg < prev.avg or curr.maxDiff < prev.maxDiff or curr.variance < prev.variance){
+            prev = curr;
+        }
+        else break;
+    }
     /*
     for (Vertex* v : a){
         if (v->getNode()->getCode().front() == 'C'){
