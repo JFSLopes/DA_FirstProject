@@ -270,17 +270,20 @@ void Graph::orderCitiesByCumulative(std::priority_queue<Vertex>& q) const{
 }
 
 void Graph::balanceLoad() {
+    std::vector<Edge*> allEdges;
     for (Vertex* v : vertexSet){
         v->setVisited(false);
+        for (Edge* e : v->getAdj()){
+            allEdges.push_back(e);
+        }
     }
+    /// Start with edges that closer to be full
+    std::sort(allEdges.begin(), allEdges.end(), [](Edge* a, Edge* b) {return a->getWeight() - a->getFlow() < b->getWeight() - b->getFlow();});
 
-    std::priority_queue<Vertex> q;
-    orderCitiesByCumulative(q);
-    while (!q.empty()){
-        Edge* chosenEdge = q.top().edgeMoreFull();
+    for (Edge* e : allEdges){
         std::vector<Edge*> path;
         std::vector<std::vector<Edge*>> allPaths;
-        findAllPaths(chosenEdge->getOrig(), chosenEdge->getDest(), path, allPaths);
+        findAllPaths(e->getOrig(), e->getDest(), path, allPaths);
 
         double maxDiff = DBL_MIN; /// Stores the minimal value that can be carried from the PS to the city for the path bestPath
         size_t bestPathIndex = 0;
@@ -291,10 +294,9 @@ void Graph::balanceLoad() {
                 bestPathIndex = index;
             }
         }
-        double amountWater = ((chosenEdge->getWeight() - chosenEdge->getFlow()) + maxDiff) / 2;
-        chosenEdge->setFlow(chosenEdge->getFlow() - amountWater); /// Reduce the water on the chosen pipe
+        double amountWater = ((e->getWeight() - e->getFlow()) + maxDiff) / 2;
+        e->setFlow(e->getFlow() - amountWater); /// Reduce the water on the chosen pipe
         incrementFlow(allPaths[bestPathIndex], amountWater); /// Increment the flow on the chosen alternative path
-        q.pop();
     }
 }
 

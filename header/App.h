@@ -8,6 +8,7 @@ private:
     Graph* g;
 public:
     void init();
+    void domain();
 };
 
 #endif

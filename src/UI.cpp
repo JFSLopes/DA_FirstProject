@@ -46,3 +46,24 @@ void displayChooseDataSet(std::string& reservoirs, std::string& stations, std::s
         if (!path.empty() and path.back() != '/') path += "/";
     }
 }
+
+void displayDomain(){
+    std::cout << "Choose one of the following options:\n"
+              << "\t1. Basic Service Metrics;\n"
+              << "\t2. Reliability and Sensitivity Failures;\n"
+              << "\t9. Close the app.\n";
+    std::cout << "[1..9]: ";
+}
+
+uint32_t askNumber(uint32_t upperLimit){
+    do{
+        std::string value;
+        std::cin >> value;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        if(value.size() == 1 and value.front() >= '1' and value.front() <= '0' + upperLimit){
+            return value[0] - '0';
+        }
+        else std::cout << "Invalid input. The number must be between 1 and " << upperLimit << ": ";
+    } while (true);
+}
