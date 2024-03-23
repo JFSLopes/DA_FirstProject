@@ -2,6 +2,7 @@
 #include "../header/UI.h"
 
 #include <iostream>
+#include <fstream>
 
 void App::init() {
     std::string cities = "Cities.csv";
@@ -9,10 +10,10 @@ void App::init() {
     std::string stations = "Stations.csv";
     std::string pipes = "Pipes.csv";
     std::string path = "../Dataset/LargeDataSet/";
-
+    g = new Graph();
     displayChooseDataSet(reservoirs, stations, cities, pipes, path);
-    Graph g;
     FileParse::readFiles(g, cities, pipes, reservoirs, stations, path);
+    g->edmondsKarp();
     domain();
 
 
@@ -81,6 +82,7 @@ void App::domain() {
         displayDomain();
         switch (askNumber(9)) {
             case 1:
+                Basicmetrics();
                 break;
             case 2:
                 break;
@@ -91,3 +93,83 @@ void App::domain() {
         }
     }
 }
+void App::Basicmetrics() {
+    while (true){
+        displayBasicMetrics();
+        switch (askNumber(9)) {
+            case 1:
+                allOrSpecific();
+                break;
+            case 2:
+                break;
+            case 9:
+                return;
+            default:
+                std::cout << "Invalid number. Enter a new one: ";
+        }
+    }
+}
+void App::allOrSpecific(){
+    while (true){
+        displayAllOrSpecific();
+        switch (askNumber(9)) {
+            case 1:
+                allCitiesWaterQuantity();
+                break;
+            case 2:
+                SpecificCityWaterQuantity();
+                break;
+            case 9:
+                return;
+            default:
+                std::cout << "Invalid number. Enter a new one: ";
+        }
+    }
+}
+void::App::allCitiesWaterQuantity(){
+    std::string s = "city listing";
+    std::string file = getNewFileName(s);
+    std::string path = getNewPath();
+    if (!path.empty() and path.back() != '/') path += "/";
+    std::string filePath = path + file;
+    std::ofstream os(filePath,std::ios::trunc);
+    for(Vertex* v : g->getVertexSet()){
+        std::string code = v->getNode()->getCode();
+        City* city = g->getCity(C_CODE, code ,0);
+        if (city == nullptr) continue;
+        os <<  "("  << city->getCode() << ", " << v->cityAmountOfWater() << ")\n";
+    }
+    os.close();
+}
+void::App::SpecificCityWaterQuantity(){
+    std::pair<int,std::string> p = askCityCodeNameId();
+    uint32_t id;
+    try{
+        id = (uint32_t )std::stoul(p.second);
+    }
+    catch (...){
+        std::cout << "Invalid id.\n";
+        return;
+    }
+    City* city;
+    switch (p.first) {
+        case 1:
+            city = g->getCity(C_ID,p.second,id);
+            break;
+        case 2:
+            city = g->getCity(C_CODE,p.second,0);
+            break;
+        case 3:
+            city = g->getCity(C_NAME,p.second,0);
+            break;
+    }
+    if(city == nullptr){
+        std::cout << "Invalid input.\n";
+        return;
+    }
+    std::string code = city->getCode();
+    Vertex* v = g->findVertex(code);
+    printCity(city,v->cityAmountOfWater());
+}
+
+

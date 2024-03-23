@@ -67,3 +67,43 @@ uint32_t askNumber(uint32_t upperLimit){
         else std::cout << "Invalid input. The number must be between 1 and " << upperLimit << ": ";
     } while (true);
 }
+std::pair<int,std::string> askCityCodeNameId(){
+    std::cout << "Choose the city by: \n"
+                << "\t 1. Id; \n"
+                << "\t 2. Code; \n"
+                << "\t 3. Name; \n";
+    std::cout << "[1..3]:";
+    std::pair<int,std::string> p;
+    int option = askNumber(3);
+    std::string input;
+    switch(option){
+        case 1:
+            std::cout << "Enter ID:";
+            break;
+        case 2:
+            std::cout << "Enter CODE:";
+            break;
+        case 3:
+            std::cout << "Enter NAME:";
+            break;
+    }
+    std::cin >> input;
+    p.first = option;
+    p.second = input;
+    return p;
+}
+void displayBasicMetrics(){
+    std::cout << "Choose one of the following options:\n"
+              << "\t1. Amount of water that can reach a specific city\n";
+    std::cout << "[1..3]: ";
+}
+void displayAllOrSpecific (){
+    std::cout << "Do you want to know about all cities or about an specific?\n"
+              << "\t1. All;\n"
+              << "\t2. Specific;\n";
+    std::cout << "[1..2]: ";
+
+}
+void printCity(City* city, double water){
+    std:: cout << "("  << city->getCode() << ", " << water << ")\n";
+}

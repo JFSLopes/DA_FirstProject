@@ -14,3 +14,4 @@ double City::getDemand() const {
 uint32_t City::getPopulation() const {
     return population;
 }
+
