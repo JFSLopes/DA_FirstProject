@@ -46,6 +46,7 @@ public:
     void augmentFlowPath(Vertex* source, Vertex* sink, double f);
     double edmondsKarp();
     metrics calculateMetrics() const;
+    std::pair<std::string, double> checkWaterNeeds();
 
     void balanceLoad();
 };
