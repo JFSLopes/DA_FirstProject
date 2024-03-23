@@ -13,10 +13,11 @@ double Edge::getFlow() const {
 Vertex* Edge::getDest() const {
     return dest;
 }
+
 Vertex *Edge::getOrig() const {
     return orig;
 }
 
-void Edge::setFlow(uint32_t f) {
+void Edge::setFlow(double f) {
     flow = f;
 }

@@ -19,7 +19,7 @@ public:
     double getWeight() const;
     double getFlow() const;
 
-    void setFlow(uint32_t f);
+    void setFlow(double f);
 };
 
 #endif

@@ -10,6 +10,18 @@ const std::vector<Vertex *> Graph::getVertexSet() const {
 
 bool Graph::addVertex(Vertex* v) {
     vertexSet.push_back(v);
+    return true;
+}
+
+void Graph::removeVertex(Vertex *v) {
+    for (auto itr = vertexSet.begin(); itr != vertexSet.end(); itr++){
+        if (*itr == v){
+            vertexSet.erase(itr);
+            break;
+        }
+    }
+    v->removeEdges();
+    delete v;
 }
 
 Vertex *Graph::findVertex(std::string &code) const {
@@ -190,6 +202,15 @@ void Graph::createSuperSourceSink(){
         }
     }
 }
+
+void Graph::removeSuperSourceSink() {
+    std::string sourceCode = "F", sinkCode = "X";
+    Vertex* source = findVertex(sourceCode);
+    Vertex* sink = findVertex(sinkCode);
+    removeVertex(source);
+    removeVertex(sink);
+}
+
 double Graph::edmondsKarp(){
     createSuperSourceSink();
     std::string sourceCode = "F";
@@ -208,5 +229,112 @@ double Graph::edmondsKarp(){
         maxFlow += f;
         augmentFlowPath(s,t,f);
     }
+    removeSuperSourceSink();
     return maxFlow;
+}
+
+metrics Graph::calculateMetrics() const {
+    double sum = 0, maxDiff = DBL_MIN, a = 0;
+    uint32_t num = 0;
+    for (Vertex* v : vertexSet){
+        for (Edge* e : v->getAdj()){
+            a += e->getWeight();
+            double diff = e->getWeight() - e->getFlow();
+            maxDiff = std::max(maxDiff, diff);
+            sum += diff;
+            num++;
+        }
+    }
+    double avg = sum/num;
+    double variance = 0;
+    for (Vertex* v : vertexSet){
+        for (Edge* e : v->getAdj()){
+            double diff = e->getWeight() - e->getFlow();
+            double aux = diff - avg;
+            variance += (aux * aux);
+        }
+    }
+    variance /= (num - 1);
+    variance = sqrt(variance);
+    metrics m = {avg, variance, maxDiff};
+    std::cout << "Avg: " << m.avg << "   MaxDiff: " << m.maxDiff << "   Variance: " << m.variance << "\n";
+    return m;
+}
+
+void Graph::orderCitiesByCumulative(std::priority_queue<Vertex>& q) const{
+    for (Vertex* v : vertexSet){
+        if (v->getNode()->getCode().front() == 'C'){
+            q.push(*v);
+        }
+    }
+}
+
+void Graph::balanceLoad() {
+    for (Vertex* v : vertexSet){
+        v->setVisited(false);
+    }
+
+    std::priority_queue<Vertex> q;
+    orderCitiesByCumulative(q);
+    while (!q.empty()){
+        Edge* chosenEdge = q.top().edgeMoreFull();
+        std::vector<Edge*> path;
+        std::vector<std::vector<Edge*>> allPaths;
+        findAllPaths(chosenEdge->getOrig(), chosenEdge->getDest(), path, allPaths);
+
+        double maxDiff = DBL_MIN; /// Stores the minimal value that can be carried from the PS to the city for the path bestPath
+        size_t bestPathIndex = 0;
+        for (size_t index = 0; index < allPaths.size(); index++){
+            double ans = minimalDiffCapacityFlow(allPaths[index]);
+            if (ans > maxDiff) {
+                maxDiff = ans;
+                bestPathIndex = index;
+            }
+        }
+        double amountWater = ((chosenEdge->getWeight() - chosenEdge->getFlow()) + maxDiff) / 2;
+        chosenEdge->setFlow(chosenEdge->getFlow() - amountWater); /// Reduce the water on the chosen pipe
+        if (!allPaths.empty()) incrementFlow(allPaths[bestPathIndex], amountWater); /// Increment the flow on the chosen alternative path
+        q.pop();
+    }
+
+    double sum = 0;
+    for (Vertex* v : vertexSet){
+        if (v->getNode()->getCode().front() == 'C'){
+            sum += v->cityAmountOfWater();
+        }
+    }
+    std::cout << "Value: " << sum << "\n";
+}
+
+void Graph::findAllPaths(Vertex *s, Vertex *d, std::vector<Edge *>& path, std::vector<std::vector<Edge *>>& paths) const {
+    s->setVisited(true);
+
+    if (s == d){
+        std::vector<Edge*> copy(path.begin(), path.end());
+        paths.push_back(copy);
+    }
+    else{
+        for (Edge* e : s->getAdj()){
+            if (!e->getDest()->isVisited()){
+                path.push_back(e);
+                findAllPaths(e->getDest(), d, path, paths);
+            }
+        }
+    }
+    if (!path.empty()) path.pop_back();
+    s->setVisited(false);
+}
+
+double Graph::minimalDiffCapacityFlow(std::vector<Edge *>& path) const {
+    double min = DBL_MAX;
+    for (Edge* e : path){
+        min = std::min(min, e->getWeight() - e->getFlow());
+    }
+    return min;
+}
+
+void Graph::incrementFlow(std::vector<Edge *>& path, double flow) {
+    for (Edge* e : path){
+        e->setFlow(e->getFlow() + flow);
+    }
 }
