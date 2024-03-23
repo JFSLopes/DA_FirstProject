@@ -333,3 +333,33 @@ void Graph::incrementFlow(std::vector<Edge *>& path, double flow) {
         e->setFlow(e->getFlow() + flow);
     }
 }
+
+// 4.1.2 water deficit
+
+std::pair<std::string, double> Graph::checkWaterNeeds() {
+    std::pair<std::string, double> waterNeeds;
+
+    for (Vertex* v: vertexSet) {
+        if (v->getNode()->getCode().front() == 'C') {
+            std::string random = "name";
+            City* city = getCity(C_ID, random, v->getNode()->getID());
+
+            if (city == nullptr) {
+                waterNeeds.first = "Error";
+                waterNeeds.second = 0;
+                std::cout << "Invalid input. Enter another one:\n";
+                return waterNeeds;
+            }
+
+            double waterDemand = city->getDemand();
+            double totalWater = v->cityAmountOfWater();
+
+            if (totalWater < waterDemand) {
+                double waterDeficit = waterDemand - totalWater;
+                waterNeeds.first = city->getCode();
+                waterNeeds.second = waterDeficit;
+            }
+        }
+    }
+    return waterNeeds;
+}
