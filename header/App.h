@@ -9,6 +9,11 @@ private:
 public:
     void init();
     void domain();
+    void Basicmetrics();
+    void allOrSpecific();
+    void allCitiesWaterQuantity();
+    void SpecificCityWaterQuantity();
+
 };
 
 #endif

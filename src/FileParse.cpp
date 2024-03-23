@@ -2,7 +2,7 @@
 #include <iostream>
 #include <sstream>
 
-bool FileParse::readFiles(Graph& g, std::string &cities, std::string &pipes, std::string &reservoirs, std::string &stations,
+bool FileParse::readFiles(Graph* g, std::string &cities, std::string &pipes, std::string &reservoirs, std::string &stations,
                           std::string &path) {
     if (!path.empty()){
         cities = path + cities;
@@ -44,7 +44,7 @@ bool FileParse::readFiles(Graph& g, std::string &cities, std::string &pipes, std
     return true;
 }
 
-void FileParse::readCities(Graph& g, std::ifstream &in) {
+void FileParse::readCities(Graph* g, std::ifstream &in) {
     ///skip header
     std::string line;
     std::getline(in, line);
@@ -68,12 +68,12 @@ void FileParse::readCities(Graph& g, std::ifstream &in) {
         uint32_t id = (uint32_t) std::stoul(ID);
         Node* city = new City(id, numDemand, numPopulation, code, name);
         Vertex* vertex = new Vertex(city);
-        g.addVertex(vertex);
+        g->addVertex(vertex);
     }
     in.close();
 }
 
-void FileParse::readStations(Graph &g, std::ifstream &in) {
+void FileParse::readStations(Graph* g, std::ifstream &in) {
     ///skip header
     std::string line;
     std::getline(in, line);
@@ -87,12 +87,12 @@ void FileParse::readStations(Graph &g, std::ifstream &in) {
         uint32_t id = (uint32_t) std::stoul(ID);
         Node* station = new Station(id, code);
         Vertex* vertex = new Vertex(station);
-        g.addVertex(vertex);
+        g->addVertex(vertex);
     }
     in.close();
 }
 
-void FileParse::readReservoirs(Graph &g, std::ifstream &in) {
+void FileParse::readReservoirs(Graph* g, std::ifstream &in) {
     ///skip header
     std::string line;
     std::getline(in, line);
@@ -110,12 +110,12 @@ void FileParse::readReservoirs(Graph &g, std::ifstream &in) {
         uint32_t id = (uint32_t) std::stoul(ID);
         Node* reservoir = new Reservoir(name, municipality, code, id, max);
         Vertex* vertex = new Vertex(reservoir);
-        g.addVertex(vertex);
+        g->addVertex(vertex);
     }
     in.close();
 }
 
-void FileParse::readPipes(Graph &g, std::ifstream &in) {
+void FileParse::readPipes(Graph* g, std::ifstream &in) {
     ///skip header
     std::string line;
     std::getline(in, line);
@@ -131,8 +131,8 @@ void FileParse::readPipes(Graph &g, std::ifstream &in) {
         bool biDirectional = (direction == "0");
 
         double cap = std::stod(capacity);
-        if (prevSource == nullptr or prevSource->getNode()->getCode() != serviceA) prevSource = g.findVertex(serviceA);
-        if (prevDest == nullptr or prevDest->getNode()->getCode() != serviceB) prevDest = g.findVertex(serviceB);
+        if (prevSource == nullptr or prevSource->getNode()->getCode() != serviceA) prevSource = g->findVertex(serviceA);
+        if (prevDest == nullptr or prevDest->getNode()->getCode() != serviceB) prevDest = g->findVertex(serviceB);
         prevSource->addEdge(prevDest, cap);
 
         if (biDirectional) prevDest->addEdge(prevSource, cap);

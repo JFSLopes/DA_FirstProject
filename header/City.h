@@ -2,6 +2,7 @@
 #define DA_FIRSTPROJECT_CITY_H
 
 #include "Node.h"
+#include <ostream>
 
 enum cityEnum {C_ID, C_NAME, C_CODE};
 
@@ -15,6 +16,7 @@ public:
     const std::string& getName() const;
     double getDemand() const;
     uint32_t getPopulation() const;
+
 };
 
 #endif
