@@ -293,25 +293,16 @@ void Graph::balanceLoad() {
         }
         double amountWater = ((chosenEdge->getWeight() - chosenEdge->getFlow()) + maxDiff) / 2;
         chosenEdge->setFlow(chosenEdge->getFlow() - amountWater); /// Reduce the water on the chosen pipe
-        if (!allPaths.empty()) incrementFlow(allPaths[bestPathIndex], amountWater); /// Increment the flow on the chosen alternative path
+        incrementFlow(allPaths[bestPathIndex], amountWater); /// Increment the flow on the chosen alternative path
         q.pop();
     }
-
-    double sum = 0;
-    for (Vertex* v : vertexSet){
-        if (v->getNode()->getCode().front() == 'C'){
-            sum += v->cityAmountOfWater();
-        }
-    }
-    std::cout << "Value: " << sum << "\n";
 }
 
 void Graph::findAllPaths(Vertex *s, Vertex *d, std::vector<Edge *>& path, std::vector<std::vector<Edge *>>& paths) const {
     s->setVisited(true);
 
     if (s == d){
-        std::vector<Edge*> copy(path.begin(), path.end());
-        paths.push_back(copy);
+        paths.push_back(path);
     }
     else{
         for (Edge* e : s->getAdj()){
