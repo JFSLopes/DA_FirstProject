@@ -236,11 +236,10 @@ double Graph::edmondsKarp(){
 }
 
 metrics Graph::calculateMetrics() const {
-    double sum = 0, maxDiff = DBL_MIN, a = 0;
+    double sum = 0, maxDiff = DBL_MIN;
     uint32_t num = 0;
     for (Vertex* v : vertexSet){
         for (Edge* e : v->getAdj()){
-            a += e->getWeight();
             double diff = e->getWeight() - e->getFlow();
             maxDiff = std::max(maxDiff, diff);
             sum += diff;
@@ -259,7 +258,6 @@ metrics Graph::calculateMetrics() const {
     variance /= (num - 1);
     variance = sqrt(variance);
     metrics m = {avg, variance, maxDiff};
-    std::cout << "Avg: " << m.avg << "   MaxDiff: " << m.maxDiff << "   Variance: " << m.variance << "\n";
     return m;
 }
 

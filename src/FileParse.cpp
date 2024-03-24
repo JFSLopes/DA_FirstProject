@@ -31,7 +31,6 @@ bool FileParse::readFiles(Graph* g, std::string &cities, std::string &pipes, std
         std::cout << "Trying to open the pipes file failed.\n";
         return false;
     }
-    std::cout << cities << "\n";
 
     std::cout << "Reading reservoirs ...\n";
     readReservoirs(g, fileReservoirs);

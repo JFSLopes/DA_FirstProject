@@ -10,9 +10,12 @@ public:
     void init();
     void domain();
     void Basicmetrics();
+    void ReliabilitySensitivity();
     void allOrSpecific();
     void allCitiesWaterQuantity();
     void SpecificCityWaterQuantity();
+    void balanceLoad();
+    void removeReservoir();
 
 };
 

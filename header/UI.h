@@ -4,6 +4,7 @@
 #include <string>
 #include <stdint.h>
 #include "City.h"
+#include "Graph.h"
 
 std::string getNewPath();
 std::string getNewFileName(const std::string& name);
@@ -12,9 +13,12 @@ void displayChooseDataSet(std::string& reservoirs, std::string& stations, std::s
 void displayDomain();
 uint32_t askNumber(uint32_t upperLimit);
 std::pair<int,std::string> askCityCodeNameId();
+std::pair<uint32_t , std::string> askReservoirCodeNameID();
 void displayBasicMetrics();
+void displayReliabilitySensitivity();
 void displayAllOrSpecific();
 void printCity(City* city, double water);
+void displayMetrics(metrics m);
 
 
 #endif

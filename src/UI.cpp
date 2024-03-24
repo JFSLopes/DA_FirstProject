@@ -78,13 +78,13 @@ std::pair<int,std::string> askCityCodeNameId(){
     std::string input;
     switch(option){
         case 1:
-            std::cout << "Enter ID:";
+            std::cout << "Enter ID: ";
             break;
         case 2:
-            std::cout << "Enter CODE:";
+            std::cout << "Enter CODE: ";
             break;
         case 3:
-            std::cout << "Enter NAME:";
+            std::cout << "Enter NAME: ";
             break;
     }
     std::cin >> input;
@@ -94,16 +94,59 @@ std::pair<int,std::string> askCityCodeNameId(){
 }
 void displayBasicMetrics(){
     std::cout << "Choose one of the following options:\n"
-              << "\t1. Amount of water that can reach a specific city\n";
-    std::cout << "[1..3]: ";
+              << "\t1. Amount of water that can reach a specific city;\n"
+              << "\t2. ;\n"
+              << "\t3. Balance the load across the network;\n"
+              << "\t9. Return to previous menu.\n";
+    std::cout << "[1..9]: ";
 }
 void displayAllOrSpecific (){
     std::cout << "Do you want to know about all cities or about an specific?\n"
               << "\t1. All;\n"
-              << "\t2. Specific;\n";
-    std::cout << "[1..2]: ";
+              << "\t2. Specific;\n"
+              << "\t9. Return to previous menu;\n";
+    std::cout << "[1..9]: ";
 
 }
 void printCity(City* city, double water){
     std:: cout << "("  << city->getCode() << ", " << water << ")\n";
+}
+
+std::pair<uint32_t , std::string> askReservoirCodeNameID(){
+    std::cout << "Choose the reservoir by: \n"
+              << "\t 1. Id; \n"
+              << "\t 2. Code; \n"
+              << "\t 3. Name; \n";
+    std::cout << "[1..3]: ";
+    std::pair<uint32_t ,std::string> p;
+    p.first = askNumber(3);
+    switch(p.first){
+        case 1:
+            std::cout << "Enter ID: ";
+            break;
+        case 2:
+            std::cout << "Enter CODE: ";
+            break;
+        case 3:
+            std::cout << "Enter NAME: ";
+            break;
+    }
+    std::cin >> p.second;
+    return p;
+}
+
+void displayReliabilitySensitivity(){
+    std::cout << "The following options will allow to test the reliability and sensitivity to failures of the network system.\n"
+              << "Choose one of the following options:\n"
+              << "\t1. Remove a certain reservoir;\n"
+              << "\t2. Remove one or more pumping stations;\n"
+              << "\t3. Remove the pipelines;\n";
+    std::cout << "[1..3]: ";
+}
+
+void displayMetrics(metrics m){
+    std::cout << std::left
+              << std::setw(9) << "Average:" << std::setw(12) << std::left << m.avg
+              << std::setw(16) << "Max difference:" << std::setw(12) << std::left << m.maxDiff
+              << std::setw(10) << "Variance:" << std::setw(12) << std::left << m.variance << "\n";
 }
