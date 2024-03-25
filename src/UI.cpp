@@ -151,3 +151,15 @@ void displayMetrics(metrics m){
               << std::setw(16) << "Max difference:" << std::setw(12) << std::left << m.maxDiff
               << std::setw(10) << "Variance:" << std::setw(12) << std::left << m.variance << "\n";
 }
+
+void printMap(std::unordered_map<std::string , std::set<std::pair<Edge*,double>>> &map){
+    for(auto set : map){
+        std::cout << "For city: " << set.first << ".\n";
+        for(auto pair : set.second){
+            std::cout << "(" << pair.first->getOrig()->getNode()->getCode() << ", " << pair.first->getDest()->getNode()->getCode() << ")" <<
+            " --> DEFICIT: " << pair.second << '\n';
+        }
+        std::cout << "\n\n";
+    }
+
+}

@@ -17,6 +17,7 @@ public:
     void balanceLoad();
     void removeReservoir();
     void checkWaterDeficit();
+    void removePipelines();
 
 };
 
