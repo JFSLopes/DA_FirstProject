@@ -4,6 +4,7 @@
 class Vertex;
 
 #include <queue>
+#include <set>
 #include "FileParse.h"
 #include "Vertex.h"
 #include "Reservoir.h"
@@ -46,7 +47,7 @@ public:
     void augmentFlowPath(Vertex* source, Vertex* sink, double f);
     double edmondsKarp();
     metrics calculateMetrics() const;
-    std::pair<std::string, double> checkWaterNeeds();
+    std::set<std::pair<std::string, double>> checkWaterNeeds();
 
     void balanceLoad();
 };
