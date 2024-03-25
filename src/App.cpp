@@ -256,7 +256,7 @@ void App::removeReservoir() {
 void App::checkWaterDeficit() {
     std::set<std::pair<std::string,double>> result = g->checkWaterNeeds();
     for (std::pair<std::string,double> city : result) {
-        std::cout << "(" << city.first << "," << " " << city.second << ")" << "\n";
+        std::cout << "(" << city.first << ", " << city.second << ")" << "\n";
     }
 }
 
@@ -268,15 +268,24 @@ void App::removePipelines() {
             g->edmondsKarpRemovePipeline(edge);
             std::set<std::pair<std::string,double>> after = g->checkWaterNeeds();
             for(const std::pair<std::string ,double>  &pair : after){
-                auto itr = before.find(pair);
-                if(itr != before.end() and (pair.second <= itr->second)) continue;
-                auto itr1 = map.find(pair.first);
-                if(itr1 == map.end()){
+
+                std::set<std::pair<std::string,double>>::iterator it = before.end();
+                for (auto itr = before.begin(); itr != before.end(); itr++){
+                    if (itr->first == pair.first){
+                        it = itr;
+                        break;
+                    }
+                }
+
+                if((it != before.end()) and (pair.second <= it->second)) continue;
+
+                auto itr = map.find(pair.first);
+                if(itr == map.end()){
                     map.insert(std::make_pair(pair.first,std::set<std::pair<Edge*,double>>()));
-                    map[pair.first].insert(std::make_pair(edge,pair.second));
+                    map[pair.first].insert(std::make_pair(edge, pair.second));
                 }
                 else{
-                    itr1->second.insert(std::make_pair(edge,pair.second));
+                    itr->second.insert(std::make_pair(edge, pair.second));
                 }
             }
         }

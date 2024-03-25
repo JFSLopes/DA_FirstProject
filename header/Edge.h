@@ -11,6 +11,7 @@ private:
     Vertex* orig;
     double weight;
     double flow;
+    bool removed;
 public:
     Edge(Vertex* orig, Vertex* dest, double weight);
 
@@ -18,8 +19,10 @@ public:
     Vertex* getOrig() const;
     double getWeight() const;
     double getFlow() const;
+    bool getRemoved() const;
 
     void setFlow(double f);
+    void setRemoved(bool r);
 };
 
 #endif

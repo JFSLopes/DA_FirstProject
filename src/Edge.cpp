@@ -21,3 +21,11 @@ Vertex *Edge::getOrig() const {
 void Edge::setFlow(double f) {
     flow = f;
 }
+
+bool Edge::getRemoved() const {
+    return removed;
+}
+
+void Edge::setRemoved(bool r) {
+    removed = r;
+}

@@ -121,6 +121,7 @@ bool Graph::findAugPath(Vertex* source, Vertex* sink) { // bfs search
         Vertex* v = q.front();
         q.pop();
         for (Edge* e : v->getAdj()) {
+            if (e->getRemoved()) continue;
             Vertex* dest = e->getDest();
             if (!dest->isVisited() && (e->getWeight() - e->getFlow() > 0)) {
                 dest->setVisited(true);
@@ -232,9 +233,10 @@ double Graph::edmondsKarpRemovePipeline(Edge *edge) {
     for (auto v : getVertexSet()){
         for (auto e : v->getAdj()){
             e->setFlow(0);
+            e->setRemoved(false);
         }
     }
-    edge->setFlow(edge->getWeight());
+    edge->setRemoved(true);
     double maxFlow = 0;
     while (findAugPath(s,t)){
         double f = minResAugPath(s,t);
@@ -363,8 +365,8 @@ std::set<std::pair<std::string, double>> Graph::checkWaterNeeds() {
             double waterDemand = city->getDemand();
             double totalWater = v->cityAmountOfWater();
 
-            if (totalWater < waterDemand) {
-                double waterDeficit = waterDemand - totalWater;
+            double waterDeficit = waterDemand - totalWater;
+            if (waterDeficit > 0) {
                 waterNeeds.first = city->getCode();
                 waterNeeds.second = waterDeficit;
                 deficit.insert(waterNeeds);
