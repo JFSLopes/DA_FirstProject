@@ -14,6 +14,26 @@ void App::init() {
     displayChooseDataSet(reservoirs, stations, cities, pipes, path);
     FileParse::readFiles(g, cities, pipes, reservoirs, stations, path);
     g->edmondsKarp();
+    /*
+    for (Vertex* v : g->getVertexSet()){
+        for (Edge* e : v->getAdj()){
+            std::cout << e->getWeight() << " --> " << e->getFlow() << "\n";
+        }
+    }
+    std::cout << "\n\n";
+
+    for (Vertex* v : g->getVertexSet()){
+        for (Vertex* a : g->getVertexSet()) a->setVisited(false);
+        if (v->getNode()->getCode().front() == 'R'){
+            std::vector<Edge*> path;
+            std::vector<std::vector<Edge*>> allPaths;
+            g->findAllPaths(v, path, allPaths);
+            if (g->incomeEdgesFull(allPaths)) std::cout << "Para o reservatório " << v->getNode()->getCode() << " funciona\n";
+            else std::cout << "Para o reservatório " << v->getNode()->getCode() << " não funciona\n";
+        }
+    }
+     */
+
     domain();
 
 
@@ -241,9 +261,7 @@ void App::removeReservoir() {
         std::string code = reservoir->getCode();
         Vertex* removed = g->findVertex(code);
 
-
-
-
+        g->removeReservoir(removed);
 
         std::cout << "Want to remove another reservoir? ";
         bool answer = getYesNoAnswer();

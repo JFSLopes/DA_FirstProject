@@ -112,3 +112,12 @@ Edge *Vertex::edgeMoreFull() const {
     }
     return answer;
 }
+
+bool Vertex::incomingFull() const {
+    for (Edge* e : incoming){
+        if (e->getFlow() != e->getWeight()){
+            return false;
+        }
+    }
+    return true;
+}

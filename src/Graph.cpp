@@ -108,10 +108,11 @@ Reservoir *Graph::getReservoir(reservoirEnum type, std::string &str, uint32_t id
 
 // 4.1 max flow of specific city
 
-bool Graph::findAugPath(Vertex* source, Vertex* sink) { // bfs search
+bool Graph::findAugPath(Vertex* source, Vertex* sink, Vertex* removed) { // bfs search
     for (Vertex* v : vertexSet) {
         v->setVisited(false);
     }
+    if (removed != nullptr) removed->setVisited(true);
 
     std::queue<Vertex*> q;
     q.push(source);
@@ -247,6 +248,29 @@ double Graph::edmondsKarpRemovePipeline(Edge *edge) {
     return maxFlow;
 }
 
+double Graph::edmondsKarpRemoveReservoir(Vertex *reservoir) {
+    createSuperSourceSink();
+    std::string sourceCode = "F";
+    std::string sinkCode = "X";
+    Vertex* s = findVertex(sourceCode);
+    Vertex* t = findVertex(sinkCode);
+
+    for (auto v : getVertexSet()){
+        for (auto e : v->getAdj()){
+            e->setFlow(0);
+            e->setRemoved(false);
+        }
+    }
+    double maxFlow = 0;
+    while (findAugPath(s, t, reservoir)){
+        double f = minResAugPath(s,t);
+        maxFlow += f;
+        augmentFlowPath(s,t,f);
+    }
+    removeSuperSourceSink();
+    return maxFlow;
+}
+
 metrics Graph::calculateMetrics() const {
     double sum = 0, maxDiff = DBL_MIN;
     uint32_t num = 0;
@@ -374,4 +398,86 @@ std::set<std::pair<std::string, double>> Graph::checkWaterNeeds() {
         }
     }
     return deficit;
+}
+
+void Graph::findAllPaths(Vertex *s, std::vector<Edge *>& path, std::vector<std::vector<Edge *>>& paths) const {
+    s->setVisited(true);
+
+    if (s->getNode()->getCode().front() == 'C'){
+        paths.push_back(path);
+    }
+    else{
+        for (Edge* e : s->getAdj()){
+            if (!e->getDest()->isVisited()){
+                path.push_back(e);
+                findAllPaths(e->getDest(), path, paths);
+            }
+        }
+    }
+    if (!path.empty()) path.pop_back();
+    s->setVisited(false);
+}
+
+bool Graph::incomeEdgesFull(std::vector<std::vector<Edge *>>& allPaths) const {
+    for (std::vector<Edge*>& vec : allPaths){
+        for (Edge* e : vec){
+            double incomeFlow = 0;
+            double maxIncomeFlow = 0;
+            for (Edge* e1 : e->getDest()->getIncoming()){
+                incomeFlow += e1->getFlow();
+                maxIncomeFlow += e1->getWeight();
+            }
+
+            if ((incomeFlow/maxIncomeFlow) < 0.95){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+void Graph::simplerAlgorithm(std::vector<std::vector<Edge *>> &allPaths){
+    for (Vertex* v : vertexSet) v->setVisited(false);
+
+    std::unordered_map<std::string, double> lostFlow;
+
+    for (std::vector<Edge*> vec : allPaths){
+        /// The last elements is always the edge with the city
+        Vertex* dest = vec.back()->getDest();
+        if (!dest->isVisited()){
+            dest->setVisited(true);
+            auto itr = lostFlow.find(dest->getNode()->getCode());
+            if (itr == lostFlow.end()){
+                lostFlow.insert(std::make_pair(dest->getNode()->getCode(), vec.back()->getFlow()));
+            }
+            else{
+                itr->second += vec.back()->getFlow();
+            }
+        }
+    }
+    for (const std::pair<std::string, double>& p : lostFlow){
+        std::string code = p.first;
+        Vertex* v = findVertex(code);
+        City* city = dynamic_cast<City*>(v->getNode());
+
+        std::cout << "City: " << p.first << " -> After removal: " << p.second << ", Demand: " << city->getDemand() << "\n";
+    }
+    std::cout << "\n";
+}
+
+void Graph::removeReservoir(Vertex *reservoir) {
+    for (Vertex* v : vertexSet) v->setVisited(false);
+    std::vector<Edge*> path;
+    std::vector<std::vector<Edge*>> allPaths;
+    findAllPaths(reservoir, path, allPaths);
+    if (incomeEdgesFull(allPaths)){
+        std::cout << "Running the simpler algorithm, no need for rerun Edmonds Karp.\n";
+        simplerAlgorithm(allPaths);
+    }
+    else{
+        std::cout << "Impossible to apply the simpler algorithm. Running Edmonds Karp from scratch.\n";
+        /**
+         * Acabar esta parte, usar uma bfs que esncontre o subgraph e apenas corre o edmonds nesse subgraph
+         */
+    }
 }

@@ -35,6 +35,7 @@ public:
     void removeEdge(Vertex* target);
 
     bool operator<(const Vertex other) const;
+    bool incomingFull() const;
 };
 
 #endif

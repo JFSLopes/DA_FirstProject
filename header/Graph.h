@@ -25,6 +25,7 @@ private:
     void removeSuperSourceSink();
     void orderCitiesByCumulative(std::priority_queue<Vertex>& q) const;
     void findAllPaths(Vertex* s, Vertex* d, std::vector<Edge *>& path, std::vector<std::vector<Edge *>>& paths) const;
+
     /**
      * Return the minimal Capacity - flow difference on the path. It will be used to balance the load across the network
      * @param path
@@ -32,7 +33,11 @@ private:
      */
     double minimalDiffCapacityFlow(std::vector<Edge*>& path) const;
     void incrementFlow(std::vector<Edge*>& path, double flow);
+    void simplerAlgorithm(std::vector<std::vector<Edge*>>& allPaths);
+
 public:
+    bool incomeEdgesFull(std::vector<std::vector<Edge*>>& allPaths) const;
+    void findAllPaths(Vertex *s, std::vector<Edge *> &path, std::vector<std::vector<Edge *>> &paths) const;
     City* getCity(cityEnum type, std::string& str, uint32_t id) const;
     Station* getStation(stationEnum type, std::string& str, uint32_t id) const;
     Reservoir* getReservoir(reservoirEnum type, std::string& str, uint32_t id) const;
@@ -42,15 +47,18 @@ public:
     bool addVertex(Vertex* node);
     void removeVertex(Vertex* v);
 
-    bool findAugPath(Vertex* source, Vertex* sink);
+    bool findAugPath(Vertex* source, Vertex* sink, Vertex* removed = nullptr);
     double minResAugPath(Vertex* source, Vertex* sink);
     void augmentFlowPath(Vertex* source, Vertex* sink, double f);
     double edmondsKarp();
     double edmondsKarpRemovePipeline(Edge* edge);
+    double edmondsKarpRemoveReservoir(Vertex* reservoir);
     metrics calculateMetrics() const;
     std::set<std::pair<std::string, double>> checkWaterNeeds();
 
     void balanceLoad();
+
+    void removeReservoir(Vertex* reservoir);
 };
 
 #endif
