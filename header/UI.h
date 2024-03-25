@@ -19,6 +19,7 @@ void displayReliabilitySensitivity();
 void displayAllOrSpecific();
 void printCity(City* city, double water);
 void displayMetrics(metrics m);
+void printMap(std::unordered_map<std::string , std::set<std::pair<Edge*,double>>> &map);
 
 
 #endif

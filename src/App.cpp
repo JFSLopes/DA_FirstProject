@@ -5,11 +5,11 @@
 #include <fstream>
 
 void App::init() {
-    std::string cities = "Cities.csv";
-    std::string reservoirs = "Reservoir.csv";
-    std::string stations = "Stations.csv";
-    std::string pipes = "Pipes.csv";
-    std::string path = "../Dataset/LargeDataSet/";
+    std::string cities = "Cities_Madeira.csv";
+    std::string reservoirs = "Reservoirs_Madeira.csv";
+    std::string stations = "Stations_Madeira.csv";
+    std::string pipes = "Pipes_Madeira.csv";
+    std::string path = "../Dataset/DataSetSmall/";
     g = new Graph();
     displayChooseDataSet(reservoirs, stations, cities, pipes, path);
     FileParse::readFiles(g, cities, pipes, reservoirs, stations, path);
@@ -199,6 +199,7 @@ void App::ReliabilitySensitivity() {
             case 2:
                 break;
             case 3:
+                removePipelines();
                 break;
             default:
                 std::cout << "Invalid number.\n";
@@ -257,5 +258,29 @@ void App::checkWaterDeficit() {
     for (std::pair<std::string,double> city : result) {
         std::cout << "(" << city.first << "," << " " << city.second << ")" << "\n";
     }
+}
+
+void App::removePipelines() {
+    std::unordered_map<std::string , std::set<std::pair<Edge*,double>>> map;
+    std::set<std::pair<std::string,double>> before = g->checkWaterNeeds();
+    for (Vertex* v : g->getVertexSet()){
+        for(Edge* edge : v->getAdj()){
+            g->edmondsKarpRemovePipeline(edge);
+            std::set<std::pair<std::string,double>> after = g->checkWaterNeeds();
+            for(const std::pair<std::string ,double>  &pair : after){
+                auto itr = before.find(pair);
+                if(itr != before.end() and (pair.second <= itr->second)) continue;
+                auto itr1 = map.find(pair.first);
+                if(itr1 == map.end()){
+                    map.insert(std::make_pair(pair.first,std::set<std::pair<Edge*,double>>()));
+                    map[pair.first].insert(std::make_pair(edge,pair.second));
+                }
+                else{
+                    itr1->second.insert(std::make_pair(edge,pair.second));
+                }
+            }
+        }
+    }
+    printMap(map);
 }
 

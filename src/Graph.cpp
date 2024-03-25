@@ -123,14 +123,6 @@ bool Graph::findAugPath(Vertex* source, Vertex* sink) { // bfs search
         for (Edge* e : v->getAdj()) {
             Vertex* dest = e->getDest();
             if (!dest->isVisited() && (e->getWeight() - e->getFlow() > 0)) {
-                /// In case is a reservoir, we need to check if it can send more water. If it can't we don't add it to the queue
-                if (dest->getNode()->getCode().front() == 'R'){
-                    double remainDelivery = dest->remainReservoirDelivery();
-                    if (remainDelivery == 0){
-                        dest->setVisited(true); /// Otherwise it would be a infinite loop
-                        continue;
-                    }
-                }
                 dest->setVisited(true);
                 dest->setPath(e);
                 q.push(dest);
@@ -148,18 +140,12 @@ bool Graph::findAugPath(Vertex* source, Vertex* sink) { // bfs search
     return sink->isVisited();
 }
 
-double Graph::minResAugPath(Vertex *source, Vertex *sink) { // flow máx em cada path
+double Graph::minResAugPath(Vertex *source, Vertex *sink) { // flow mÃ¡x em cada path
     double maxFlow = DBL_MAX;
     for (Vertex* v = sink; v != source;) {
         Edge* e = v->getPath();
         if (e->getDest() == v){
-            /// Check if the Reservoir can send more water
-            Vertex* orig = e->getOrig();
             maxFlow = std::min(maxFlow, e->getWeight() - e->getFlow());
-            if (orig->getNode()->getCode().front() == 'R'){
-                double remainDelivery = orig->remainReservoirDelivery();
-                if (maxFlow > remainDelivery) maxFlow = remainDelivery;
-            }
             v = e->getOrig();
         } else {
             maxFlow = std::min(maxFlow, e->getFlow());
@@ -198,9 +184,11 @@ void Graph::createSuperSourceSink(){
     for (auto v: getVertexSet()) {
         char code = v->getNode()->getCode().front();
         if (code == 'R') {
-            source->addEdge(v, DBL_MAX);
+            Reservoir* reservoir = dynamic_cast<Reservoir*>(v->getNode());
+            source->addEdge(v, reservoir->getMaxDelivery());
         } else if (code == 'C') {
-            v->addEdge(target, DBL_MAX);
+            City* city = dynamic_cast<City*>(v->getNode());
+            v->addEdge(target, city->getDemand());
         }
     }
 }
@@ -225,6 +213,28 @@ double Graph::edmondsKarp(){
             e->setFlow(0);
         }
     }
+    double maxFlow = 0;
+    while (findAugPath(s,t)){
+        double f = minResAugPath(s,t);
+        maxFlow += f;
+        augmentFlowPath(s,t,f);
+    }
+    removeSuperSourceSink();
+    return maxFlow;
+}
+double Graph::edmondsKarpRemovePipeline(Edge *edge) {
+    createSuperSourceSink();
+    std::string sourceCode = "F";
+    std::string sinkCode = "X";
+    Vertex* s = findVertex(sourceCode);
+    Vertex* t = findVertex(sinkCode);
+
+    for (auto v : getVertexSet()){
+        for (auto e : v->getAdj()){
+            e->setFlow(0);
+        }
+    }
+    edge->setFlow(edge->getWeight());
     double maxFlow = 0;
     while (findAugPath(s,t)){
         double f = minResAugPath(s,t);

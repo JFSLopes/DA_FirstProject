@@ -46,6 +46,7 @@ public:
     double minResAugPath(Vertex* source, Vertex* sink);
     void augmentFlowPath(Vertex* source, Vertex* sink, double f);
     double edmondsKarp();
+    double edmondsKarpRemovePipeline(Edge* edge);
     metrics calculateMetrics() const;
     std::set<std::pair<std::string, double>> checkWaterNeeds();
 
