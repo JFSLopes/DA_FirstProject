@@ -16,6 +16,7 @@ public:
     void SpecificCityWaterQuantity();
     void balanceLoad();
     void removeReservoir();
+    void checkWaterDeficit();
 
 };
 

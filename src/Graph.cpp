@@ -334,7 +334,9 @@ void Graph::incrementFlow(std::vector<Edge *>& path, double flow) {
 
 // 4.1.2 water deficit
 
-std::pair<std::string, double> Graph::checkWaterNeeds() {
+std::set<std::pair<std::string, double>> Graph::checkWaterNeeds() {
+
+    std::set<std::pair<std::string, double>> deficit;
     std::pair<std::string, double> waterNeeds;
 
     for (Vertex* v: vertexSet) {
@@ -346,7 +348,6 @@ std::pair<std::string, double> Graph::checkWaterNeeds() {
                 waterNeeds.first = "Error";
                 waterNeeds.second = 0;
                 std::cout << "Invalid input. Enter another one:\n";
-                return waterNeeds;
             }
 
             double waterDemand = city->getDemand();
@@ -356,8 +357,9 @@ std::pair<std::string, double> Graph::checkWaterNeeds() {
                 double waterDeficit = waterDemand - totalWater;
                 waterNeeds.first = city->getCode();
                 waterNeeds.second = waterDeficit;
+                deficit.insert(waterNeeds);
             }
         }
     }
-    return waterNeeds;
+    return deficit;
 }

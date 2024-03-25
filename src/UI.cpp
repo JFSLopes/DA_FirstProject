@@ -1,6 +1,7 @@
 #include "../header/UI.h"
 #include <iostream>
 #include <limits>
+#include <iomanip>
 
 std::string getNewPath(){
     std::cout << "Enter the new Path. Keep in mind that either the path is absolute or, if relative, it is in relation to where the executable is.\n";
@@ -95,7 +96,7 @@ std::pair<int,std::string> askCityCodeNameId(){
 void displayBasicMetrics(){
     std::cout << "Choose one of the following options:\n"
               << "\t1. Amount of water that can reach a specific city;\n"
-              << "\t2. ;\n"
+              << "\t2. Water deficit by city;\n"
               << "\t3. Balance the load across the network;\n"
               << "\t9. Return to previous menu.\n";
     std::cout << "[1..9]: ";

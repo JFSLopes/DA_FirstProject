@@ -91,6 +91,7 @@ void App::Basicmetrics() {
                 allOrSpecific();
                 break;
             case 2:
+                checkWaterDeficit();
                 break;
             case 3:
                 balanceLoad();
@@ -249,3 +250,12 @@ void App::removeReservoir() {
         if (!answer) break;
     }
 }
+
+
+void App::checkWaterDeficit() {
+    std::set<std::pair<std::string,double>> result = g->checkWaterNeeds();
+    for (std::pair<std::string,double> city : result) {
+        std::cout << "(" << city.first << "," << " " << city.second << ")" << "\n";
+    }
+}
+
