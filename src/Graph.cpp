@@ -282,7 +282,7 @@ double Graph::edmondsKarp(){
     removeSuperSourceSink();
     return maxFlow;
 }
-double Graph::edmondsKarpRemovePipeline(Edge *edge) {
+void Graph::edmondsKarpRemovePipeline(Edge *edge) {
     createSuperSourceSink();
     std::string sourceCode = "F";
     std::string sinkCode = "X";
@@ -303,7 +303,6 @@ double Graph::edmondsKarpRemovePipeline(Edge *edge) {
         augmentFlowPath(s,t,f);
     }
     removeSuperSourceSink();
-    return maxFlow;
 }
 
 void Graph::edmondsKarpRemoveReservoir(Vertex *reservoir) {
@@ -551,4 +550,29 @@ void Graph::removeReservoir(Vertex *reservoir) {
         std::cout << "Impossible to apply the simpler algorithm. Running Edmonds Karp from scratch.\n";
         edmondsKarpRemoveReservoir(reservoir);
     }
+}
+
+
+void Graph::edmondsKarpRemovePumpingStation(Vertex *pumpingStation) {
+    createSuperSourceSink();
+    std::string sourceCode = "F";
+    std::string sinkCode = "X";
+    Vertex* s = findVertex(sourceCode);
+    Vertex* t = findVertex(sinkCode);
+
+    for (auto v : getVertexSet()){
+        v->setVisited(false);
+        for (auto e : v->getAdj()){
+            e->setFlow(0);
+            e->setRemoved(false);
+        }
+    }
+
+    double maxFlow = 0;
+    while (findAugPath(s,t, pumpingStation)){
+        double f = minResAugPath(s,t);
+        augmentFlowPath(s,t,f);
+    }
+    removeSuperSourceSink();
+
 }

@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <unordered_map>
 
 void App::init() {
     std::string cities = "Cities.csv";
@@ -217,6 +218,7 @@ void App::ReliabilitySensitivity() {
                 removeReservoir();
                 break;
             case 2:
+                removePumpingStation();
                 break;
             case 3:
                 removePipelines();
@@ -314,3 +316,36 @@ void App::removePipelines() {
     printMap(map);
 }
 
+
+void App::removePumpingStation() {
+    std::set<std::pair<std::string,double>> before = g->checkWaterNeeds();
+    for (Vertex* v : g->getVertexSet()) {
+        if (v->getNode()->getCode().front() == 'P') {
+            g->edmondsKarpRemovePumpingStation(v);
+            std::set<std::pair<std::string,double>> after = g->checkWaterNeeds();
+            bool flag = false;
+            std::cout << "\nFor pumping station: " << v->getNode()->getCode();
+            for (const std::pair<std::string,double> &pair : after) {
+                std::set<std::pair<std::string,double>>::iterator it = before.end();
+                for (auto iter = before.begin(); iter != before.end(); iter++) {
+                    if (iter->first == pair.first) {
+                        it = iter;
+                        if (iter->second < pair.second) {
+                            flag = true;
+                            std::cout << "\n\tCity: " << iter->first << ".";
+                            std::cout << "\n\tBefore: " << iter->second << " -> After: " << pair.second << ".\n";
+                        }
+                    }
+                }
+                if (it == before.end()) {
+                    flag = true;
+                    std::cout << "\n\tCity: " << pair.first << ".\n";
+                    std::cout << "\tBefore: 0 -> After: " << pair.second << ".\n";
+                }
+            }
+            if (!flag) {
+                std::cout << " -> No city is affected.\n";
+            }
+        }
+    }
+}

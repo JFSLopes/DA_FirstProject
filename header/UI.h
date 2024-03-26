@@ -3,6 +3,7 @@
 
 #include <string>
 #include <stdint.h>
+#include <unordered_map>
 #include "City.h"
 #include "Graph.h"
 
