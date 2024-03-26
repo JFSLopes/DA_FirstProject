@@ -141,7 +141,8 @@ void displayReliabilitySensitivity(){
               << "Choose one of the following options:\n"
               << "\t1. Remove a certain reservoir;\n"
               << "\t2. Remove one or more pumping stations;\n"
-              << "\t3. Remove the pipelines;\n";
+              << "\t3. Remove the pipelines;\n"
+              << "\t9. Return to previous menu;\n";
     std::cout << "[1..3]: ";
 }
 

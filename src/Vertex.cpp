@@ -80,7 +80,6 @@ void Vertex::removeEdge(Vertex *target) {
     }
 }
 
-#include <iostream>
 double Vertex::cityAmountOfWater() const {
     if (node->getCode().front() == 'C'){
         double water = 0;

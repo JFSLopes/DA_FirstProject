@@ -15,6 +15,26 @@ bool Graph::addVertex(Vertex* v) {
     return true;
 }
 
+void Graph::DFSVisit(Vertex *v, std::vector<Vertex*>& subGraph) {
+    v->setVisited(true);
+    subGraph.push_back(v);
+    for (Edge* e : v->getAdj()){
+        if (!e->getDest()->isVisited()){
+            DFSVisit(e->getDest(), subGraph);
+        }
+    }
+}
+
+void Graph::DFSVisitReverse(Vertex *v, std::vector<Vertex *> &subGraph) {
+    for (Edge* e : v->getIncoming()){
+        if (!e->getOrig()->isVisited()){
+            e->getOrig()->setVisited(true);
+            subGraph.push_back(e->getOrig());
+            DFSVisitReverse(e->getOrig(), subGraph);
+        }
+    }
+}
+
 void Graph::removeVertex(Vertex *v) {
     for (auto itr = vertexSet.begin(); itr != vertexSet.end(); itr++){
         if (*itr == v){
@@ -142,6 +162,38 @@ bool Graph::findAugPath(Vertex* source, Vertex* sink, Vertex* removed) { // bfs 
     return sink->isVisited();
 }
 
+bool Graph::findAugPathSubGraph(Vertex *source, Vertex *sink, std::vector<Vertex *> &subGraph) {
+
+    for (Vertex* v : vertexSet) v->setVisited(true);
+    for (Vertex* v : subGraph) v->setVisited(false);
+
+    std::queue<Vertex*> q;
+    q.push(source);
+    source->setVisited(true);
+
+    while(!q.empty() && !sink->isVisited()) {
+        Vertex* v = q.front();
+        q.pop();
+        for (Edge* e : v->getAdj()){
+            Vertex* dest = e->getDest();
+            if (!dest->isVisited() && (e->getWeight() - e->getFlow() > 0)) {
+                dest->setVisited(true);
+                dest->setPath(e);
+                q.push(dest);
+            }
+        }
+        for (Edge* e: v->getIncoming()) {
+            Vertex* origin = e->getOrig();
+            if (!origin->isVisited() && (e->getFlow() > 0)) {
+                origin->setVisited(true);
+                origin->setPath(e);
+                q.push(origin);
+            }
+        }
+    }
+    return sink->isVisited();
+}
+
 double Graph::minResAugPath(Vertex *source, Vertex *sink) { // flow mÃ¡x em cada path
     double maxFlow = DBL_MAX;
     for (Vertex* v = sink; v != source;) {
@@ -172,7 +224,7 @@ void Graph::augmentFlowPath(Vertex *source, Vertex *sink,double  f) {
     }
 }
 
-void Graph::createSuperSourceSink(){
+void Graph::createSuperSourceSink(Vertex* removedReservoir){
     std::string sourceCode = "F", sinkCode = "X";
     if ((findVertex(sourceCode) != nullptr) or (findVertex(sinkCode) != nullptr)) return;
 
@@ -185,7 +237,7 @@ void Graph::createSuperSourceSink(){
 
     for (auto v: getVertexSet()) {
         char code = v->getNode()->getCode().front();
-        if (code == 'R') {
+        if (code == 'R'){
             Reservoir* reservoir = dynamic_cast<Reservoir*>(v->getNode());
             source->addEdge(v, reservoir->getMaxDelivery());
         } else if (code == 'C') {
@@ -193,6 +245,12 @@ void Graph::createSuperSourceSink(){
             v->addEdge(target, city->getDemand());
         }
     }
+    if (removedReservoir == nullptr) return;
+    /// Making sure the reservoir will not be used
+    for (Edge* e : source->getAdj()){
+        if (e->getDest() == removedReservoir) e->setFlow(e->getWeight());
+    }
+
 }
 
 void Graph::removeSuperSourceSink() {
@@ -213,6 +271,7 @@ double Graph::edmondsKarp(){
     for (auto v : getVertexSet()){
         for (auto e : v->getAdj()){
             e->setFlow(0);
+            e->setRemoved(false);
         }
     }
     double maxFlow = 0;
@@ -248,27 +307,50 @@ double Graph::edmondsKarpRemovePipeline(Edge *edge) {
     return maxFlow;
 }
 
-double Graph::edmondsKarpRemoveReservoir(Vertex *reservoir) {
-    createSuperSourceSink();
+void Graph::edmondsKarpRemoveReservoir(Vertex *reservoir) {
+    std::set<std::pair<std::string,double>> before = checkWaterNeeds();
+    createSuperSourceSink(reservoir);
     std::string sourceCode = "F";
     std::string sinkCode = "X";
     Vertex* s = findVertex(sourceCode);
     Vertex* t = findVertex(sinkCode);
 
+    std::vector<Vertex*> subGraph;
+
     for (auto v : getVertexSet()){
+        v->setVisited(false);
         for (auto e : v->getAdj()){
             e->setFlow(0);
             e->setRemoved(false);
         }
     }
-    double maxFlow = 0;
+    DFSVisit(reservoir, subGraph);
+    std::vector<Vertex*> aux(subGraph.begin(), subGraph.end());
+    /// Complete the subGraph
+    for (Vertex* v : aux){
+        DFSVisitReverse(v, subGraph);
+    }
+
     while (findAugPath(s, t, reservoir)){
         double f = minResAugPath(s,t);
-        maxFlow += f;
         augmentFlowPath(s,t,f);
     }
     removeSuperSourceSink();
-    return maxFlow;
+
+    std::set<std::pair<std::string,double>> after = checkWaterNeeds();
+    std::cout << "Removing reservoir " << reservoir->getNode()->getCode() << " affects the following cities:\n";
+    for (auto pair : after){
+        auto it = before.end();
+        for (auto itr = before.begin(); itr != before.end(); itr++){
+            if (itr->first == pair.first){
+                it = itr;
+                break;
+            }
+        }
+        if((it != before.end()) and (pair.second <= it->second)) continue;
+
+        std::cout << pair.first << " --> DEFICIT: " << pair.second << "\n";
+    }
 }
 
 metrics Graph::calculateMetrics() const {
@@ -330,7 +412,7 @@ void Graph::balanceLoad() {
                 bestPathIndex = index;
             }
         }
-        double amountWater = ((e->getWeight() - e->getFlow()) + maxDiff) / 2;
+        double amountWater = (maxDiff - (e->getWeight() - e->getFlow())) / 2;
         e->setFlow(e->getFlow() - amountWater); /// Reduce the water on the chosen pipe
         incrementFlow(allPaths[bestPathIndex], amountWater); /// Increment the flow on the chosen alternative path
     }
@@ -476,8 +558,6 @@ void Graph::removeReservoir(Vertex *reservoir) {
     }
     else{
         std::cout << "Impossible to apply the simpler algorithm. Running Edmonds Karp from scratch.\n";
-        /**
-         * Acabar esta parte, usar uma bfs que esncontre o subgraph e apenas corre o edmonds nesse subgraph
-         */
+        edmondsKarpRemoveReservoir(reservoir);
     }
 }

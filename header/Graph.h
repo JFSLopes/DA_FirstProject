@@ -21,7 +21,7 @@ class Graph{
 private:
     std::vector<Vertex*> vertexSet;
 
-    void createSuperSourceSink();
+    void createSuperSourceSink(Vertex* removedReservoir = nullptr);
     void removeSuperSourceSink();
     void orderCitiesByCumulative(std::priority_queue<Vertex>& q) const;
     void findAllPaths(Vertex* s, Vertex* d, std::vector<Edge *>& path, std::vector<std::vector<Edge *>>& paths) const;
@@ -34,6 +34,9 @@ private:
     double minimalDiffCapacityFlow(std::vector<Edge*>& path) const;
     void incrementFlow(std::vector<Edge*>& path, double flow);
     void simplerAlgorithm(std::vector<std::vector<Edge*>>& allPaths);
+
+    void DFSVisit(Vertex* v, std::vector<Vertex*>& subGraph);
+    void DFSVisitReverse(Vertex* v, std::vector<Vertex*>& subGraph);
 
 public:
     bool incomeEdgesFull(std::vector<std::vector<Edge*>>& allPaths) const;
@@ -48,11 +51,12 @@ public:
     void removeVertex(Vertex* v);
 
     bool findAugPath(Vertex* source, Vertex* sink, Vertex* removed = nullptr);
+    bool findAugPathSubGraph(Vertex* source, Vertex* sink, std::vector<Vertex*>& subGraph);
     double minResAugPath(Vertex* source, Vertex* sink);
     void augmentFlowPath(Vertex* source, Vertex* sink, double f);
     double edmondsKarp();
     double edmondsKarpRemovePipeline(Edge* edge);
-    double edmondsKarpRemoveReservoir(Vertex* reservoir);
+    void edmondsKarpRemoveReservoir(Vertex* reservoir);
     metrics calculateMetrics() const;
     std::set<std::pair<std::string, double>> checkWaterNeeds();
 

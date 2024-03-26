@@ -5,11 +5,11 @@
 #include <fstream>
 
 void App::init() {
-    std::string cities = "Cities_Madeira.csv";
-    std::string reservoirs = "Reservoirs_Madeira.csv";
-    std::string stations = "Stations_Madeira.csv";
-    std::string pipes = "Pipes_Madeira.csv";
-    std::string path = "../Dataset/DataSetSmall/";
+    std::string cities = "Cities.csv";
+    std::string reservoirs = "Reservoir.csv";
+    std::string stations = "Stations.csv";
+    std::string pipes = "Pipes.csv";
+    std::string path = "../Dataset/LargeDataSet/";
     g = new Graph();
     displayChooseDataSet(reservoirs, stations, cities, pipes, path);
     FileParse::readFiles(g, cities, pipes, reservoirs, stations, path);
@@ -212,7 +212,7 @@ void::App::SpecificCityWaterQuantity(){
 void App::ReliabilitySensitivity() {
     while (true){
         displayReliabilitySensitivity();
-        switch (askNumber(3)){
+        switch (askNumber(9)){
             case 1:
                 removeReservoir();
                 break;
@@ -221,6 +221,8 @@ void App::ReliabilitySensitivity() {
             case 3:
                 removePipelines();
                 break;
+            case 9:
+                return;
             default:
                 std::cout << "Invalid number.\n";
                 break;
@@ -265,6 +267,7 @@ void App::removeReservoir() {
 
         std::cout << "Want to remove another reservoir? ";
         bool answer = getYesNoAnswer();
+        g->edmondsKarp();
         std::cout << "\n";
         if (!answer) break;
     }
