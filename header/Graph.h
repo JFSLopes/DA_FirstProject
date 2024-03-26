@@ -173,14 +173,16 @@ public:
     double minResAugPath(Vertex* source, Vertex* sink);
     void augmentFlowPath(Vertex* source, Vertex* sink, double f);
     double edmondsKarp();
-    double edmondsKarpRemovePipeline(Edge* edge);
+    void edmondsKarpRemovePipeline(Edge* edge);
     void edmondsKarpRemoveReservoir(Vertex* reservoir);
+    void edmondsKarpRemovePumpingStation(Vertex* pumpingStation);
     metrics calculateMetrics() const;
     std::set<std::pair<std::string, double>> checkWaterNeeds();
 
     void balanceLoad();
 
     void removeReservoir(Vertex* reservoir);
+    void removePumpingStation(Vertex* pumpingStation);
 };
 
 #endif

@@ -18,6 +18,7 @@ public:
     void removeReservoir();
     void checkWaterDeficit();
     void removePipelines();
+    void removePumpingStation();
 
 };
 
