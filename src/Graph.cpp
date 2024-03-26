@@ -10,9 +10,8 @@ const std::vector<Vertex *> Graph::getVertexSet() const {
     return vertexSet;
 }
 
-bool Graph::addVertex(Vertex* v) {
+void Graph::addVertex(Vertex* v) {
     vertexSet.push_back(v);
-    return true;
 }
 
 void Graph::DFSVisit(Vertex *v, std::vector<Vertex*>& subGraph) {
@@ -377,14 +376,6 @@ metrics Graph::calculateMetrics() const {
     variance = sqrt(variance);
     metrics m = {avg, variance, maxDiff};
     return m;
-}
-
-void Graph::orderCitiesByCumulative(std::priority_queue<Vertex>& q) const{
-    for (Vertex* v : vertexSet){
-        if (v->getNode()->getCode().front() == 'C'){
-            q.push(*v);
-        }
-    }
 }
 
 void Graph::balanceLoad() {
