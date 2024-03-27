@@ -179,7 +179,7 @@ public:
      */
     double minResAugPath(Vertex* source, Vertex* sink);
     /**
-     * @brief  Augments the flow along the augmenting path found in the residual graph from the source vertex to destination vertex.
+     * @brief  Augments the flow along the augmenting path found in the residual network from the source vertex to destination vertex.
      * The flow is increased by the amount f given in the arguments.
      * @param source Source vertex
      * @param sink Destination vertex
