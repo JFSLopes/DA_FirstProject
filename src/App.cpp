@@ -169,6 +169,7 @@ void::App::allCitiesWaterQuantity(){
     if (!path.empty() and path.back() != '/') path += "/";
     std::string filePath = path + file;
     std::ofstream os(filePath,std::ios::trunc);
+    os << "Max Flow: " << g->edmondsKarp() << "\n";
     for(Vertex* v : g->getVertexSet()){
         std::string code = v->getNode()->getCode();
         City* city = g->getCity(C_CODE, code ,0);
@@ -207,6 +208,7 @@ void::App::SpecificCityWaterQuantity(){
     }
     std::string code = city->getCode();
     Vertex* v = g->findVertex(code);
+    std::cout << "Max Flow: " << g->edmondsKarp() << "\n";
     printCity(city,v->cityAmountOfWater());
 }
 
