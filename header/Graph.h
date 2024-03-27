@@ -170,7 +170,21 @@ public:
      */
     bool findAugPath(Vertex* source, Vertex* sink, Vertex* removed = nullptr);
     bool findAugPathSubGraph(Vertex* source, Vertex* sink, std::vector<Vertex*>& subGraph);
+    /**
+     * @brief Tries to find a minimal augmenting path in the residual graph
+     * @param source Source vertex
+     * @param sink Destination vertex
+     * @return Returns the maximum flow that can be sent from the source vertex to the destination vertex through the path found.
+     * If no path is found, returns 0.
+     */
     double minResAugPath(Vertex* source, Vertex* sink);
+    /**
+     * @brief  Augments the flow along the augmenting path found in the residual graph from the source vertex to destination vertex.
+     * The flow is increased by the amount f given in the arguments.
+     * @param source Source vertex
+     * @param sink Destination vertex
+     * @param f Amount to augment the flow along the path
+     */
     void augmentFlowPath(Vertex* source, Vertex* sink, double f);
     double edmondsKarp();
     void edmondsKarpRemovePipeline(Edge* edge);
