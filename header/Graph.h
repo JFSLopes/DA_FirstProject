@@ -177,11 +177,24 @@ public:
     void edmondsKarpRemoveReservoir(Vertex* reservoir);
     void edmondsKarpRemovePumpingStation(Vertex* pumpingStation);
     metrics calculateMetrics() const;
+    /**
+     * @brief Used to verify if all the water reservoirs supply enough water to all its delivery sites
+     * @return Returns a set of pairs, listing all the cities that can´t be supplied with the desired amount of water.
+     * Each pair has a string (that holds the ID of the city) and a double value (that represents the water deficit of that city).
+     */
     std::set<std::pair<std::string, double>> checkWaterNeeds();
 
     void balanceLoad();
 
+    /**
+     * @brief Allows to see how the delivery sites are affected when a reservoir is removed
+     * @param reservoir Vertex that represents the reservoir to be removed
+     */
     void removeReservoir(Vertex* reservoir);
+    /**
+     * @brief Allows to see if by temporarily removing a pumping station affects the delivery capacity to all the cities
+     * @param pumpingStation Vertex that represents the pumping station to be removed
+     */
     void removePumpingStation(Vertex* pumpingStation);
 };
 
