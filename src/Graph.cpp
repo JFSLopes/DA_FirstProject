@@ -318,7 +318,8 @@ void Graph::edmondsKarpRemoveReservoir(Vertex *reservoir) {
     for (auto v : getVertexSet()){
         v->setVisited(false);
         for (auto e : v->getAdj()){
-            e->setFlow(0);
+            /// Makes sure the flow of he edge connecting the super source to the removed reservoir is full. It will not be consider in the augmenting paths
+            if (e->getDest() != reservoir) e->setFlow(0);
             e->setRemoved(false);
         }
     }
@@ -329,7 +330,7 @@ void Graph::edmondsKarpRemoveReservoir(Vertex *reservoir) {
         DFSVisitReverse(v, subGraph);
     }
 
-    while (findAugPath(s, t, reservoir)){
+    while (findAugPathSubGraph(s, t, subGraph)){
         double f = minResAugPath(s,t);
         augmentFlowPath(s,t,f);
     }
@@ -337,6 +338,10 @@ void Graph::edmondsKarpRemoveReservoir(Vertex *reservoir) {
 
     std::set<std::pair<std::string,double>> after = checkWaterNeeds();
     std::cout << "Removing reservoir " << reservoir->getNode()->getCode() << " affects the following cities:\n";
+    if (after.empty()){
+        std::cout << "No cities were affected. It was possible to redirect water from others reservoirs.\n";
+        return;
+    }
     for (auto pair : after){
         auto it = before.end();
         for (auto itr = before.begin(); itr != before.end(); itr++){

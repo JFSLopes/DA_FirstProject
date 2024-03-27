@@ -12,80 +12,16 @@ void App::init() {
     std::string pipes = "Pipes.csv";
     std::string path = "../Dataset/LargeDataSet/";
     g = new Graph();
-    displayChooseDataSet(reservoirs, stations, cities, pipes, path);
-    FileParse::readFiles(g, cities, pipes, reservoirs, stations, path);
-    g->edmondsKarp();
-    /*
-    for (Vertex* v : g->getVertexSet()){
-        for (Edge* e : v->getAdj()){
-            std::cout << e->getWeight() << " --> " << e->getFlow() << "\n";
-        }
+    while (true){
+        displayChooseDataSet(reservoirs, stations, cities, pipes, path);
+        if (FileParse::readFiles(g, cities, pipes, reservoirs, stations, path)) break;
+        std::cout << "Something went wrong while reading the files. Make sure the names and path are correct.\n";
     }
-    std::cout << "\n\n";
-
-    for (Vertex* v : g->getVertexSet()){
-        for (Vertex* a : g->getVertexSet()) a->setVisited(false);
-        if (v->getNode()->getCode().front() == 'R'){
-            std::vector<Edge*> path;
-            std::vector<std::vector<Edge*>> allPaths;
-            g->findAllPaths(v, path, allPaths);
-            if (g->incomeEdgesFull(allPaths)) std::cout << "Para o reservatório " << v->getNode()->getCode() << " funciona\n";
-            else std::cout << "Para o reservatório " << v->getNode()->getCode() << " não funciona\n";
-        }
-    }
-     */
-
     domain();
-
-
-
-    /*
-    for (Vertex* v : a){
-        if (v->getNode()->getCode().front() == 'C'){
-            City* city = dynamic_cast<City*>(v->getNode());
-            std::cout << city->getName() << "   " << city->getPopulation() << "   " << city->getDemand() << "\n";
-        }
-        if (v->getNode()->getCode().front() == 'P'){
-            Station* city = dynamic_cast<Station*>(v->getNode());
-            std::cout << city->getCode() << "\n";
-        }
-        if (v->getNode()->getCode().front() == 'R'){
-            Reservoir* city = dynamic_cast<Reservoir*>(v->getNode());
-            std::cout << city->getName() << "   " << city->getMunicipality() << "   " << city->getMaxDelivery() << "\n";
-        }
-    }
-
-    std::cout << "\n";
-    for (Vertex* v : g.getVertexSet()){
-        if (v->getNode()->getCode().front() == 'C'){
-            City* city = dynamic_cast<City*>(v->getNode());
-            std::cout << city->getName() << " ";
-            double count = 0;
-            for (Edge* e : v->getIncoming()){
-                if (v->getNode()->getCode().front() == 'C') count += e->getFlow();
-            }
-            std::cout << count << "\n";
-        }
-    }
-
-
-    for (Vertex* v : g.getVertexSet()){
-        double income = 0, leaving = 0;
-        for (Edge* e : v->getAdj()){
-            leaving += e->getFlow();
-        }
-        for (Edge* e : v->getIncoming()){
-            income += e->getFlow();
-        }
-        if (income != leaving and v->getNode()->getCode().front() == 'R' and v->getNode()->getCode().front() == 'C'){
-            std::cout << "Erro\n";
-            break;
-        }
-    }
-     */
 }
 
 void App::domain() {
+    g->edmondsKarp();
     while (true){
         displayDomain();
         switch (askNumber(9)) {
@@ -218,12 +154,15 @@ void App::ReliabilitySensitivity() {
         switch (askNumber(9)){
             case 1:
                 removeReservoir();
+                g->edmondsKarp();
                 break;
             case 2:
                 removePumpingStation();
+                g->edmondsKarp();
                 break;
             case 3:
                 removePipelines();
+                g->edmondsKarp();
                 break;
             case 9:
                 return;
