@@ -156,7 +156,7 @@ public:
      */
     void addVertex(Vertex* node);
     /**
-     * @brief Removes the vertex all all the connection it belonged to.
+     * @brief Removes the vertex all all the connection it belonged to
      * @param v Vertex being removed
      */
     void removeVertex(Vertex* v);
@@ -166,38 +166,71 @@ public:
      * @param source Source vertex
      * @param sink Destination vertex
      * @param removed In case it's different from nullptr, identifies the vertex that no longer belongs to the graph
-     * @return True if a augmenting path was found, false otherwise
+     * @return True if an augmenting path is found, false otherwise
      */
     bool findAugPath(Vertex* source, Vertex* sink, Vertex* removed = nullptr);
+    /**
+     * @brief Tries to find an augmenting path in the residual subgraph from the source to the sink vertex, using BFS (breadth-first search)
+     * @param source Source vertex of the augmenting path
+     * @param sink Destination vertex of the augmenting path
+     * @param subGraph Subgraph in which the augmenting path is searched
+     * @return True if an augmenting path is found, false otherwise
+     */
     bool findAugPathSubGraph(Vertex* source, Vertex* sink, std::vector<Vertex*>& subGraph);
     /**
      * @brief Tries to find a minimal augmenting path in the residual graph
      * @param source Source vertex
      * @param sink Destination vertex
-     * @return Returns the maximum flow that can be sent from the source vertex to the destination vertex through the path found.
-     * If no path is found, returns 0.
+     * @return Returns the maximum flow that can be sent from the source vertex to the destination vertex through the path found
+     * If no path is found, returns 0
      */
     double minResAugPath(Vertex* source, Vertex* sink);
     /**
-     * @brief  Augments the flow along the augmenting path found in the residual network from the source vertex to destination vertex.
-     * The flow is increased by the amount f given in the arguments.
+     * @brief  Augments the flow along the augmenting path found in the residual network from the source vertex to destination vertex
+     * The flow is increased by the amount f given in the arguments
      * @param source Source vertex
      * @param sink Destination vertex
      * @param f Amount to augment the flow along the path
      */
     void augmentFlowPath(Vertex* source, Vertex* sink, double f);
+    /**
+     * @brief Implements the Edmonds-Karp algorithm to find the maximum flow in a flow network
+     * This is done by finding augmenting paths in the residual network and augmenting the flow along the paths
+     * @return Returns the maximum flow in the flow network
+     */
     double edmondsKarp();
+    /**
+     * @brief Removes a pipeline from the flow network and then implements the Edmonds-Karp algorithm to find the maximum flow without the specified pipeline
+     * @param edge Edge that represents the pipeline to be removed
+     */
     void edmondsKarpRemovePipeline(Edge* edge);
+    /**
+     * @brief Removes a reservoir from the flow network and then implements the Edmonds-Karp algorithm to find the maximum flow without the specified reservoir
+     * After removing the reservoir, checks the effects on the water needs of the cities and prints the deficits caused by the removal
+     * @param reservoir Vertex that represents the reservoir to be removed
+     */
     void edmondsKarpRemoveReservoir(Vertex* reservoir);
+    /**
+     * @brief Removes a pumping station from the flow network and then implements the Edmonds-Karp algorithm to find the maximum flow after the removal
+     * @param pumpingStation Vertex that represents the pumping station to be removed
+     */
     void edmondsKarpRemovePumpingStation(Vertex* pumpingStation);
+    /**
+     * @brief Calculates the basic metrics of the network such as the average, variance and maximum difference
+     * @return Returns a struct containing the average, variance and maximum difference
+     */
     metrics calculateMetrics() const;
     /**
      * @brief Used to verify if all the water reservoirs supply enough water to all its delivery sites
-     * @return Returns a set of pairs, listing all the cities that can´t be supplied with the desired amount of water.
-     * Each pair has a string (that holds the ID of the city) and a double value (that represents the water deficit of that city).
+     * @return Returns a set of pairs, listing all the cities that can´t be supplied with the desired amount of water
+     * Each pair has a string (that holds the ID of the city) and a double value (that represents the water deficit of that city)
      */
     std::set<std::pair<std::string, double>> checkWaterNeeds();
 
+    /**
+     * @brief This functions balances the load in the graph redistributing flow from edges that are more close to being full to alternative paths
+     * It finds alternative paths with the same source and destination vertex and redistributes the flow accordingly
+     */
     void balanceLoad();
 
     /**
