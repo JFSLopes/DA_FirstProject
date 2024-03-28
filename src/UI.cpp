@@ -140,7 +140,7 @@ void displayReliabilitySensitivity(){
     std::cout << "The following options will allow to test the reliability and sensitivity to failures of the network system.\n"
               << "Choose one of the following options:\n"
               << "\t1. Remove a certain reservoir;\n"
-              << "\t2. Remove one or more pumping stations;\n"
+              << "\t2. Remove a pumping station;\n"
               << "\t3. Remove the pipelines;\n"
               << "\t9. Return to previous menu;\n";
     std::cout << "[1..3]: ";
