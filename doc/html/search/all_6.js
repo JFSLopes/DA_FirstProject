@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['getadj_0',['getAdj',['../class_vertex.html#a9858f2aa388d2bfb49d9df8f4504b5a0',1,'Vertex']]],
+  ['getcity_1',['getCity',['../class_graph.html#afd115f2a5335b5a426c491416d9f59fd',1,'Graph']]],
+  ['getcode_2',['getCode',['../class_node.html#a2e9761bb2a0c2fdfe3a46d1efd5eec68',1,'Node']]],
+  ['getdemand_3',['getDemand',['../class_city.html#a3c464469cd7cab75660ab2dc78c22869',1,'City']]],
+  ['getdest_4',['getDest',['../class_edge.html#a5cda44e9ba257b03963a1ac301371a59',1,'Edge']]],
+  ['getflow_5',['getFlow',['../class_edge.html#a30ff9f3127097db8dce20f5e8b15e6dc',1,'Edge']]],
+  ['getid_6',['getID',['../class_node.html#a34ce0f47686b805c6ef852695b26d8f2',1,'Node']]],
+  ['getincoming_7',['getIncoming',['../class_vertex.html#a84b20dae22321e5a729606885357b015',1,'Vertex']]],
+  ['getmaxdelivery_8',['getMaxDelivery',['../class_reservoir.html#a2717c3120d2b86c03b343917ffac8975',1,'Reservoir']]],
+  ['getmunicipality_9',['getMunicipality',['../class_reservoir.html#a7cddda916c313948bb14232055a756e3',1,'Reservoir']]],
+  ['getname_10',['getname',['../class_city.html#aa6c395e0b6841932254fda88282e2dcd',1,'City::getName()'],['../class_reservoir.html#abdbdc79a067a08a9e0369b97a794c2e2',1,'Reservoir::getName()']]],
+  ['getnode_11',['getNode',['../class_vertex.html#ac5e876ac65ba96334fec5cd16ed7b746',1,'Vertex']]],
+  ['getorig_12',['getOrig',['../class_edge.html#a6e8b08e91c0694b40edff0432fb612eb',1,'Edge']]],
+  ['getpath_13',['getPath',['../class_vertex.html#a6e120e57da6af94892fae44e05868794',1,'Vertex']]],
+  ['getpopulation_14',['getPopulation',['../class_city.html#af061ecc8b60670815f7330c4c8bbd27c',1,'City']]],
+  ['getremoved_15',['getRemoved',['../class_edge.html#aedde1fbc7aecbdf21060b0ede39d70c9',1,'Edge']]],
+  ['getreservoir_16',['getReservoir',['../class_graph.html#acb92fa5002413372c5fb841cf6c800f8',1,'Graph']]],
+  ['getstation_17',['getStation',['../class_graph.html#a3b1339be85fed6670fa20570ade04b8d',1,'Graph']]],
+  ['getweight_18',['getWeight',['../class_edge.html#a1caaffca117bab3ff5b7387623a356f8',1,'Edge']]],
+  ['graph_19',['Graph',['../class_graph.html',1,'']]]
+];

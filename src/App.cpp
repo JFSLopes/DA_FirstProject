@@ -10,7 +10,7 @@ void App::init() {
     std::string reservoirs = "Reservoir.csv";
     std::string stations = "Stations.csv";
     std::string pipes = "Pipes.csv";
-    std::string path = "../Dataset/LargeDataSet/";
+    std::string path;
     g = new Graph();
     while (true){
         displayChooseDataSet(reservoirs, stations, cities, pipes, path);

@@ -377,7 +377,6 @@ metrics Graph::calculateMetrics() const {
         }
     }
     variance /= (num - 1);
-    variance = sqrt(variance);
     metrics m = {avg, variance, maxDiff};
     return m;
 }
