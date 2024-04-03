@@ -561,7 +561,7 @@ void Graph::removeReservoir(Vertex *reservoir) {
 }
 
 
-void Graph::edmondsKarpRemovePumpingStation(Vertex *pumpingStation) {
+void Graph::edmondsKarpRemovePumpingStation(Vertex* pumpingStation) {
     createSuperSourceSink();
     std::string sourceCode = "F";
     std::string sinkCode = "X";

@@ -156,10 +156,12 @@ void App::ReliabilitySensitivity() {
                 removeReservoir();
                 g->edmondsKarp();
                 break;
-            case 2:
-                removePumpingStation();
+            case 2: {
+                std::string code = pumpingStationsRemoved();
+                removePumpingStation(code);
                 g->edmondsKarp();
                 break;
+            }
             case 3 : {
                 std::vector<std::pair<std::string, std::string>> pipelines;
                 askPipelines(pipelines);
@@ -275,35 +277,44 @@ void App::removePipelines(std::vector<std::pair<std::string,std::string>> &pipel
 }
 
 
-void App::removePumpingStation() {
+
+void App::removePumpingStation(std::string &code) {
     std::set<std::pair<std::string,double>> before = g->checkWaterNeeds();
-    for (Vertex* v : g->getVertexSet()) {
-        if (v->getNode()->getCode().front() == 'P') {
-            g->edmondsKarpRemovePumpingStation(v);
-            std::set<std::pair<std::string,double>> after = g->checkWaterNeeds();
-            bool flag = false;
-            std::cout << "\nFor pumping station: " << v->getNode()->getCode();
-            for (const std::pair<std::string,double> &pair : after) {
-                std::set<std::pair<std::string,double>>::iterator it = before.end();
-                for (auto iter = before.begin(); iter != before.end(); iter++) {
-                    if (iter->first == pair.first) {
-                        it = iter;
-                        if (iter->second < pair.second) {
-                            flag = true;
-                            std::cout << "\n\tCity: " << iter->first << ".";
-                            std::cout << "\n\tBefore: " << iter->second << " -> After: " << pair.second << ".\n";
-                        }
-                    }
-                }
-                if (it == before.end()) {
+    Vertex* vertex;
+    bool invalid = true;
+    for(auto v : g->getVertexSet()){
+        if(v->getNode()->getCode() == code){
+            vertex = v;
+            invalid = false;
+        }
+    }
+    if(invalid){
+        std::cout << "Invalid input.\n";
+        return;
+    }
+    g->edmondsKarpRemovePumpingStation(vertex);
+    std::set<std::pair<std::string,double>> after = g->checkWaterNeeds();
+    bool flag = false;
+    std::cout << "\nRemoving Pumping Station: " << vertex->getNode()->getCode() << " affects the following cities:\n";
+    for ( std::pair<std::string,double> pair : after) {
+        std::set<std::pair<std::string,double>>::iterator it = before.end();
+        for (auto iter = before.begin(); iter != before.end(); iter++) {
+            if (iter->first == pair.first) {
+                it = iter;
+                if (iter->second < pair.second) {
+                    City* city = g->getCity(C_CODE,pair.first,0);
                     flag = true;
-                    std::cout << "\n\tCity: " << pair.first << ".\n";
-                    std::cout << "\tBefore: 0 -> After: " << pair.second << ".\n";
+                    std::cout << pair.first << ": " << city->getName() << " --> Old flow: " << city->getDemand() - iter->second   <<  "    |    New flow: " << city->getDemand() - pair.second << "\n";
                 }
-            }
-            if (!flag) {
-                std::cout << " -> No city is affected.\n";
             }
         }
+        if (it == before.end()) {
+            flag = true;
+            City* city = g->getCity(C_CODE,pair.first,0);
+            std::cout << pair.first << ": " << city->getName() << " --> Old flow: " << city->getDemand()  <<  "    |    New flow: " << city->getDemand() - pair.second << "\n";
+        }
+    }
+    if (!flag) {
+        std::cout << " -> No city is affected.\n";
     }
 }

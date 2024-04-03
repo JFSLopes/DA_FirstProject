@@ -84,5 +84,7 @@ void printMap(std::unordered_map<std::string , std::set<std::pair<Edge*,double>>
 
 void pipelinesRemoved(std::vector<std::pair<std::string,std::string>> &pipelines);
 
+std::string pumpingStationsRemoved();
+
 
 #endif

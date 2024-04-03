@@ -56,9 +56,10 @@ public:
     /**
      * @brief Allows the user to see the effects of the removal of a pumping station on the network
      */
-    void removePumpingStation();
+    void removePumpingStation(std::string &code);
 
     void askPipelines(std::vector<std::pair<std::string,std::string>> &pipelines);
+
 
 };
 

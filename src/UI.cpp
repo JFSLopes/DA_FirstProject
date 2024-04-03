@@ -177,3 +177,12 @@ void pipelinesRemoved(std::vector<std::pair<std::string,std::string>> &pipelines
     p.second = dest;
     pipelines.push_back(p);
 }
+
+std::string pumpingStationsRemoved(){
+    std::string code;
+    std::cout << "Choose the Pumping Station to be removed: \n";
+    std::cout << "Enter the  code of Pumping Station: \n";
+    std::cin >> code;
+    return code;
+
+}
