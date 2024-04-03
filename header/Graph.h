@@ -203,7 +203,7 @@ public:
      * @brief Removes a pipeline from the flow network and then implements the Edmonds-Karp algorithm to find the maximum flow without the specified pipeline
      * @param edge Edge that represents the pipeline to be removed
      */
-    void edmondsKarpRemovePipeline(Edge* edge);
+    void edmondsKarpRemovePipeline(std::vector<Edge*> edges);
     /**
      * @brief Removes a reservoir from the flow network and then implements the Edmonds-Karp algorithm to find the maximum flow without the specified reservoir
      * After removing the reservoir, checks the effects on the water needs of the cities and prints the deficits caused by the removal
@@ -243,6 +243,8 @@ public:
      * @param pumpingStation Vertex that represents the pumping station to be removed
      */
     void removePumpingStation(Vertex* pumpingStation);
+
+    Edge* findEdge(std::string orig, std::string dest);
 };
 
 #endif

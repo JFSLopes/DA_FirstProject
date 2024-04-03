@@ -6,11 +6,11 @@
 #include <unordered_map>
 
 void App::init() {
-    std::string cities = "Cities.csv";
-    std::string reservoirs = "Reservoir.csv";
-    std::string stations = "Stations.csv";
-    std::string pipes = "Pipes.csv";
-    std::string path;
+    std::string cities = "Cities_Madeira.csv";
+    std::string reservoirs = "Reservoirs_Madeira.csv";
+    std::string stations = "Stations_Madeira.csv";
+    std::string pipes = "Pipes_Madeira.csv";
+    std::string path = "../Dataset/DataSetSmall/";
     g = new Graph();
     while (true){
         displayChooseDataSet(reservoirs, stations, cities, pipes, path);
@@ -160,10 +160,13 @@ void App::ReliabilitySensitivity() {
                 removePumpingStation();
                 g->edmondsKarp();
                 break;
-            case 3:
-                removePipelines();
+            case 3 : {
+                std::vector<std::pair<std::string, std::string>> pipelines;
+                askPipelines(pipelines);
+                removePipelines(pipelines);
                 g->edmondsKarp();
                 break;
+            }
             case 9:
                 return;
             default:
@@ -223,38 +226,52 @@ void App::checkWaterDeficit() {
         std::cout << "(" << city.first << ", " << city.second << ")" << "\n";
     }
 }
+void App::askPipelines(std::vector<std::pair<std::string,std::string>> &pipelines){
+    while(true){
+        pipelinesRemoved(pipelines);
+        std::cout << "Do you want to remove another pipeline: \n";
+        bool answer = getYesNoAnswer();
+        if (!answer) return;
+    }
 
-void App::removePipelines() {
-    std::unordered_map<std::string , std::set<std::pair<Edge*,double>>> map;
+}
+void App::removePipelines(std::vector<std::pair<std::string,std::string>> &pipelines)  {
+    std::vector<Edge*> edges;
+    std::set<std::pair<std::string,double>> affected;
     std::set<std::pair<std::string,double>> before = g->checkWaterNeeds();
-    for (Vertex* v : g->getVertexSet()){
-        for(Edge* edge : v->getAdj()){
-            g->edmondsKarpRemovePipeline(edge);
-            std::set<std::pair<std::string,double>> after = g->checkWaterNeeds();
-            for(const std::pair<std::string ,double>  &pair : after){
+    for(auto const p : pipelines){
+        Edge *edge = g->findEdge(p.first,p.second);
+        if(edge == nullptr){
+            std::cout << "Invalid input. \n";
+            return;
+        }
+        edges.push_back(edge);
+    }
 
-                std::set<std::pair<std::string,double>>::iterator it = before.end();
-                for (auto itr = before.begin(); itr != before.end(); itr++){
-                    if (itr->first == pair.first){
-                        it = itr;
-                        break;
-                    }
-                }
 
-                if((it != before.end()) and (pair.second <= it->second)) continue;
-
-                auto itr = map.find(pair.first);
-                if(itr == map.end()){
-                    map.insert(std::make_pair(pair.first,std::set<std::pair<Edge*,double>>()));
-                    map[pair.first].insert(std::make_pair(edge, pair.second));
-                }
-                else{
-                    itr->second.insert(std::make_pair(edge, pair.second));
-                }
+    g->edmondsKarpRemovePipeline(edges);
+    std::set<std::pair<std::string,double>> after = g->checkWaterNeeds();
+    for(const std::pair<std::string ,double>  &pair : after){
+        std::set<std::pair<std::string,double>>::iterator it = before.end();
+        for (auto itr = before.begin(); itr != before.end(); itr++){
+            if (itr->first == pair.first){
+                it = itr;
+                break;
             }
         }
+        if((it != before.end()) and (pair.second <= it->second)) continue;
+
+        affected.insert(std::make_pair(pair.first,pair.second));
     }
-    printMap(map);
+    for(auto p: affected){
+        City *city = g->getCity(C_CODE,p.first,0);
+        double f;
+        for(auto old : before){
+            if(old.first == p.first)
+                f = p.second;
+        }
+        std::cout << p.first << ": " << city->getName() << " --> Old flow: " << city->getDemand() - f   <<  "    |    New flow: " << city->getDemand() - p.second << "\n";
+    }
 }
 
 
