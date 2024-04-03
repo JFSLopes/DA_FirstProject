@@ -337,7 +337,8 @@ void Graph::edmondsKarpRemoveReservoir(Vertex *reservoir) {
     removeSuperSourceSink();
 
     std::set<std::pair<std::string,double>> after = checkWaterNeeds();
-    std::cout << "Removing reservoir " << reservoir->getNode()->getCode() << " affects the following cities:\n";
+    Reservoir* ptr = dynamic_cast<Reservoir*>(reservoir->getNode());
+    std::cout << "Removing reservoir " << reservoir->getNode()->getCode() << "-" << ptr->getName() << " affects the following cities:\n";
     if (after.empty()){
         std::cout << "No cities were affected. It was possible to redirect water from others reservoirs.\n";
         return;
@@ -351,8 +352,9 @@ void Graph::edmondsKarpRemoveReservoir(Vertex *reservoir) {
             }
         }
         if((it != before.end()) and (pair.second <= it->second)) continue;
-
-        std::cout << pair.first << " --> DEFICIT: " << pair.second << "\n";
+        std::string code = pair.first;
+        City* city = getCity(C_CODE, code, 0);
+        std::cout << code << ": " << city->getName() << " --> Old flow: " << city->getDemand() - it->second << "    |    New flow: " << city->getDemand() - pair.second << "\n";
     }
 }
 
