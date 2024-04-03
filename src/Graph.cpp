@@ -282,7 +282,7 @@ double Graph::edmondsKarp(){
     removeSuperSourceSink();
     return maxFlow;
 }
-void Graph::edmondsKarpRemovePipeline(Edge *edge) {
+void Graph::edmondsKarpRemovePipeline(std::vector<Edge*> edges) {
     createSuperSourceSink();
     std::string sourceCode = "F";
     std::string sinkCode = "X";
@@ -295,7 +295,9 @@ void Graph::edmondsKarpRemovePipeline(Edge *edge) {
             e->setRemoved(false);
         }
     }
-    edge->setRemoved(true);
+    for (auto e : edges){
+        e->setRemoved(true);
+    }
     double maxFlow = 0;
     while (findAugPath(s,t)){
         double f = minResAugPath(s,t);
@@ -581,4 +583,13 @@ void Graph::edmondsKarpRemovePumpingStation(Vertex *pumpingStation) {
     }
     removeSuperSourceSink();
 
+}
+Edge* Graph::findEdge(std::string orig, std::string dest){
+    for(auto v : getVertexSet()){
+        for(auto e : v->getAdj()){
+            if((v->getNode()->getCode() == orig) && (e->getDest()->getNode()->getCode() == dest))
+                return e;
+        }
+    }
+    return nullptr;
 }

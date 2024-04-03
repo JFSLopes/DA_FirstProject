@@ -164,3 +164,16 @@ void printMap(std::unordered_map<std::string , std::set<std::pair<Edge*,double>>
     }
 
 }
+
+void pipelinesRemoved(std::vector<std::pair<std::string,std::string>> &pipelines){
+    std::string orig,dest;
+    std::cout << "Choose the pipeline to be removed: \n";
+    std::cout << "Enter the origin code of the pipeline: \n";
+    std::cin >> orig;
+    std::cout << "Enter the destination code  of the pipeline: \n";
+    std :: cin >> dest;
+    std::pair<std::string ,std::string > p;
+    p.first = orig;
+    p.second = dest;
+    pipelines.push_back(p);
+}

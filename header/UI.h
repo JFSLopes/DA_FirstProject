@@ -82,5 +82,7 @@ void displayMetrics(metrics m);
  */
 void printMap(std::unordered_map<std::string , std::set<std::pair<Edge*,double>>> &map);
 
+void pipelinesRemoved(std::vector<std::pair<std::string,std::string>> &pipelines);
+
 
 #endif

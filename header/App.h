@@ -52,11 +52,13 @@ public:
     /**
      * @brief Allows the user to see the effects of the removal of a pipeline on the network
      */
-    void removePipelines();
+    void removePipelines(std::vector<std::pair<std::string,std::string>> &pipelines);
     /**
      * @brief Allows the user to see the effects of the removal of a pumping station on the network
      */
     void removePumpingStation();
+
+    void askPipelines(std::vector<std::pair<std::string,std::string>> &pipelines);
 
 };
 
