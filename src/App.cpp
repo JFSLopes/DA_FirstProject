@@ -6,11 +6,11 @@
 #include <unordered_map>
 
 void App::init() {
-    std::string cities = "Cities_Madeira.csv";
-    std::string reservoirs = "Reservoirs_Madeira.csv";
-    std::string stations = "Stations_Madeira.csv";
-    std::string pipes = "Pipes_Madeira.csv";
-    std::string path = "../Dataset/DataSetSmall/";
+    std::string cities = "Cities.csv";
+    std::string reservoirs = "Reservoir.csv";
+    std::string stations = "Stations.csv";
+    std::string pipes = "Pipes.csv";
+    std::string path;
     g = new Graph();
     while (true){
         displayChooseDataSet(reservoirs, stations, cities, pipes, path);
@@ -221,13 +221,13 @@ void App::removeReservoir() {
     }
 }
 
-
 void App::checkWaterDeficit() {
     std::set<std::pair<std::string,double>> result = g->checkWaterNeeds();
     for (std::pair<std::string,double> city : result) {
         std::cout << "(" << city.first << ", " << city.second << ")" << "\n";
     }
 }
+
 void App::askPipelines(std::vector<std::pair<std::string,std::string>> &pipelines){
     while(true){
         pipelinesRemoved(pipelines);
@@ -237,12 +237,13 @@ void App::askPipelines(std::vector<std::pair<std::string,std::string>> &pipeline
     }
 
 }
+
 void App::removePipelines(std::vector<std::pair<std::string,std::string>> &pipelines)  {
     std::vector<Edge*> edges;
     std::set<std::pair<std::string,double>> affected;
     std::set<std::pair<std::string,double>> before = g->checkWaterNeeds();
     for(auto const p : pipelines){
-        Edge *edge = g->findEdge(p.first,p.second);
+        Edge *edge = g->findEdge(p.first, p.second);
         if(edge == nullptr){
             std::cout << "Invalid input. \n";
             return;
@@ -275,8 +276,6 @@ void App::removePipelines(std::vector<std::pair<std::string,std::string>> &pipel
         std::cout << p.first << ": " << city->getName() << " --> Old flow: " << city->getDemand() - f   <<  "    |    New flow: " << city->getDemand() - p.second << "\n";
     }
 }
-
-
 
 void App::removePumpingStation(std::string &code) {
     std::set<std::pair<std::string,double>> before = g->checkWaterNeeds();

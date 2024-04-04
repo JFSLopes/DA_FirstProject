@@ -3,8 +3,13 @@
 
 #include "Graph.h"
 
+/**
+ * @class App
+ * @brief Controls the flow of the application
+ */
 class App{
 private:
+    /// Pointer to the graph structure that represents the network
     Graph* g;
 public:
     /**
@@ -57,7 +62,10 @@ public:
      * @brief Allows the user to see the effects of the removal of a pumping station on the network
      */
     void removePumpingStation(std::string &code);
-
+    /**
+     * @brief Asks the user what pipes he wants to remove
+     * @param pipelines Vector that will store the removed pipelines
+     */
     void askPipelines(std::vector<std::pair<std::string,std::string>> &pipelines);
 
 

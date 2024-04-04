@@ -83,8 +83,8 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a1b53f39cb46a078ec23019689f0b078b" id="r_a1b53f39cb46a078ec23019689f0b078b"><td class="memItemLeft" align="right" valign="top"><a id="a1b53f39cb46a078ec23019689f0b078b" name="a1b53f39cb46a078ec23019689f0b078b"></a>
-const std::vector&lt; <a class="el" href="class_vertex.html">Vertex</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getVertexSet</b> () const</td></tr>
+<tr class="memitem:a1b53f39cb46a078ec23019689f0b078b" id="r_a1b53f39cb46a078ec23019689f0b078b"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="class_vertex.html">Vertex</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#a1b53f39cb46a078ec23019689f0b078b">getVertexSet</a> () const</td></tr>
+<tr class="memdesc:a1b53f39cb46a078ec23019689f0b078b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the vertex set of the graph.  <br /></td></tr>
 <tr class="separator:a1b53f39cb46a078ec23019689f0b078b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81b303fc43e1282bf965758aa6777269" id="r_a81b303fc43e1282bf965758aa6777269"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#a81b303fc43e1282bf965758aa6777269">incomeEdgesFull</a> (std::vector&lt; std::vector&lt; <a class="el" href="class_edge.html">Edge</a> * &gt; &gt; &amp;allPaths) const</td></tr>
 <tr class="memdesc:a81b303fc43e1282bf965758aa6777269"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return if the income edges of the subgraph are full or close to.  <br /></td></tr>
@@ -123,13 +123,13 @@ const std::vector&lt; <a class="el" href="class_vertex.html">Vertex</a> * &gt;&#
 <tr class="memdesc:a30911cf23d21b266464621a233b89370"><td class="mdescLeft">&#160;</td><td class="mdescRight">Augments the flow along the augmenting path found in the residual network from the source vertex to destination vertex The flow is increased by the amount f given in the arguments.  <br /></td></tr>
 <tr class="separator:a30911cf23d21b266464621a233b89370"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af86360a1cb3c17ab52d915f662c2d802" id="r_af86360a1cb3c17ab52d915f662c2d802"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#af86360a1cb3c17ab52d915f662c2d802">edmondsKarp</a> ()</td></tr>
-<tr class="memdesc:af86360a1cb3c17ab52d915f662c2d802"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the Edmonds-Karp algorithm to find the maximum flow in a flow network This is done by finding augmenting paths in the residual network and augmenting the flow along the paths.  <br /></td></tr>
+<tr class="memdesc:af86360a1cb3c17ab52d915f662c2d802"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the Edmonds-Karp algorithm to find the maximum flow in a flow network.  <br /></td></tr>
 <tr class="separator:af86360a1cb3c17ab52d915f662c2d802"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2bb5b49c229860f491d00e3dd4a2f677" id="r_a2bb5b49c229860f491d00e3dd4a2f677"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#a2bb5b49c229860f491d00e3dd4a2f677">edmondsKarpRemovePipeline</a> (<a class="el" href="class_edge.html">Edge</a> *edge)</td></tr>
-<tr class="memdesc:a2bb5b49c229860f491d00e3dd4a2f677"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a pipeline from the flow network and then implements the Edmonds-Karp algorithm to find the maximum flow without the specified pipeline.  <br /></td></tr>
-<tr class="separator:a2bb5b49c229860f491d00e3dd4a2f677"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a7fac13f6b7b184e44c7c630e878e2b" id="r_a8a7fac13f6b7b184e44c7c630e878e2b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#a8a7fac13f6b7b184e44c7c630e878e2b">edmondsKarpRemovePipeline</a> (std::vector&lt; <a class="el" href="class_edge.html">Edge</a> * &gt; edges)</td></tr>
+<tr class="memdesc:a8a7fac13f6b7b184e44c7c630e878e2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a pipeline from the flow network and then implements the Edmonds-Karp algorithm to find the maximum flow without the specified pipeline.  <br /></td></tr>
+<tr class="separator:a8a7fac13f6b7b184e44c7c630e878e2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a276893daa6d639661b2474b36808f9ce" id="r_a276893daa6d639661b2474b36808f9ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#a276893daa6d639661b2474b36808f9ce">edmondsKarpRemoveReservoir</a> (<a class="el" href="class_vertex.html">Vertex</a> *reservoir)</td></tr>
-<tr class="memdesc:a276893daa6d639661b2474b36808f9ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a reservoir from the flow network and then implements the Edmonds-Karp algorithm to find the maximum flow without the specified reservoir After removing the reservoir, checks the effects on the water needs of the cities and prints the deficits caused by the removal.  <br /></td></tr>
+<tr class="memdesc:a276893daa6d639661b2474b36808f9ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a reservoir from the flow network and then implements the Edmonds-Karp algorithm to find the maximum flow without the specified reservoir.  <br /></td></tr>
 <tr class="separator:a276893daa6d639661b2474b36808f9ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a340cad7c7759b5a052134e80453da6c1" id="r_a340cad7c7759b5a052134e80453da6c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#a340cad7c7759b5a052134e80453da6c1">edmondsKarpRemovePumpingStation</a> (<a class="el" href="class_vertex.html">Vertex</a> *pumpingStation)</td></tr>
 <tr class="memdesc:a340cad7c7759b5a052134e80453da6c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a pumping station from the flow network and then implements the Edmonds-Karp algorithm to find the maximum flow after the removal.  <br /></td></tr>
@@ -150,6 +150,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>balanceLoad</b> ()</t
 <tr class="memitem:a9c7c1fa61faa4e740c2375799a78c84b" id="r_a9c7c1fa61faa4e740c2375799a78c84b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#a9c7c1fa61faa4e740c2375799a78c84b">removePumpingStation</a> (<a class="el" href="class_vertex.html">Vertex</a> *pumpingStation)</td></tr>
 <tr class="memdesc:a9c7c1fa61faa4e740c2375799a78c84b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows to see if by temporarily removing a pumping station affects the delivery capacity to all the cities.  <br /></td></tr>
 <tr class="separator:a9c7c1fa61faa4e740c2375799a78c84b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a262b8db61ef24c515771c0127e822933" id="r_a262b8db61ef24c515771c0127e822933"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_edge.html">Edge</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#a262b8db61ef24c515771c0127e822933">findEdge</a> (const std::string &amp;orig, const std::string &amp;dest)</td></tr>
+<tr class="memdesc:a262b8db61ef24c515771c0127e822933"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds edges on the graph.  <br /></td></tr>
+<tr class="separator:a262b8db61ef24c515771c0127e822933"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Stores information in a graph structure. </p>
@@ -261,7 +264,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>balanceLoad</b> ()</t
 </div><div class="memdoc">
 
 <p>Used to verify if all the water reservoirs supply enough water to all its delivery sites. </p>
-<dl class="section return"><dt>Returns</dt><dd>Returns a set of pairs, listing all the cities that can´t be supplied with the desired amount of water Each pair has a string (that holds the ID of the city) and a double value (that represents the water deficit of that city) </dd></dl>
+<p>Each pair has a string (that holds the ID of the city) and a double value (that represents the water deficit of that city) T(n) = O(n)</p>
+<dl class="section return"><dt>Returns</dt><dd>Returns a set of pairs, listing all the cities that can´t be supplied with the desired amount of water </dd></dl>
 
 </div>
 </div>
@@ -280,13 +284,14 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>balanceLoad</b> ()</t
       </table>
 </div><div class="memdoc">
 
-<p>Implements the Edmonds-Karp algorithm to find the maximum flow in a flow network This is done by finding augmenting paths in the residual network and augmenting the flow along the paths. </p>
+<p>Implements the Edmonds-Karp algorithm to find the maximum flow in a flow network. </p>
+<p>This is done by finding augmenting paths in the residual network and augmenting the flow along the paths T(n) = O(VE^2)</p>
 <dl class="section return"><dt>Returns</dt><dd>Returns the maximum flow in the flow network </dd></dl>
 
 </div>
 </div>
-<a id="a2bb5b49c229860f491d00e3dd4a2f677" name="a2bb5b49c229860f491d00e3dd4a2f677"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2bb5b49c229860f491d00e3dd4a2f677">&#9670;&#160;</a></span>edmondsKarpRemovePipeline()</h2>
+<a id="a8a7fac13f6b7b184e44c7c630e878e2b" name="a8a7fac13f6b7b184e44c7c630e878e2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a7fac13f6b7b184e44c7c630e878e2b">&#9670;&#160;</a></span>edmondsKarpRemovePipeline()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -294,8 +299,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>balanceLoad</b> ()</t
         <tr>
           <td class="memname">void Graph::edmondsKarpRemovePipeline </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_edge.html">Edge</a> *&#160;</td>
-          <td class="paramname"><em>edge</em></td><td>)</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="class_edge.html">Edge</a> * &gt;&#160;</td>
+          <td class="paramname"><em>edges</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -304,7 +309,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>balanceLoad</b> ()</t
 <p>Removes a pipeline from the flow network and then implements the Edmonds-Karp algorithm to find the maximum flow without the specified pipeline. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">edge</td><td><a class="el" href="class_edge.html" title="Allows to represent the information of any edge on the graph.">Edge</a> that represents the pipeline to be removed </td></tr>
+    <tr><td class="paramname">edges</td><td><a class="el" href="class_edge.html" title="Allows to represent the information of any edge on the graph.">Edge</a> that represents the pipeline to be removed </td></tr>
   </table>
   </dd>
 </dl>
@@ -353,7 +358,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>balanceLoad</b> ()</t
       </table>
 </div><div class="memdoc">
 
-<p>Removes a reservoir from the flow network and then implements the Edmonds-Karp algorithm to find the maximum flow without the specified reservoir After removing the reservoir, checks the effects on the water needs of the cities and prints the deficits caused by the removal. </p>
+<p>Removes a reservoir from the flow network and then implements the Edmonds-Karp algorithm to find the maximum flow without the specified reservoir. </p>
+<p>After removing the reservoir, checks the effects on the water needs of the cities and prints the deficits caused by the removal T(n) = O(VE^2)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">reservoir</td><td><a class="el" href="class_vertex.html" title="Allows to represent the information of any vertex on the graph.">Vertex</a> that represents the reservoir to be removed </td></tr>
@@ -396,7 +402,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>balanceLoad</b> ()</t
 </div><div class="memdoc">
 
 <p>Finds all paths from a vertex to any delivery site. </p>
-<p>This method uses a DFS to find all paths from a source vertex to any delivery site that finds during the DFS.</p>
+<p>This method uses a DFS to find all paths from a source vertex to any delivery site that finds during the DFS. T(n) = O((V+E) x n), where n is the size of the path being copied to the vector containing all of them</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>Source vertex </td></tr>
@@ -495,6 +501,44 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>balanceLoad</b> ()</t
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if an augmenting path is found, false otherwise </dd></dl>
+
+</div>
+</div>
+<a id="a262b8db61ef24c515771c0127e822933" name="a262b8db61ef24c515771c0127e822933"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a262b8db61ef24c515771c0127e822933">&#9670;&#160;</a></span>findEdge()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_edge.html">Edge</a> * Graph::findEdge </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>orig</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>dest</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Finds edges on the graph. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">orig</td><td>Origin vertex of the edge being looked for </td></tr>
+    <tr><td class="paramname">dest</td><td>Destination vertex of the edge being looked for </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>nullptr if not found or a pointer to the edge otherwise </dd></dl>
 
 </div>
 </div>
@@ -657,6 +701,26 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>balanceLoad</b> ()</t
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the station if it was found or nullptr otherwise </dd></dl>
+
+</div>
+</div>
+<a id="a1b53f39cb46a078ec23019689f0b078b" name="a1b53f39cb46a078ec23019689f0b078b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b53f39cb46a078ec23019689f0b078b">&#9670;&#160;</a></span>getVertexSet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; <a class="el" href="class_vertex.html">Vertex</a> * &gt; Graph::getVertexSet </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the vertex set of the graph. </p>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_vertex.html" title="Allows to represent the information of any vertex on the graph.">Vertex</a> set </dd></dl>
 
 </div>
 </div>

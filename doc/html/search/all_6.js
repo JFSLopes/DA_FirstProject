@@ -18,6 +18,7 @@ var searchData=
   ['getremoved_15',['getRemoved',['../class_edge.html#aedde1fbc7aecbdf21060b0ede39d70c9',1,'Edge']]],
   ['getreservoir_16',['getReservoir',['../class_graph.html#acb92fa5002413372c5fb841cf6c800f8',1,'Graph']]],
   ['getstation_17',['getStation',['../class_graph.html#a3b1339be85fed6670fa20570ade04b8d',1,'Graph']]],
-  ['getweight_18',['getWeight',['../class_edge.html#a1caaffca117bab3ff5b7387623a356f8',1,'Edge']]],
-  ['graph_19',['Graph',['../class_graph.html',1,'']]]
+  ['getvertexset_18',['getVertexSet',['../class_graph.html#a1b53f39cb46a078ec23019689f0b078b',1,'Graph']]],
+  ['getweight_19',['getWeight',['../class_edge.html#a1caaffca117bab3ff5b7387623a356f8',1,'Edge']]],
+  ['graph_20',['Graph',['../class_graph.html',1,'']]]
 ];

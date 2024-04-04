@@ -75,6 +75,11 @@ $(function() {
   <div class="headertitle"><div class="title">App Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Controls the flow of the application.  
+ <a href="class_app.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_app_8h_source.html">App.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -117,16 +122,47 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>removeReservoir</b> (
 void&#160;</td><td class="memItemRight" valign="bottom"><b>checkWaterDeficit</b> ()</td></tr>
 <tr class="memdesc:a2d7ca949101c463deb3fff1b0236d6e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows the user to see the water deficit of cities that cannot achieve the demanded water quantity. <br /></td></tr>
 <tr class="separator:a2d7ca949101c463deb3fff1b0236d6e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0bbe9f53c6c56c4c7196462d8478cf1" id="r_ab0bbe9f53c6c56c4c7196462d8478cf1"><td class="memItemLeft" align="right" valign="top"><a id="ab0bbe9f53c6c56c4c7196462d8478cf1" name="ab0bbe9f53c6c56c4c7196462d8478cf1"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>removePipelines</b> ()</td></tr>
-<tr class="memdesc:ab0bbe9f53c6c56c4c7196462d8478cf1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows the user to see the effects of the removal of a pipeline on the network. <br /></td></tr>
-<tr class="separator:ab0bbe9f53c6c56c4c7196462d8478cf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48a54a77c2384b9f27ebd585d678b65c" id="r_a48a54a77c2384b9f27ebd585d678b65c"><td class="memItemLeft" align="right" valign="top"><a id="a48a54a77c2384b9f27ebd585d678b65c" name="a48a54a77c2384b9f27ebd585d678b65c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>removePumpingStation</b> ()</td></tr>
-<tr class="memdesc:a48a54a77c2384b9f27ebd585d678b65c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows the user to see the effects of the removal of a pumping station on the network. <br /></td></tr>
-<tr class="separator:a48a54a77c2384b9f27ebd585d678b65c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac40a8ee59082a0547eab8713f85c3176" id="r_ac40a8ee59082a0547eab8713f85c3176"><td class="memItemLeft" align="right" valign="top"><a id="ac40a8ee59082a0547eab8713f85c3176" name="ac40a8ee59082a0547eab8713f85c3176"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>removePipelines</b> (std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;pipelines)</td></tr>
+<tr class="memdesc:ac40a8ee59082a0547eab8713f85c3176"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows the user to see the effects of the removal of a pipeline on the network. <br /></td></tr>
+<tr class="separator:ac40a8ee59082a0547eab8713f85c3176"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77ab6295b67d675baa72bc7b05586437" id="r_a77ab6295b67d675baa72bc7b05586437"><td class="memItemLeft" align="right" valign="top"><a id="a77ab6295b67d675baa72bc7b05586437" name="a77ab6295b67d675baa72bc7b05586437"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>removePumpingStation</b> (std::string &amp;code)</td></tr>
+<tr class="memdesc:a77ab6295b67d675baa72bc7b05586437"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows the user to see the effects of the removal of a pumping station on the network. <br /></td></tr>
+<tr class="separator:a77ab6295b67d675baa72bc7b05586437"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75c470b87de6befc712dd58a506bb5a4" id="r_a75c470b87de6befc712dd58a506bb5a4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_app.html#a75c470b87de6befc712dd58a506bb5a4">askPipelines</a> (std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;pipelines)</td></tr>
+<tr class="memdesc:a75c470b87de6befc712dd58a506bb5a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Asks the user what pipes he wants to remove.  <br /></td></tr>
+<tr class="separator:a75c470b87de6befc712dd58a506bb5a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Controls the flow of the application. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a75c470b87de6befc712dd58a506bb5a4" name="a75c470b87de6befc712dd58a506bb5a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75c470b87de6befc712dd58a506bb5a4">&#9670;&#160;</a></span>askPipelines()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void App::askPipelines </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>pipelines</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Asks the user what pipes he wants to remove. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pipelines</td><td>Vector that will store the removed pipelines </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a84fb6f776f05c6040cba5dc92c271eb7" name="a84fb6f776f05c6040cba5dc92c271eb7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a84fb6f776f05c6040cba5dc92c271eb7">&#9670;&#160;</a></span>balanceLoad()</h2>
 

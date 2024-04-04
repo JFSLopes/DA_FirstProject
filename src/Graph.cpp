@@ -576,7 +576,6 @@ void Graph::edmondsKarpRemovePumpingStation(Vertex* pumpingStation) {
         }
     }
 
-    double maxFlow = 0;
     while (findAugPath(s,t, pumpingStation)){
         double f = minResAugPath(s,t);
         augmentFlowPath(s,t,f);
@@ -584,7 +583,7 @@ void Graph::edmondsKarpRemovePumpingStation(Vertex* pumpingStation) {
     removeSuperSourceSink();
 
 }
-Edge* Graph::findEdge(std::string orig, std::string dest){
+Edge* Graph::findEdge(const std::string& orig, const std::string& dest){
     for(auto v : getVertexSet()){
         for(auto e : v->getAdj()){
             if((v->getNode()->getCode() == orig) && (e->getDest()->getNode()->getCode() == dest))

@@ -25,28 +25,28 @@ namespace FileParse{
      */
     bool readFiles(Graph* g, std::string& cities, std::string& pipes, std::string& reservoirs, std::string& stations, std::string& path);
     /**
-     * @bried Reads amd parses the data from the cities file
+     * @brief Reads amd parses the data from the cities file
      *
      * @param g Graph being filed with the information
      * @param in File being read
      */
     void readCities(Graph* g, std::ifstream& in);
     /**
-     * @bried Reads and parses the data from the pipes file
+     * @brief Reads and parses the data from the pipes file
      *
      * @param g Graph being filed with the information
      * @param in File being read
      */
     void readPipes(Graph* g, std::ifstream& in);
     /**
-     * @bried Reads and parses the data from the reservoir file
+     * @brief Reads and parses the data from the reservoir file
      *
      * @param g Graph being filed with the information
      * @param in File being read
      */
     void readReservoirs(Graph* g, std::ifstream& in);
     /**
-     * @bried Reads and parses the data from the stations file
+     * @brief Reads and parses the data from the stations file
      *
      * @param g Graph being filed with the information
      * @param in File being read

@@ -16,9 +16,12 @@ class Vertex;
  * @brief Used to store the metrics of the graph
  */
 struct metrics {
-    double avg; /// Stores the average of deficit in each pipe
-    double variance; /// Stores the variance of deficit in each pipe
-    double maxDiff; /// Stores the maximum deficit in a pipe
+    /// Stores the average of deficit in each pipe
+    double avg;
+    /// Stores the variance of deficit in each pipe
+    double variance;
+    /// Stores the maximum deficit in a pipee
+    double maxDiff;
 };
 /**
  * @class Graph
@@ -48,6 +51,7 @@ private:
      * @brief Finds all paths between 2 vertexes
      *
      * This method uses a DFS search to find all paths between a source vertex and a destination vertex.
+     * T(n) = O((V+E) x n), where n is the size of the path being copied to the vector containing all of them
      *
      * @param s Source vertex
      * @param d Destination vertex
@@ -98,6 +102,11 @@ private:
     void DFSVisitReverse(Vertex* v, std::vector<Vertex*>& subGraph);
 
 public:
+    /**
+     * @brief Returns the vertex set of the graph.
+     *
+     * @return Vertex set
+     */
     const std::vector<Vertex*> getVertexSet() const;
     /**
      * @brief Return if the income edges of the subgraph are full or close to.
@@ -110,6 +119,7 @@ public:
      * @brief Finds all paths from a vertex to any delivery site.
      *
      * This method uses a DFS to find all paths from a source vertex to any delivery site that finds during the DFS.
+     * T(n) = O((V+E) x n), where n is the size of the path being copied to the vector containing all of them
      *
      * @param s Source vertex
      * @param path Vector that represents the path being analysed.
@@ -195,18 +205,24 @@ public:
     void augmentFlowPath(Vertex* source, Vertex* sink, double f);
     /**
      * @brief Implements the Edmonds-Karp algorithm to find the maximum flow in a flow network
+     *
      * This is done by finding augmenting paths in the residual network and augmenting the flow along the paths
+     * T(n) = O(VE^2)
+     *
      * @return Returns the maximum flow in the flow network
      */
     double edmondsKarp();
     /**
      * @brief Removes a pipeline from the flow network and then implements the Edmonds-Karp algorithm to find the maximum flow without the specified pipeline
-     * @param edge Edge that represents the pipeline to be removed
+     * @param edges Edge that represents the pipeline to be removed
      */
     void edmondsKarpRemovePipeline(std::vector<Edge*> edges);
     /**
      * @brief Removes a reservoir from the flow network and then implements the Edmonds-Karp algorithm to find the maximum flow without the specified reservoir
+     *
      * After removing the reservoir, checks the effects on the water needs of the cities and prints the deficits caused by the removal
+     * T(n) = O(VE^2)
+     *
      * @param reservoir Vertex that represents the reservoir to be removed
      */
     void edmondsKarpRemoveReservoir(Vertex* reservoir);
@@ -222,8 +238,11 @@ public:
     metrics calculateMetrics() const;
     /**
      * @brief Used to verify if all the water reservoirs supply enough water to all its delivery sites
-     * @return Returns a set of pairs, listing all the cities that can´t be supplied with the desired amount of water
+     *
      * Each pair has a string (that holds the ID of the city) and a double value (that represents the water deficit of that city)
+     * T(n) = O(n)
+     *
+     * @return Returns a set of pairs, listing all the cities that can´t be supplied with the desired amount of water
      */
     std::set<std::pair<std::string, double>> checkWaterNeeds();
 
@@ -243,8 +262,14 @@ public:
      * @param pumpingStation Vertex that represents the pumping station to be removed
      */
     void removePumpingStation(Vertex* pumpingStation);
-
-    Edge* findEdge(std::string orig, std::string dest);
+    /**
+     * @brief Finds edges on the graph
+     *
+     * @param orig Origin vertex of the edge being looked for
+     * @param dest Destination vertex of the edge being looked for
+     * @return nullptr if not found or a pointer to the edge otherwise
+     */
+    Edge* findEdge(const std::string& orig, const std::string& dest);
 };
 
 #endif

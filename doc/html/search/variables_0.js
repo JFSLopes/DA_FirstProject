@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['maxdiff_0',['maxDiff',['../structmetrics.html#a9e8f1eb7e696401d97c34a243827cb6f',1,'metrics']]]
+  ['avg_0',['avg',['../structmetrics.html#a78bde5d5ab78205a92e34143aa17b169',1,'metrics']]]
 ];
