@@ -70,9 +70,8 @@ void App::balanceLoad() {
     while(true){
         g->balanceLoad();
         metrics curr = g->calculateMetrics();
-        if (curr.avg < prev.avg or curr.maxDiff < prev.maxDiff or curr.variance < prev.variance){
-            prev = curr;
-        }
+
+        if (curr.avg < prev.avg or curr.maxDiff < prev.maxDiff or curr.variance < prev.variance) prev = curr;
         else break;
     }
     std::cout << "Final metrics of the network: ";

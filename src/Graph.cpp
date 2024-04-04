@@ -401,16 +401,19 @@ void Graph::balanceLoad() {
         std::vector<std::vector<Edge*>> allPaths;
         findAllPaths(e->getOrig(), e->getDest(), path, allPaths);
 
-        double maxDiff = DBL_MIN; /// Stores the minimal value that can be carried from the PS to the city for the path bestPath
+        double maxDiff = DBL_MIN; /// Stores the maximal value that can be carried from the PS to the city for the path bestPath
         size_t bestPathIndex = 0;
         for (size_t index = 0; index < allPaths.size(); index++){
             double ans = minimalDiffCapacityFlow(allPaths[index]);
-            if (ans > maxDiff) {
+            if (ans > maxDiff){ /// Does not check the direct connection
                 maxDiff = ans;
                 bestPathIndex = index;
             }
         }
-        double amountWater = (maxDiff - (e->getWeight() - e->getFlow())) / 2;
+        if (allPaths[bestPathIndex].size() == 1) continue; /// Didn't find a new path
+
+        double amountWater = maxDiff;
+        if (e->getFlow() < maxDiff) amountWater = e->getFlow() ; /// limited by the pipe flow
         e->setFlow(e->getFlow() - amountWater); /// Reduce the water on the chosen pipe
         incrementFlow(allPaths[bestPathIndex], amountWater); /// Increment the flow on the chosen alternative path
     }
