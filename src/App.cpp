@@ -6,12 +6,13 @@
 #include <unordered_map>
 
 void App::init() {
-    std::string cities = "Cities.csv";
-    std::string reservoirs = "Reservoir.csv";
-    std::string stations = "Stations.csv";
-    std::string pipes = "Pipes.csv";
-    std::string path;
+    std::string cities = "Cities_Madeira.csv";
+    std::string reservoirs = "Reservoirs_Madeira.csv";
+    std::string stations = "Stations_Madeira.csv";
+    std::string pipes = "Pipes_Madeira.csv";
+    std::string path = "../Dataset/DataSetSmall/";
     g = new Graph();
+
     while (true){
         displayChooseDataSet(reservoirs, stations, cities, pipes, path);
         if (FileParse::readFiles(g, cities, pipes, reservoirs, stations, path)) break;

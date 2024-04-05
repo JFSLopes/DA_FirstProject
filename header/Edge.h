@@ -17,6 +17,7 @@ private:
     double flow; /// Represents the flow that goes through the edge
     bool removed; /// Flag used to indicate if the edge should be ignored
 public:
+    double needs;
     /**
      * @brief Edge Constructor
      * @param orig Origin Vertex of the edge

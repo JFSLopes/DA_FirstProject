@@ -186,7 +186,7 @@ public:
      * @param subGraph Subgraph in which the augmenting path is searched
      * @return True if an augmenting path is found, false otherwise
      */
-    bool findAugPathSubGraph(Vertex* source, Vertex* sink, std::vector<Vertex*>& subGraph);
+    Vertex* findAugPathSubGraph(Vertex* source, Vertex* removed);
     /**
      * @brief Tries to find a minimal augmenting path in the residual graph
      * @param source Source vertex
@@ -195,6 +195,7 @@ public:
      * If no path is found, returns 0
      */
     double minResAugPath(Vertex* source, Vertex* sink);
+    double minResAugPath1(Vertex* source, Vertex* sink);
     /**
      * @brief  Augments the flow along the augmenting path found in the residual network from the source vertex to destination vertex
      * The flow is increased by the amount f given in the arguments
@@ -203,6 +204,7 @@ public:
      * @param f Amount to augment the flow along the path
      */
     void augmentFlowPath(Vertex* source, Vertex* sink, double f);
+    void augmentFlowPath1(Vertex* source, Vertex* sink, double f);
     /**
      * @brief Implements the Edmonds-Karp algorithm to find the maximum flow in a flow network
      *

@@ -1,0 +1,11 @@
+Service_Point_A,Service_Point_B,Capacity,Direction
+R_1,PS_3,50,1
+R_2,PS_3,100,1
+R_2,PS_8,100,1
+PS_8,PS_9,100,1
+PS_9,C_10,50,1
+PS_9,C_11,50,1
+PS_3,PS_4,100,1
+PS_4,C_5,75,1
+PS_4,PS_6,25,1
+PS_6,C_7,25,1

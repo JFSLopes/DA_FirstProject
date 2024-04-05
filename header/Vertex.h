@@ -20,6 +20,8 @@ private:
     bool visited; /// Flag to check if the vertex has already been visited
     Edge* path; /// Pointer to an edge, that is included in an augmenting path, that goes through the vertex on Edmonds-Karp algorithm
 public:
+    double needing;
+    double has;
     /**
      * @brief Vertex Constructor
      * @param node Pointer to the node associated with this vertex

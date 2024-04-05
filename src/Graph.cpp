@@ -161,36 +161,32 @@ bool Graph::findAugPath(Vertex* source, Vertex* sink, Vertex* removed) { // bfs 
     return sink->isVisited();
 }
 
-bool Graph::findAugPathSubGraph(Vertex *source, Vertex *sink, std::vector<Vertex *> &subGraph) {
+Vertex* Graph::findAugPathSubGraph(Vertex *source, Vertex* removed) {
 
-    for (Vertex* v : vertexSet) v->setVisited(true);
-    for (Vertex* v : subGraph) v->setVisited(false);
+    if (source->getNode()->getCode().front() == 'P' and source->needing == 0) return nullptr;
+
+    for (Vertex* v : vertexSet) v->setVisited(false);
+    removed->setVisited(true);
 
     std::queue<Vertex*> q;
     q.push(source);
     source->setVisited(true);
 
-    while(!q.empty() && !sink->isVisited()) {
+    while(!q.empty()) {
         Vertex* v = q.front();
         q.pop();
-        for (Edge* e : v->getAdj()){
-            Vertex* dest = e->getDest();
-            if (!dest->isVisited() && (e->getWeight() - e->getFlow() > 0)) {
-                dest->setVisited(true);
-                dest->setPath(e);
-                q.push(dest);
-            }
-        }
-        for (Edge* e: v->getIncoming()) {
-            Vertex* origin = e->getOrig();
-            if (!origin->isVisited() && (e->getFlow() > 0)) {
-                origin->setVisited(true);
-                origin->setPath(e);
-                q.push(origin);
+        if (v->getNode()->getCode().front() == 'R') return v; /// Found a reservoir
+
+        for (Edge* e : v->getIncoming()){
+            Vertex* orig = e->getOrig();
+            if (!orig->isVisited() && (e->getWeight() - e->getFlow() > 0)) {
+                orig->setVisited(true);
+                orig->setPath(e);
+                q.push(orig);
             }
         }
     }
-    return sink->isVisited();
+    return nullptr;
 }
 
 double Graph::minResAugPath(Vertex *source, Vertex *sink) { // flow mÃ¡x em cada path
@@ -208,8 +204,19 @@ double Graph::minResAugPath(Vertex *source, Vertex *sink) { // flow mÃ¡x em ca
     return maxFlow;
 }
 
+double Graph::minResAugPath1(Vertex *source, Vertex *sink) {
+    double maxFlow = DBL_MAX;
+    for (Vertex* v = source; v != sink;) {
+        Edge* e = v->getPath();
+
+        maxFlow = std::min(maxFlow, e->getWeight() - e->getFlow());
+        v = e->getDest();
+    }
+    return maxFlow;
+}
+
 void Graph::augmentFlowPath(Vertex *source, Vertex *sink,double  f) {
-    for(Vertex* v = sink ; v!=source;){
+    for(Vertex* v = sink ; v != source;){
         Edge* e = v->getPath();
         double flow = e->getFlow();
         if(e->getDest() == v){
@@ -220,6 +227,14 @@ void Graph::augmentFlowPath(Vertex *source, Vertex *sink,double  f) {
             e->setFlow(flow -f);
             v = e->getDest();
         }
+    }
+}
+
+void Graph::augmentFlowPath1(Vertex *source, Vertex *sink, double  f) {
+    for(Vertex* v = source; v != sink;){
+        Edge* e = v->getPath();
+        e->setFlow(e->getFlow() + f);
+        v = e->getDest();
     }
 }
 
@@ -331,11 +346,12 @@ void Graph::edmondsKarpRemoveReservoir(Vertex *reservoir) {
     for (Vertex* v : aux){
         DFSVisitReverse(v, subGraph);
     }
-
+    /*
     while (findAugPathSubGraph(s, t, subGraph)){
         double f = minResAugPath(s,t);
         augmentFlowPath(s,t,f);
     }
+     */
     removeSuperSourceSink();
 
     std::set<std::pair<std::string,double>> after = checkWaterNeeds();
@@ -520,32 +536,195 @@ bool Graph::incomeEdgesFull(std::vector<std::vector<Edge *>>& allPaths) const {
 }
 
 void Graph::simplerAlgorithm(std::vector<std::vector<Edge *>> &allPaths){
-    for (Vertex* v : vertexSet) v->setVisited(false);
+    if (allPaths.empty()) return;
+    std::set<std::pair<std::string,double>> before = checkWaterNeeds();
 
-    std::unordered_map<std::string, double> lostFlow;
+    for (Vertex* v : vertexSet){
+        v->needing = 0;
+        v->has = 0;
+        v->setVisited(false);
+        for (Edge* e : v->getAdj()){
+            e->setRemoved(false);
+            e->needs = 0;
+        }
+    }
 
-    for (std::vector<Edge*> vec : allPaths){
-        /// The last elements is always the edge with the city
-        Vertex* dest = vec.back()->getDest();
-        if (!dest->isVisited()){
-            dest->setVisited(true);
-            auto itr = lostFlow.find(dest->getNode()->getCode());
-            if (itr == lostFlow.end()){
-                lostFlow.insert(std::make_pair(dest->getNode()->getCode(), vec.back()->getFlow()));
-            }
-            else{
-                itr->second += vec.back()->getFlow();
+    /// Get the stations connected to the cities
+
+    std::vector<Vertex*> ps;
+    for (const std::vector<Edge*>& path : allPaths){
+        if (path.size() < 2) continue; /// Theoretical impossible, would imply a reservoir directly connected to a city
+        Edge* edge = path[path.size() - 1];
+        if (!edge->getRemoved()){
+            Vertex* psToAdd = edge->getOrig();
+            psToAdd->needing += edge->getFlow(); /// Water that needs to be reposta
+            if (!psToAdd->isVisited()) ps.push_back(psToAdd);
+            edge->needs = edge->getFlow();
+            edge->setRemoved(true);
+            psToAdd->setVisited(true);
+        }
+    }
+
+
+    /// Set the edges weights.
+    for (const std::vector<Edge*>& path : allPaths){
+        double minFlow = DBL_MAX;
+
+        for (Edge* e : path) minFlow = std::min(minFlow, e->getFlow());
+
+        for (Edge* e : path) e->setFlow(e->getFlow() - minFlow);
+    }
+
+
+
+    for (Vertex* v : vertexSet){
+        for (Edge* e : v->getAdj()) e->setRemoved(false);
+    }
+    /// Check if does not need all the water
+    for (const std::vector<Edge*>& path : allPaths){
+        if (path.size() < 2) continue; /// Theoretical impossible, would imply a reservoir directly connected to a city
+        Edge* edge = path[path.size() - 1];
+        if (!edge->getRemoved()){
+            Vertex* psToAdd = edge->getOrig();
+            psToAdd->needing -= edge->getFlow(); /// Water that needs to be reposta
+            edge->needs -= edge->getFlow();
+            edge->setRemoved(true);
+        }
+    }
+    std::cout << "AQUI\n\n\n\n\n\n\n";
+    for (Vertex* v : vertexSet){
+        double in = 0, out = 0;
+        for (Edge* e : v->getAdj()){
+            if (e->getWeight() < e->getFlow()) std::cout << "Error1\n";
+            out += e->getFlow();
+        }
+        for (Edge* e : v->getIncoming()){
+            if (e->getWeight() < e->getFlow()) std::cout << "Error2\n";
+            in += e->getFlow();
+        }
+        if (v->getNode()->getCode().front() == 'P' and in != out){
+            std::cout << "Error3 -> " << v->getNode()->getCode() << ": " << in << " -> "<< out << "\n";
+        }
+    }
+
+    Vertex* reservoir = allPaths[0][0]->getOrig();
+
+    /// Find the reverse paths from the ps to a reservoir
+    for (Vertex* station : ps){
+        std::cout << "a\n";
+        while (true){
+            Vertex* aux = findAugPathSubGraph(station, reservoir);
+            if (aux == nullptr) break;
+
+            std::cout << "b\n";
+            double flow = minResAugPath1(aux, station);
+
+            if (flow > station->needing) flow = station->needing;
+            std::cout << "c\n";
+            augmentFlowPath1(aux, station, flow);
+            station->needing -= flow;
+            station->has += flow;
+        }
+    }
+
+    std::cout << "AQUI\n\n\n\n\n\n\n";
+    for (Vertex* v : vertexSet){
+        double in = 0, out = 0;
+        for (Edge* e : v->getAdj()){
+            if (e->getWeight() < e->getFlow()) std::cout << "Error1\n";
+            out += e->getFlow();
+        }
+        for (Edge* e : v->getIncoming()){
+            if (e->getWeight() < e->getFlow()) std::cout << "Error2\n";
+            in += e->getFlow();
+        }
+        if (v->getNode()->getCode().front() == 'P' and in != out){
+            std::cout << "Error3 -> " << v->getNode()->getCode() << ": " << in << " -> "<< out << "\n";
+        }
+    }
+
+    std::cout << "3\n";
+
+    for (Vertex* v : vertexSet){
+        for (Edge* e : v->getAdj()) e->setRemoved(false);
+    }
+
+    for (Vertex* v : ps){
+        for (Edge* e : v->getAdj()){
+            if (e->needs > 0){
+                double waterToSend = v->has;
+                if (waterToSend > e->needs) waterToSend = e->needs;
+                e->setFlow(e->getFlow() + waterToSend);
+                v->has -= waterToSend;
+                e->needs -= waterToSend;
             }
         }
     }
-    for (const std::pair<std::string, double>& p : lostFlow){
-        std::string code = p.first;
-        Vertex* v = findVertex(code);
-        City* city = dynamic_cast<City*>(v->getNode());
 
-        std::cout << "City: " << p.first << " -> After removal: " << p.second << ", Demand: " << city->getDemand() << "\n";
+    for (Vertex* v : ps) {
+        for (Edge *e: v->getAdj()) {
+            std::cout << e->getOrig()->getNode()->getCode() << " " << e->getDest()->getNode()->getCode() << " -> " << e->needs << "\n";
+        }
     }
-    std::cout << "\n";
+
+    /*
+    for (const std::vector<Edge*>& path : allPaths) {
+        if (path.size() < 2) continue; /// Theoretical impossible, would imply a reservoir directly connected to a city
+        Edge *edge = path[path.size() - 1];
+        if (!edge->getRemoved()) {
+            Vertex *vertex = edge->getOrig();
+            double waterToSend = vertex->has;
+            if (waterToSend > edge->needs) waterToSend = edge->needs;
+            edge->setFlow(edge->getFlow() + waterToSend);
+            vertex->has -= waterToSend;
+            edge->setRemoved(true);
+        }
+    }
+     */
+
+    std::cout << "4\n";
+    for (Vertex* v : vertexSet){
+        double in = 0, out = 0;
+        for (Edge* e : v->getAdj()){
+            if (e->getWeight() < e->getFlow()) std::cout << "Error1\n";
+            out += e->getFlow();
+        }
+        for (Edge* e : v->getIncoming()){
+            in += e->getFlow();
+        }
+        if (v->getNode()->getCode().front() == 'P' and in != out) std::cout << "Error3\n";
+    }
+
+    for (Vertex* v : ps) std::cout << v->getNode()->getCode() << " -> " << v->has << "   " << v->needing << "\n";
+
+
+
+    std::set<std::pair<std::string,double>> after = checkWaterNeeds();
+    bool flag = false;
+    std::cout << "\nRemoving Reservoir: " << reservoir->getNode()->getCode() << " affects the following cities:\n";
+    for ( std::pair<std::string,double> pair : after) {
+        std::set<std::pair<std::string,double>>::iterator it = before.end();
+        for (auto iter = before.begin(); iter != before.end(); iter++) {
+            if (iter->first == pair.first) {
+                it = iter;
+                if (iter->second < pair.second) {
+                    City* city = getCity(C_CODE,pair.first,0);
+                    flag = true;
+                    std::cout << pair.first << ": " << city->getName() << " --> Old flow: " << city->getDemand() - iter->second   <<  "    |    New flow: " << city->getDemand() - pair.second << "\n";
+                }
+            }
+        }
+        if (it == before.end()) {
+            flag = true;
+            City* city = getCity(C_CODE, pair.first, 0);
+            std::cout << pair.first << ": " << city->getName() << " --> Old flow: " << city->getDemand()  <<  "    |    New flow: " << city->getDemand() - pair.second << "\n";
+        }
+    }
+    if (!flag) {
+        std::cout << " -> No city is affected.\n";
+    }
+    std::cout << "6\n";
+    std::cout << "flow: " << edmondsKarp() << "\n"; /// recalculate all values
 }
 
 void Graph::removeReservoir(Vertex *reservoir) {
@@ -553,6 +732,8 @@ void Graph::removeReservoir(Vertex *reservoir) {
     std::vector<Edge*> path;
     std::vector<std::vector<Edge*>> allPaths;
     findAllPaths(reservoir, path, allPaths);
+    simplerAlgorithm(allPaths);
+    /*
     if (incomeEdgesFull(allPaths)){
         std::cout << "Running the simpler algorithm, no need for rerun Edmonds Karp.\n";
         simplerAlgorithm(allPaths);
@@ -561,6 +742,7 @@ void Graph::removeReservoir(Vertex *reservoir) {
         std::cout << "Impossible to apply the simpler algorithm. Running Edmonds Karp from scratch.\n";
         edmondsKarpRemoveReservoir(reservoir);
     }
+     */
 }
 
 
