@@ -288,7 +288,7 @@ double Graph::edmondsKarp(){
     removeSuperSourceSink();
     return maxFlow;
 }
-void Graph::edmondsKarpRemovePipeline(std::vector<Edge*> edges) {
+void Graph::edmondsKarpRemovePipeline(const std::vector<Edge*>& edges) {
     createSuperSourceSink();
     std::string sourceCode = "F";
     std::string sinkCode = "X";
@@ -589,6 +589,7 @@ void Graph::removeReservoir(Vertex *reservoir) {
             City *city = getCity(C_CODE, pair.first, 0);
             double old = city->getDemand() - it->second;
             double newFlow = city->getDemand() - pair.second;
+            if (old == newFlow) continue;
             std::string name = pair.first + ": " + city->getName();
             std::cout << std::left << std::setw(25) << name
                       << std::setw(12) << old
