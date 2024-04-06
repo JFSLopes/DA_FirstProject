@@ -18,8 +18,9 @@ public:
     void init();
     /**
      * @brief Allows the user to choose between the functionalities available on the application
+     * @return True if user wants to close, false if he wants to load other data.
      */
-    void domain();
+    bool domain();
     /**
      * @brief Allows the user to choose between the functionalities available on the application related to Basic metric of the network
      */

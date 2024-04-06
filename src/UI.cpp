@@ -52,6 +52,7 @@ void displayDomain(){
     std::cout << "Choose one of the following options:\n"
               << "\t1. Basic Service Metrics;\n"
               << "\t2. Reliability and Sensitivity Failures;\n"
+              << "\t8. Load other files.\n"
               << "\t9. Close the app.\n";
     std::cout << "[1..9]: ";
 }
