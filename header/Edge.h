@@ -17,7 +17,7 @@ private:
     double flow; /// Represents the flow that goes through the edge
     bool removed; /// Flag used to indicate if the edge should be ignored
 public:
-    double needs;
+    double needs; /// tracks how much water the pipe added before the removal of a reservoir
     /**
      * @brief Edge Constructor
      * @param orig Origin Vertex of the edge

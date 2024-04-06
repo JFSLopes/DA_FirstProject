@@ -85,21 +85,7 @@ private:
      *
      * @param allPaths Represents all paths from the removed reservoir to delivery sites.
      */
-    void simplerAlgorithm(std::vector<std::vector<Edge*>>& allPaths);
-    /**
-     * @brief Performs a DFS
-     *
-     * @param v Vertex being analysed
-     * @param subGraph Vector that stores all the visited vertexes
-     */
-    void DFSVisit(Vertex* v, std::vector<Vertex*>& subGraph);
-    /**
-     * @brief Perform a DFS using the income edges.
-     *
-     * @param v Vertex being analysed
-     * @param subGraph Vector that stores all the visited vertexes
-     */
-    void DFSVisitReverse(Vertex* v, std::vector<Vertex*>& subGraph);
+    double simplerAlgorithm(std::vector<std::vector<Edge*>>& allPaths);
 
 public:
     /**
@@ -108,13 +94,6 @@ public:
      * @return Vertex set
      */
     const std::vector<Vertex*> getVertexSet() const;
-    /**
-     * @brief Return if the income edges of the subgraph are full or close to.
-     *
-     * @param allPaths Represents the sub-graph being analysed.
-     * @return True if all income edges are full or close to be or False if at least one is not full.
-     */
-    bool incomeEdgesFull(std::vector<std::vector<Edge*>>& allPaths) const;
     /**
      * @brief Finds all paths from a vertex to any delivery site.
      *
@@ -180,11 +159,11 @@ public:
      */
     bool findAugPath(Vertex* source, Vertex* sink, Vertex* removed = nullptr);
     /**
-     * @brief Tries to find an augmenting path in the residual subgraph from the source to the sink vertex, using BFS (breadth-first search)
-     * @param source Source vertex of the augmenting path
-     * @param sink Destination vertex of the augmenting path
-     * @param subGraph Subgraph in which the augmenting path is searched
-     * @return True if an augmenting path is found, false otherwise
+     * @brief Tries to find a path between the source (normally a city) and any reservoir besides the one referenced by the 'removed'
+     *
+     * @param source Source Vertex
+     * @param removed Reservoir that was removed
+     * @return Pointer to a reservoir if exists a path between the source and a reservoir
      */
     Vertex* findAugPathSubGraph(Vertex* source, Vertex* removed);
     /**
@@ -192,9 +171,14 @@ public:
      * @param source Source vertex
      * @param sink Destination vertex
      * @return Returns the maximum flow that can be sent from the source vertex to the destination vertex through the path found
-     * If no path is found, returns 0
      */
     double minResAugPath(Vertex* source, Vertex* sink);
+    /**
+     * @brief Finds the minimal augmenting flow on a path connecting a city to a reservoir
+     * @param source Source vertex
+     * @param sink Destination vertex
+     * @return Returns the maximum flow that can be sent from the source vertex to the destination vertex through the path found
+     */
     double minResAugPath1(Vertex* source, Vertex* sink);
     /**
      * @brief  Augments the flow along the augmenting path found in the residual network from the source vertex to destination vertex
@@ -204,6 +188,16 @@ public:
      * @param f Amount to augment the flow along the path
      */
     void augmentFlowPath(Vertex* source, Vertex* sink, double f);
+    /**
+     * @brief  Augments the flow along the path connecting a path between a city and a reservoir
+     *
+     * This function is used to augment the flow along a path connecting a city that was affected by the removal of
+     * a reservoir and another reservoir with capacity left.
+     *
+     * @param source Source vertex
+     * @param sink Destination vertex
+     * @param f Amount to augment the flow along the path
+     */
     void augmentFlowPath1(Vertex* source, Vertex* sink, double f);
     /**
      * @brief Implements the Edmonds-Karp algorithm to find the maximum flow in a flow network

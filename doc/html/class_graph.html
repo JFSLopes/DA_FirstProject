@@ -86,9 +86,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1b53f39cb46a078ec23019689f0b078b" id="r_a1b53f39cb46a078ec23019689f0b078b"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="class_vertex.html">Vertex</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#a1b53f39cb46a078ec23019689f0b078b">getVertexSet</a> () const</td></tr>
 <tr class="memdesc:a1b53f39cb46a078ec23019689f0b078b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the vertex set of the graph.  <br /></td></tr>
 <tr class="separator:a1b53f39cb46a078ec23019689f0b078b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81b303fc43e1282bf965758aa6777269" id="r_a81b303fc43e1282bf965758aa6777269"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#a81b303fc43e1282bf965758aa6777269">incomeEdgesFull</a> (std::vector&lt; std::vector&lt; <a class="el" href="class_edge.html">Edge</a> * &gt; &gt; &amp;allPaths) const</td></tr>
-<tr class="memdesc:a81b303fc43e1282bf965758aa6777269"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return if the income edges of the subgraph are full or close to.  <br /></td></tr>
-<tr class="separator:a81b303fc43e1282bf965758aa6777269"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60e031377ef9900b346f1ec9f7138f2d" id="r_a60e031377ef9900b346f1ec9f7138f2d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#a60e031377ef9900b346f1ec9f7138f2d">findAllPaths</a> (<a class="el" href="class_vertex.html">Vertex</a> *s, std::vector&lt; <a class="el" href="class_edge.html">Edge</a> * &gt; &amp;path, std::vector&lt; std::vector&lt; <a class="el" href="class_edge.html">Edge</a> * &gt; &gt; &amp;paths) const</td></tr>
 <tr class="memdesc:a60e031377ef9900b346f1ec9f7138f2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds all paths from a vertex to any delivery site.  <br /></td></tr>
 <tr class="separator:a60e031377ef9900b346f1ec9f7138f2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -113,24 +110,27 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad46a70e152899f5cd6d849aae5aea76d" id="r_ad46a70e152899f5cd6d849aae5aea76d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#ad46a70e152899f5cd6d849aae5aea76d">findAugPath</a> (<a class="el" href="class_vertex.html">Vertex</a> *source, <a class="el" href="class_vertex.html">Vertex</a> *sink, <a class="el" href="class_vertex.html">Vertex</a> *removed=nullptr)</td></tr>
 <tr class="memdesc:ad46a70e152899f5cd6d849aae5aea76d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tries to find an augmenting path in the residual graph.  <br /></td></tr>
 <tr class="separator:ad46a70e152899f5cd6d849aae5aea76d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a398749631275c96ec19e138b8a41a0fe" id="r_a398749631275c96ec19e138b8a41a0fe"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#a398749631275c96ec19e138b8a41a0fe">findAugPathSubGraph</a> (<a class="el" href="class_vertex.html">Vertex</a> *source, <a class="el" href="class_vertex.html">Vertex</a> *sink, std::vector&lt; <a class="el" href="class_vertex.html">Vertex</a> * &gt; &amp;subGraph)</td></tr>
-<tr class="memdesc:a398749631275c96ec19e138b8a41a0fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tries to find an augmenting path in the residual subgraph from the source to the sink vertex, using BFS (breadth-first search)  <br /></td></tr>
-<tr class="separator:a398749631275c96ec19e138b8a41a0fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc01305f810830372d6504aedb50963a" id="r_afc01305f810830372d6504aedb50963a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_vertex.html">Vertex</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#afc01305f810830372d6504aedb50963a">findAugPathSubGraph</a> (<a class="el" href="class_vertex.html">Vertex</a> *source, <a class="el" href="class_vertex.html">Vertex</a> *removed)</td></tr>
+<tr class="memdesc:afc01305f810830372d6504aedb50963a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tries to find a path between the source (normally a city) and any reservoir besides the one referenced by the 'removed'.  <br /></td></tr>
+<tr class="separator:afc01305f810830372d6504aedb50963a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac38f1c9d15d4c20de90a78700da74a35" id="r_ac38f1c9d15d4c20de90a78700da74a35"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#ac38f1c9d15d4c20de90a78700da74a35">minResAugPath</a> (<a class="el" href="class_vertex.html">Vertex</a> *source, <a class="el" href="class_vertex.html">Vertex</a> *sink)</td></tr>
 <tr class="memdesc:ac38f1c9d15d4c20de90a78700da74a35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tries to find a minimal augmenting path in the residual graph.  <br /></td></tr>
 <tr class="separator:ac38f1c9d15d4c20de90a78700da74a35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace57a03e7095691fb4e2362383e97ec0" id="r_ace57a03e7095691fb4e2362383e97ec0"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#ace57a03e7095691fb4e2362383e97ec0">minResAugPath1</a> (<a class="el" href="class_vertex.html">Vertex</a> *source, <a class="el" href="class_vertex.html">Vertex</a> *sink)</td></tr>
+<tr class="memdesc:ace57a03e7095691fb4e2362383e97ec0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the minimal augmenting flow on a path connecting a city to a reservoir.  <br /></td></tr>
+<tr class="separator:ace57a03e7095691fb4e2362383e97ec0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30911cf23d21b266464621a233b89370" id="r_a30911cf23d21b266464621a233b89370"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#a30911cf23d21b266464621a233b89370">augmentFlowPath</a> (<a class="el" href="class_vertex.html">Vertex</a> *source, <a class="el" href="class_vertex.html">Vertex</a> *sink, double f)</td></tr>
 <tr class="memdesc:a30911cf23d21b266464621a233b89370"><td class="mdescLeft">&#160;</td><td class="mdescRight">Augments the flow along the augmenting path found in the residual network from the source vertex to destination vertex The flow is increased by the amount f given in the arguments.  <br /></td></tr>
 <tr class="separator:a30911cf23d21b266464621a233b89370"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea2cb4c599222aa8028c4e409e89f68d" id="r_aea2cb4c599222aa8028c4e409e89f68d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#aea2cb4c599222aa8028c4e409e89f68d">augmentFlowPath1</a> (<a class="el" href="class_vertex.html">Vertex</a> *source, <a class="el" href="class_vertex.html">Vertex</a> *sink, double f)</td></tr>
+<tr class="memdesc:aea2cb4c599222aa8028c4e409e89f68d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Augments the flow along the path connecting a path between a city and a reservoir.  <br /></td></tr>
+<tr class="separator:aea2cb4c599222aa8028c4e409e89f68d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af86360a1cb3c17ab52d915f662c2d802" id="r_af86360a1cb3c17ab52d915f662c2d802"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#af86360a1cb3c17ab52d915f662c2d802">edmondsKarp</a> ()</td></tr>
 <tr class="memdesc:af86360a1cb3c17ab52d915f662c2d802"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the Edmonds-Karp algorithm to find the maximum flow in a flow network.  <br /></td></tr>
 <tr class="separator:af86360a1cb3c17ab52d915f662c2d802"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a7fac13f6b7b184e44c7c630e878e2b" id="r_a8a7fac13f6b7b184e44c7c630e878e2b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#a8a7fac13f6b7b184e44c7c630e878e2b">edmondsKarpRemovePipeline</a> (std::vector&lt; <a class="el" href="class_edge.html">Edge</a> * &gt; edges)</td></tr>
 <tr class="memdesc:a8a7fac13f6b7b184e44c7c630e878e2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a pipeline from the flow network and then implements the Edmonds-Karp algorithm to find the maximum flow without the specified pipeline.  <br /></td></tr>
 <tr class="separator:a8a7fac13f6b7b184e44c7c630e878e2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a276893daa6d639661b2474b36808f9ce" id="r_a276893daa6d639661b2474b36808f9ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#a276893daa6d639661b2474b36808f9ce">edmondsKarpRemoveReservoir</a> (<a class="el" href="class_vertex.html">Vertex</a> *reservoir)</td></tr>
-<tr class="memdesc:a276893daa6d639661b2474b36808f9ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a reservoir from the flow network and then implements the Edmonds-Karp algorithm to find the maximum flow without the specified reservoir.  <br /></td></tr>
-<tr class="separator:a276893daa6d639661b2474b36808f9ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a340cad7c7759b5a052134e80453da6c1" id="r_a340cad7c7759b5a052134e80453da6c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#a340cad7c7759b5a052134e80453da6c1">edmondsKarpRemovePumpingStation</a> (<a class="el" href="class_vertex.html">Vertex</a> *pumpingStation)</td></tr>
 <tr class="memdesc:a340cad7c7759b5a052134e80453da6c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a pumping station from the flow network and then implements the Edmonds-Karp algorithm to find the maximum flow after the removal.  <br /></td></tr>
 <tr class="separator:a340cad7c7759b5a052134e80453da6c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -217,6 +217,51 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>balanceLoad</b> ()</t
 </div><div class="memdoc">
 
 <p>Augments the flow along the augmenting path found in the residual network from the source vertex to destination vertex The flow is increased by the amount f given in the arguments. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td>Source vertex </td></tr>
+    <tr><td class="paramname">sink</td><td>Destination vertex </td></tr>
+    <tr><td class="paramname">f</td><td>Amount to augment the flow along the path </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aea2cb4c599222aa8028c4e409e89f68d" name="aea2cb4c599222aa8028c4e409e89f68d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea2cb4c599222aa8028c4e409e89f68d">&#9670;&#160;</a></span>augmentFlowPath1()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Graph::augmentFlowPath1 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_vertex.html">Vertex</a> *&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_vertex.html">Vertex</a> *&#160;</td>
+          <td class="paramname"><em>sink</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>f</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Augments the flow along the path connecting a path between a city and a reservoir. </p>
+<p>This function is used to augment the flow along a path connecting a city that was affected by the removal of a reservoir and another reservoir with capacity left.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">source</td><td>Source vertex </td></tr>
@@ -342,33 +387,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>balanceLoad</b> ()</t
 
 </div>
 </div>
-<a id="a276893daa6d639661b2474b36808f9ce" name="a276893daa6d639661b2474b36808f9ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a276893daa6d639661b2474b36808f9ce">&#9670;&#160;</a></span>edmondsKarpRemoveReservoir()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Graph::edmondsKarpRemoveReservoir </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_vertex.html">Vertex</a> *&#160;</td>
-          <td class="paramname"><em>reservoir</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Removes a reservoir from the flow network and then implements the Edmonds-Karp algorithm to find the maximum flow without the specified reservoir. </p>
-<p>After removing the reservoir, checks the effects on the water needs of the cities and prints the deficits caused by the removal T(n) = O(VE^2)</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">reservoir</td><td><a class="el" href="class_vertex.html" title="Allows to represent the information of any vertex on the graph.">Vertex</a> that represents the reservoir to be removed </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a id="a60e031377ef9900b346f1ec9f7138f2d" name="a60e031377ef9900b346f1ec9f7138f2d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a60e031377ef9900b346f1ec9f7138f2d">&#9670;&#160;</a></span>findAllPaths()</h2>
 
@@ -459,14 +477,14 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>balanceLoad</b> ()</t
 
 </div>
 </div>
-<a id="a398749631275c96ec19e138b8a41a0fe" name="a398749631275c96ec19e138b8a41a0fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a398749631275c96ec19e138b8a41a0fe">&#9670;&#160;</a></span>findAugPathSubGraph()</h2>
+<a id="afc01305f810830372d6504aedb50963a" name="afc01305f810830372d6504aedb50963a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc01305f810830372d6504aedb50963a">&#9670;&#160;</a></span>findAugPathSubGraph()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool Graph::findAugPathSubGraph </td>
+          <td class="memname"><a class="el" href="class_vertex.html">Vertex</a> * Graph::findAugPathSubGraph </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_vertex.html">Vertex</a> *&#160;</td>
           <td class="paramname"><em>source</em>, </td>
@@ -475,13 +493,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>balanceLoad</b> ()</t
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="class_vertex.html">Vertex</a> *&#160;</td>
-          <td class="paramname"><em>sink</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="class_vertex.html">Vertex</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>subGraph</em>&#160;</td>
+          <td class="paramname"><em>removed</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -491,16 +503,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>balanceLoad</b> ()</t
       </table>
 </div><div class="memdoc">
 
-<p>Tries to find an augmenting path in the residual subgraph from the source to the sink vertex, using BFS (breadth-first search) </p>
+<p>Tries to find a path between the source (normally a city) and any reservoir besides the one referenced by the 'removed'. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">source</td><td>Source vertex of the augmenting path </td></tr>
-    <tr><td class="paramname">sink</td><td>Destination vertex of the augmenting path </td></tr>
-    <tr><td class="paramname">subGraph</td><td>Subgraph in which the augmenting path is searched </td></tr>
+    <tr><td class="paramname">source</td><td>Source <a class="el" href="class_vertex.html" title="Allows to represent the information of any vertex on the graph.">Vertex</a> </td></tr>
+    <tr><td class="paramname">removed</td><td><a class="el" href="class_reservoir.html" title="Allows to represent a reservoir.">Reservoir</a> that was removed </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True if an augmenting path is found, false otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to a reservoir if exists a path between the source and a reservoir </dd></dl>
 
 </div>
 </div>
@@ -724,33 +735,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>balanceLoad</b> ()</t
 
 </div>
 </div>
-<a id="a81b303fc43e1282bf965758aa6777269" name="a81b303fc43e1282bf965758aa6777269"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a81b303fc43e1282bf965758aa6777269">&#9670;&#160;</a></span>incomeEdgesFull()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Graph::incomeEdgesFull </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; std::vector&lt; <a class="el" href="class_edge.html">Edge</a> * &gt; &gt; &amp;&#160;</td>
-          <td class="paramname"><em>allPaths</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Return if the income edges of the subgraph are full or close to. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">allPaths</td><td>Represents the sub-graph being analysed. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if all income edges are full or close to be or False if at least one is not full. </dd></dl>
-
-</div>
-</div>
 <a id="ac38f1c9d15d4c20de90a78700da74a35" name="ac38f1c9d15d4c20de90a78700da74a35"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac38f1c9d15d4c20de90a78700da74a35">&#9670;&#160;</a></span>minResAugPath()</h2>
 
@@ -785,7 +769,45 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>balanceLoad</b> ()</t
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns the maximum flow that can be sent from the source vertex to the destination vertex through the path found If no path is found, returns 0 </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns the maximum flow that can be sent from the source vertex to the destination vertex through the path found </dd></dl>
+
+</div>
+</div>
+<a id="ace57a03e7095691fb4e2362383e97ec0" name="ace57a03e7095691fb4e2362383e97ec0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace57a03e7095691fb4e2362383e97ec0">&#9670;&#160;</a></span>minResAugPath1()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double Graph::minResAugPath1 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_vertex.html">Vertex</a> *&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_vertex.html">Vertex</a> *&#160;</td>
+          <td class="paramname"><em>sink</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Finds the minimal augmenting flow on a path connecting a city to a reservoir. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td>Source vertex </td></tr>
+    <tr><td class="paramname">sink</td><td>Destination vertex </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns the maximum flow that can be sent from the source vertex to the destination vertex through the path found </dd></dl>
 
 </div>
 </div>

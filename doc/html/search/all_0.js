@@ -7,5 +7,6 @@ var searchData=
   ['app_4',['App',['../class_app.html',1,'']]],
   ['askpipelines_5',['askPipelines',['../class_app.html#a75c470b87de6befc712dd58a506bb5a4',1,'App']]],
   ['augmentflowpath_6',['augmentFlowPath',['../class_graph.html#a30911cf23d21b266464621a233b89370',1,'Graph']]],
-  ['avg_7',['avg',['../structmetrics.html#a78bde5d5ab78205a92e34143aa17b169',1,'metrics']]]
+  ['augmentflowpath1_7',['augmentFlowPath1',['../class_graph.html#aea2cb4c599222aa8028c4e409e89f68d',1,'Graph']]],
+  ['avg_8',['avg',['../structmetrics.html#a78bde5d5ab78205a92e34143aa17b169',1,'metrics']]]
 ];

@@ -1,9 +1,17 @@
 var searchData=
 [
-  ['setflow_0',['setFlow',['../class_edge.html#aefeec748f71c85b51fed68bcd357c585',1,'Edge']]],
-  ['setpath_1',['setPath',['../class_vertex.html#abe4bc30005eec65e775d0cd51f456460',1,'Vertex']]],
-  ['setremoved_2',['setRemoved',['../class_edge.html#a1c916fb89b65c4341aece06f5cb7d6ea',1,'Edge']]],
-  ['setvisited_3',['setVisited',['../class_vertex.html#a15eeabbbb6d517af746ae137c6d5b595',1,'Vertex']]],
-  ['specificcitywaterquantity_4',['SpecificCityWaterQuantity',['../class_app.html#af4cd5f917c097003c4eeb568c6704782',1,'App']]],
-  ['station_5',['station',['../class_station.html',1,'Station'],['../class_station.html#a8f60648e5703ea3df9bcbfad2ad214dc',1,'Station::Station()']]]
+  ['readcities_0',['readCities',['../namespace_file_parse.html#a0fc5678c6f4b3b0c451d2a741163e475',1,'FileParse']]],
+  ['readfiles_1',['readFiles',['../namespace_file_parse.html#ac7bca6692bf4c4ba4214d961b3235d09',1,'FileParse']]],
+  ['readpipes_2',['readPipes',['../namespace_file_parse.html#ae93e4da606c69d9120a55512011e57d6',1,'FileParse']]],
+  ['readreservoirs_3',['readReservoirs',['../namespace_file_parse.html#a893cae8d624c2c50406cce91df8823c2',1,'FileParse']]],
+  ['readstations_4',['readStations',['../namespace_file_parse.html#ae9c7a10e8c2b27d54610c456ff40f51c',1,'FileParse']]],
+  ['reliabilitysensitivity_5',['ReliabilitySensitivity',['../class_app.html#add8a4c2e06366dc7360520c7ea09585f',1,'App']]],
+  ['remainreservoirdelivery_6',['remainReservoirDelivery',['../class_vertex.html#a9a9b3a1f396b10b38cdeb3abbe3e8649',1,'Vertex']]],
+  ['removeedge_7',['removeEdge',['../class_vertex.html#a7ae48f70caf5cf6611d91adaa2e06178',1,'Vertex']]],
+  ['removeedges_8',['removeEdges',['../class_vertex.html#a370a465c45862f08d9f780a3a109c215',1,'Vertex']]],
+  ['removepipelines_9',['removePipelines',['../class_app.html#ac40a8ee59082a0547eab8713f85c3176',1,'App']]],
+  ['removepumpingstation_10',['removepumpingstation',['../class_graph.html#a9c7c1fa61faa4e740c2375799a78c84b',1,'Graph::removePumpingStation()'],['../class_app.html#a77ab6295b67d675baa72bc7b05586437',1,'App::removePumpingStation(std::string &amp;code)']]],
+  ['removereservoir_11',['removereservoir',['../class_app.html#a005307a5bbd751a956cb8aaf76932480',1,'App::removeReservoir()'],['../class_graph.html#a445ee06622688209e83d60fc96dffb58',1,'Graph::removeReservoir(Vertex *reservoir)']]],
+  ['removevertex_12',['removeVertex',['../class_graph.html#aa9bf892a442aa0f2922c36d861951cb6',1,'Graph']]],
+  ['reservoir_13',['reservoir',['../class_reservoir.html#a88c6cf333244ae0045c2d46bf6005fa6',1,'Reservoir::Reservoir()'],['../class_reservoir.html',1,'Reservoir']]]
 ];

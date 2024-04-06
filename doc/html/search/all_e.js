@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['_7enode_0',['~Node',['../class_node.html#af5e3fa79300bf5f3f2f3ecae6e795a94',1,'Node']]]
+  ['variance_0',['variance',['../structmetrics.html#a63c3018cecc7d71bbb115eb2a07f8ad0',1,'metrics']]],
+  ['vertex_1',['vertex',['../class_vertex.html',1,'Vertex'],['../class_vertex.html#a76707780672837ba1c570aa81d0a2bb1',1,'Vertex::Vertex()']]]
 ];

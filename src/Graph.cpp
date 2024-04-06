@@ -14,26 +14,6 @@ void Graph::addVertex(Vertex* v) {
     vertexSet.push_back(v);
 }
 
-void Graph::DFSVisit(Vertex *v, std::vector<Vertex*>& subGraph) {
-    v->setVisited(true);
-    subGraph.push_back(v);
-    for (Edge* e : v->getAdj()){
-        if (!e->getDest()->isVisited()){
-            DFSVisit(e->getDest(), subGraph);
-        }
-    }
-}
-
-void Graph::DFSVisitReverse(Vertex *v, std::vector<Vertex *> &subGraph) {
-    for (Edge* e : v->getIncoming()){
-        if (!e->getOrig()->isVisited()){
-            e->getOrig()->setVisited(true);
-            subGraph.push_back(e->getOrig());
-            DFSVisitReverse(e->getOrig(), subGraph);
-        }
-    }
-}
-
 void Graph::removeVertex(Vertex *v) {
     for (auto itr = vertexSet.begin(); itr != vertexSet.end(); itr++){
         if (*itr == v){
@@ -474,26 +454,9 @@ void Graph::findAllPaths(Vertex *s, std::vector<Edge *>& path, std::vector<std::
     s->setVisited(false);
 }
 
-bool Graph::incomeEdgesFull(std::vector<std::vector<Edge *>>& allPaths) const {
-    for (std::vector<Edge*>& vec : allPaths){
-        for (Edge* e : vec){
-            double incomeFlow = 0;
-            double maxIncomeFlow = 0;
-            for (Edge* e1 : e->getDest()->getIncoming()){
-                incomeFlow += e1->getFlow();
-                maxIncomeFlow += e1->getWeight();
-            }
-
-            if ((incomeFlow/maxIncomeFlow) < 0.95){
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-void Graph::simplerAlgorithm(std::vector<std::vector<Edge *>> &allPaths){
-    if (allPaths.empty()) return;
+double Graph::simplerAlgorithm(std::vector<std::vector<Edge *>> &allPaths){
+    double res = 0;
+    if (allPaths.empty()) return res;
 
     for (Vertex* v : vertexSet){
         v->needing = 0;
@@ -509,16 +472,16 @@ void Graph::simplerAlgorithm(std::vector<std::vector<Edge *>> &allPaths){
     std::vector<Vertex*> cities;
     for (const std::vector<Edge*>& path : allPaths){
         if (path.size() < 2) continue; /// Theoretical impossible, would imply a reservoir directly connected to a city
-        Edge* edge = path[path.size() - 1];
+        Edge* edge = path[path.size() - 1]; /// Last edge, contains the city
         if (!edge->getRemoved()){
             Vertex* city = edge->getDest();
-            city->needing += edge->getFlow();
-            edge->needs = edge->getFlow();
+            city->needing += edge->getFlow(); /// To keep track of how much water the city lost
+            edge->needs = edge->getFlow(); /// To keep track of much water the edge connecting the city lost. There might be a lot of edges connecting the cities
             cities.push_back(edge->getDest());
         }
     }
 
-    /// Set the edges weights.
+    /// Remove the water coming from the removed reservoir
     for (const std::vector<Edge*>& path : allPaths){
         double minFlow = DBL_MAX;
 
@@ -530,13 +493,13 @@ void Graph::simplerAlgorithm(std::vector<std::vector<Edge *>> &allPaths){
     for (Vertex* v : vertexSet){
         for (Edge* e : v->getAdj()) e->setRemoved(false);
     }
-    /// Check if does not need all the water
+    /// Check if the cities are already receiving water, meaning the pipes where not totally emptied
     for (const std::vector<Edge*>& path : allPaths){
         if (path.size() < 2) continue; /// Theoretical impossible, would imply a reservoir directly connected to a city
         Edge* edge = path[path.size() - 1];
         if (!edge->getRemoved()){
             Vertex* city = edge->getDest();
-            city->needing -= edge->getFlow(); /// Water that needs to be reposta
+            city->needing -= edge->getFlow();
             edge->needs -= edge->getFlow();
             edge->setRemoved(true);
         }
@@ -544,7 +507,7 @@ void Graph::simplerAlgorithm(std::vector<std::vector<Edge *>> &allPaths){
 
     Vertex* reservoir = allPaths[0][0]->getOrig();
 
-    /// Find the reverse paths from the ps to a reservoir
+    /// Find the reverse paths from the city to a reservoir
     for (Vertex* city : cities){
         while (true){
             Vertex* aux = findAugPathSubGraph(city, reservoir);
@@ -554,18 +517,19 @@ void Graph::simplerAlgorithm(std::vector<std::vector<Edge *>> &allPaths){
 
             if (flow > city->needing) flow = city->needing;
             augmentFlowPath1(aux, city, flow);
-            city->needing -= flow;
-            city->has += flow;
+            city->needing -= flow; /// Decrement by the flow that reached the city
+            city->has += flow; /// 'has' will be at most equal to the initially 'needing'
         }
     }
 
-    for (Vertex* v : cities){
-        for (Edge* e : v->getAdj()){
-            if (e->needs > 0){
-                double waterToSend = v->has;
-                if (waterToSend > e->needs) waterToSend = e->needs;
-                e->setFlow(e->getFlow() + waterToSend);
-                v->has -= waterToSend;
+    /// Not that we know how much water each city received ('has') and how much each pipe needs ('needs'), we just increment
+    for (Vertex* city : cities){
+        for (Edge* e : city->getAdj()){
+            if (e->needs > 0){ /// pipe was affected by the removal
+                double waterToSend = city->has;
+                if (waterToSend > e->needs) waterToSend = e->needs; /// Pipe will be filled at most at the initial flow that it had
+                e->setFlow(e->getFlow() + waterToSend); /// Increment the flow along the pipe
+                city->has -= waterToSend;
                 e->needs -= waterToSend;
             }
         }
@@ -593,7 +557,7 @@ void Graph::simplerAlgorithm(std::vector<std::vector<Edge *>> &allPaths){
             flow += in;
         }
     }
-    std::cout << "New Flow: " << flow << "\n";
+    return flow;
 }
 
 void Graph::removeReservoir(Vertex *reservoir) {
@@ -603,31 +567,50 @@ void Graph::removeReservoir(Vertex *reservoir) {
     findAllPaths(reservoir, path, allPaths);
 
     std::set<std::pair<std::string,double>> before = checkWaterNeeds();
-    simplerAlgorithm(allPaths);
+    double flow = simplerAlgorithm(allPaths);
     std::set<std::pair<std::string,double>> after = checkWaterNeeds();
+
     bool flag = false;
-    std::cout << "\nRemoving Reservoir: " << reservoir->getNode()->getCode() << " affects the following cities:\n";
+    Reservoir* r = dynamic_cast<Reservoir*>(reservoir->getNode());
+    std::cout << "\n" << reservoir->getNode()->getCode() << ": " << r->getName() << "\n";
+    std::cout << std::left << std::setw(25) << " " << std::setw(12) << "Old Flow" << std::setw(12) << "New Flow" << std::setw(12) << "Diff" << "\n";
     for ( std::pair<std::string,double> pair : after) {
-        std::set<std::pair<std::string,double>>::iterator it = before.end();
+        bool found = false;
+        auto it = before.end();
         for (auto iter = before.begin(); iter != before.end(); iter++) {
             if (iter->first == pair.first) {
                 it = iter;
-                if (iter->second < pair.second) {
-                    City* city = getCity(C_CODE,pair.first,0);
-                    flag = true;
-                    std::cout << pair.first << ": " << city->getName() << " --> Old flow: " << city->getDemand() - iter->second   <<  "    |    New flow: " << city->getDemand() - pair.second << "\n";
-                }
+                found = true;
+                break;
             }
         }
-        if (it == before.end()) {
+        if (found) {
             flag = true;
-            City* city = getCity(C_CODE, pair.first, 0);
-            std::cout << pair.first << ": " << city->getName() << " --> Old flow: " << city->getDemand()  <<  "    |    New flow: " << city->getDemand() - pair.second << "\n";
+            City *city = getCity(C_CODE, pair.first, 0);
+            double old = city->getDemand() - it->second;
+            double newFlow = city->getDemand() - pair.second;
+            std::string name = pair.first + ": " + city->getName();
+            std::cout << std::left << std::setw(25) << name
+                      << std::setw(12) << old
+                      << std::setw(12) << newFlow
+                      << std::setw(12) << old - newFlow << "\n";
+        } else {
+            flag = true;
+            City *city = getCity(C_CODE, pair.first, 0);
+            double old = city->getDemand();
+            double newFlow = city->getDemand() - pair.second;
+            std::string name = pair.first + ": " + city->getName();
+            std::cout << std::left << std::setw(25) << name
+                      << std::setw(12) << old
+                      << std::setw(12) << newFlow
+                      << std::setw(12) << old - newFlow << "\n";
         }
     }
-    if (!flag) {
-        std::cout << " -> No city is affected.\n";
-    }
+
+    std::cout << std::right;
+
+    if (!flag) std::cout << "No city is affected.\n";
+    else std::cout << "New Flow: " << flow << "\n";
 
     edmondsKarp();
 }

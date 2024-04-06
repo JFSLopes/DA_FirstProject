@@ -71,6 +71,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="class_vertex-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Vertex Class Reference</div></div>
 </div><!--header-->
@@ -84,7 +85,7 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a76707780672837ba1c570aa81d0a2bb1" id="r_a76707780672837ba1c570aa81d0a2bb1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_vertex.html#a76707780672837ba1c570aa81d0a2bb1">Vertex</a> (<a class="el" href="class_node.html">Node</a> *node)</td></tr>
-<tr class="memdesc:a76707780672837ba1c570aa81d0a2bb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to an edge, that is included in an augmenting path, that goes through the vertex on Edmonds-Karp algorithm.  <br /></td></tr>
+<tr class="memdesc:a76707780672837ba1c570aa81d0a2bb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows to keep track of how much water can reach a vertex.  <br /></td></tr>
 <tr class="separator:a76707780672837ba1c570aa81d0a2bb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5e876ac65ba96334fec5cd16ed7b746" id="r_ac5e876ac65ba96334fec5cd16ed7b746"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_node.html">Node</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_vertex.html#ac5e876ac65ba96334fec5cd16ed7b746">getNode</a> () const</td></tr>
 <tr class="separator:ac5e876ac65ba96334fec5cd16ed7b746"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -124,6 +125,17 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>removeEdges</b> ()</t
 <tr class="separator:a88bf305ca67f946d869d75eba1af6e8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d41051885fcdfa6e8e94593d2b26e0e" id="r_a1d41051885fcdfa6e8e94593d2b26e0e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_vertex.html#a1d41051885fcdfa6e8e94593d2b26e0e">incomingFull</a> () const</td></tr>
 <tr class="separator:a1d41051885fcdfa6e8e94593d2b26e0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:acd3310670984ede88339d8e860e966fc" id="r_acd3310670984ede88339d8e860e966fc"><td class="memItemLeft" align="right" valign="top"><a id="acd3310670984ede88339d8e860e966fc" name="acd3310670984ede88339d8e860e966fc"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>needing</b></td></tr>
+<tr class="memdesc:acd3310670984ede88339d8e860e966fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to an edge, that is included in an augmenting path, that goes through the vertex on Edmonds-Karp algorithm. <br /></td></tr>
+<tr class="separator:acd3310670984ede88339d8e860e966fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a879eaf6525b6db913cf979d77f22cc2e" id="r_a879eaf6525b6db913cf979d77f22cc2e"><td class="memItemLeft" align="right" valign="top"><a id="a879eaf6525b6db913cf979d77f22cc2e" name="a879eaf6525b6db913cf979d77f22cc2e"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>has</b></td></tr>
+<tr class="memdesc:a879eaf6525b6db913cf979d77f22cc2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows to keep track of how much water a vertex lost. <br /></td></tr>
+<tr class="separator:a879eaf6525b6db913cf979d77f22cc2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Allows to represent the information of any vertex on the graph. </p>
@@ -144,7 +156,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>removeEdges</b> ()</t
       </table>
 </div><div class="memdoc">
 
-<p>Pointer to an edge, that is included in an augmenting path, that goes through the vertex on Edmonds-Karp algorithm. </p>
+<p>Allows to keep track of how much water can reach a vertex. </p>
 <p><a class="el" href="class_vertex.html" title="Allows to represent the information of any vertex on the graph.">Vertex</a> Constructor </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">node</td><td>Pointer to the node associated with this vertex </td></tr>

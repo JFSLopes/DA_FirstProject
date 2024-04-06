@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['variance_0',['variance',['../structmetrics.html#a63c3018cecc7d71bbb115eb2a07f8ad0',1,'metrics']]]
+  ['maxdiff_0',['maxDiff',['../structmetrics.html#a9e8f1eb7e696401d97c34a243827cb6f',1,'metrics']]]
 ];

@@ -20,8 +20,8 @@ private:
     bool visited; /// Flag to check if the vertex has already been visited
     Edge* path; /// Pointer to an edge, that is included in an augmenting path, that goes through the vertex on Edmonds-Karp algorithm
 public:
-    double needing;
-    double has;
+    double needing; /// Allows to keep track of how much water a vertex lost
+    double has; /// Allows to keep track of how much water can reach a vertex
     /**
      * @brief Vertex Constructor
      * @param node Pointer to the node associated with this vertex
@@ -48,7 +48,6 @@ public:
      * @return Returns the edge with least capacity to carry water
      */
     Edge* edgeMoreFull() const;
-
     /**
      * @brief Checks if the vertex is visited
      * @return Returns whether the vertex is visited or not
