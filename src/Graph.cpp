@@ -157,6 +157,9 @@ Vertex* Graph::findAugPathSubGraph(Vertex *source, Vertex* removed) {
         if (v->getNode()->getCode().front() == 'R') return v; /// Found a reservoir
 
         for (Edge* e : v->getIncoming()){
+
+            if (e->needs == 0) continue;
+
             Vertex* orig = e->getOrig();
             if (!orig->isVisited() && (e->getWeight() - e->getFlow() > 0)) {
                 if (orig->getNode()->getCode().front() == 'R'){ /// Check if it can send more water
@@ -196,6 +199,9 @@ double Graph::minResAugPath1(Vertex *source, Vertex *sink) {
         Edge* e = v->getPath();
 
         maxFlow = std::min(maxFlow, e->getWeight() - e->getFlow());
+
+        if (e->needs != DBL_MAX) maxFlow = std::min(maxFlow, e->needs);
+
         if (v->getNode()->getCode().front() == 'R'){ /// Check if the reservoir can send more water
             double remain = v->remainReservoirDelivery();
             maxFlow = std::min(maxFlow, remain);
@@ -220,9 +226,12 @@ void Graph::augmentFlowPath(Vertex *source, Vertex *sink,double  f) {
     }
 }
 
-void Graph::augmentFlowPath1(Vertex *source, Vertex *sink, double  f) {
+void Graph::augmentFlowPath1(Vertex *source, Vertex *sink, double f) {
     for(Vertex* v = source; v != sink;){
         Edge* e = v->getPath();
+
+        if (e->needs != DBL_MAX) e->needs -= f; /// Edge no longer needs 'f' of water
+
         e->setFlow(e->getFlow() + f);
         v = e->getDest();
     }
@@ -454,8 +463,7 @@ void Graph::findAllPaths(Vertex *s, std::vector<Edge *>& path, std::vector<std::
 }
 
 double Graph::simplerAlgorithm(std::vector<std::vector<Edge *>> &allPaths){
-    double res = 0;
-    if (allPaths.empty()) return res;
+    if (allPaths.empty()) return 0;
 
     for (Vertex* v : vertexSet){
         v->needing = 0;
@@ -463,7 +471,7 @@ double Graph::simplerAlgorithm(std::vector<std::vector<Edge *>> &allPaths){
         v->setVisited(false);
         for (Edge* e : v->getAdj()){
             e->setRemoved(false);
-            e->needs = 0;
+            e->needs = DBL_MAX;
         }
     }
 
@@ -476,7 +484,8 @@ double Graph::simplerAlgorithm(std::vector<std::vector<Edge *>> &allPaths){
             Vertex* city = edge->getDest();
             city->needing += edge->getFlow(); /// To keep track of how much water the city lost
             edge->needs = edge->getFlow(); /// To keep track of much water the edge connecting the city lost. There might be a lot of edges connecting the cities
-            cities.push_back(edge->getDest());
+            if (!city->isVisited()) cities.push_back(edge->getDest());
+            city->setVisited(true);
         }
     }
 
@@ -521,28 +530,12 @@ double Graph::simplerAlgorithm(std::vector<std::vector<Edge *>> &allPaths){
         }
     }
 
-    /// Not that we know how much water each city received ('has') and how much each pipe needs ('needs'), we just increment
-    for (Vertex* city : cities){
-        for (Edge* e : city->getAdj()){
-            if (e->needs > 0){ /// pipe was affected by the removal
-                double waterToSend = city->has;
-                if (waterToSend > e->needs) waterToSend = e->needs; /// Pipe will be filled at most at the initial flow that it had
-                e->setFlow(e->getFlow() + waterToSend); /// Increment the flow along the pipe
-                city->has -= waterToSend;
-                e->needs -= waterToSend;
-            }
-        }
-    }
-
     double flow = 0;
     for (Vertex* v : vertexSet){
         if (v->getNode()->getCode().front() != 'C') continue;
-        double in = 0;
         for (Edge* e : v->getIncoming()){
-            in += e->getFlow();
+            flow += e->getFlow();
         }
-
-        flow += in;
     }
     return flow;
 }
