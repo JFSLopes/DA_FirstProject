@@ -536,25 +536,13 @@ double Graph::simplerAlgorithm(std::vector<std::vector<Edge *>> &allPaths){
 
     double flow = 0;
     for (Vertex* v : vertexSet){
-        double in = 0, out = 0;
-        for (Edge* e : v->getAdj()){
-            if (e->getWeight() < e->getFlow()) std::cout << "Error1\n";
-            out += e->getFlow();
-        }
+        if (v->getNode()->getCode().front() != 'C') continue;
+        double in = 0;
         for (Edge* e : v->getIncoming()){
             in += e->getFlow();
         }
-        if (v->getNode()->getCode().front() == 'P' and in != out) std::cout << "Error3\n";
-        if (v->getNode()->getCode().front() == 'C'){
-            City* city = dynamic_cast<City*>(v->getNode());
-            if (city->getDemand() < in) std::cout << "Error4\n";
-            flow += in;
-        }
-        if (v->getNode()->getCode().front() == 'R'){
-            Reservoir* r = dynamic_cast<Reservoir*>(v->getNode());
-            if (r->getMaxDelivery() < out) std::cout << "Error5\n";
-            flow += in;
-        }
+
+        flow += in;
     }
     return flow;
 }

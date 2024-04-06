@@ -97,13 +97,13 @@ void App::allOrSpecific(){
         std::cout << "\n";
     }
 }
-void::App::allCitiesWaterQuantity(){
+void App::allCitiesWaterQuantity(){
     std::string s = "city listing";
     std::string file = getNewFileName(s);
     std::string path = getNewPath();
     if (!path.empty() and path.back() != '/') path += "/";
     std::string filePath = path + file;
-    std::ofstream os(filePath,std::ios::trunc);
+    std::ofstream os(filePath, std::ios::trunc);
     os << "Max Flow: " << g->edmondsKarp() << "\n";
     for(Vertex* v : g->getVertexSet()){
         std::string code = v->getNode()->getCode();
@@ -113,7 +113,7 @@ void::App::allCitiesWaterQuantity(){
     }
     os.close();
 }
-void::App::SpecificCityWaterQuantity(){
+void App::SpecificCityWaterQuantity(){
     std::pair<int,std::string> p = askCityCodeNameId();
     uint32_t id;
     if (p.first == 1) {
