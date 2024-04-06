@@ -1,16 +1,15 @@
 #include "../header/App.h"
 #include "../header/UI.h"
-
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
 
 void App::init() {
-    std::string cities = "Cities_Madeira.csv";
-    std::string reservoirs = "Reservoirs_Madeira.csv";
-    std::string stations = "Stations_Madeira.csv";
-    std::string pipes = "Pipes_Madeira.csv";
-    std::string path = "../Dataset/DataSetSmall/";
+    std::string cities = "Cities.csv";
+    std::string reservoirs = "Reservoir.csv";
+    std::string stations = "Stations.csv";
+    std::string pipes = "Pipes.csv";
+    std::string path;
     g = new Graph();
 
     while (true){
