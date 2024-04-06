@@ -143,7 +143,7 @@ void displayReliabilitySensitivity(){
               << "\t2. Remove a pumping station;\n"
               << "\t3. Remove the pipelines;\n"
               << "\t9. Return to previous menu;\n";
-    std::cout << "[1..3]: ";
+    std::cout << "[1..9]: ";
 }
 
 void displayMetrics(metrics m){

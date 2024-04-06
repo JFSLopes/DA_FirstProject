@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['maxdiff_0',['maxDiff',['../structmetrics.html#a9e8f1eb7e696401d97c34a243827cb6f',1,'metrics']]]
+  ['has_0',['has',['../class_vertex.html#a879eaf6525b6db913cf979d77f22cc2e',1,'Vertex']]]
 ];

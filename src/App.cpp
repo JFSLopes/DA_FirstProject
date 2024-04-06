@@ -1,6 +1,5 @@
 #include "../header/App.h"
 #include "../header/UI.h"
-
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
@@ -12,6 +11,7 @@ void App::init() {
     std::string pipes = "Pipes.csv";
     std::string path;
     g = new Graph();
+
     while (true){
         displayChooseDataSet(reservoirs, stations, cities, pipes, path);
         if (FileParse::readFiles(g, cities, pipes, reservoirs, stations, path)) break;
@@ -239,7 +239,6 @@ void App::askPipelines(std::vector<std::pair<std::string,std::string>> &pipeline
 
 void App::removePipelines(std::vector<std::pair<std::string,std::string>> &pipelines)  {
     std::vector<Edge*> edges;
-    std::set<std::pair<std::string,double>> affected;
     std::set<std::pair<std::string,double>> before = g->checkWaterNeeds();
     for(auto const p : pipelines){
         Edge *edge = g->findEdge(p.first, p.second);
@@ -252,9 +251,11 @@ void App::removePipelines(std::vector<std::pair<std::string,std::string>> &pipel
 
 
     g->edmondsKarpRemovePipeline(edges);
+    std::cout << std::left << std::setw(25) << " " << std::setw(12) << "Old Flow" << std::setw(12) << "New Flow" << std::setw(12) << "Diff" << "\n";
     std::set<std::pair<std::string,double>> after = g->checkWaterNeeds();
+    std::set<std::pair<std::string,double>> affected;
     for(const std::pair<std::string ,double>  &pair : after){
-        std::set<std::pair<std::string,double>>::iterator it = before.end();
+        auto it = before.end();
         for (auto itr = before.begin(); itr != before.end(); itr++){
             if (itr->first == pair.first){
                 it = itr;
@@ -263,16 +264,22 @@ void App::removePipelines(std::vector<std::pair<std::string,std::string>> &pipel
         }
         if((it != before.end()) and (pair.second <= it->second)) continue;
 
-        affected.insert(std::make_pair(pair.first,pair.second));
+        affected.insert(std::make_pair(pair.first, pair.second));
     }
     for(auto p: affected){
-        City *city = g->getCity(C_CODE,p.first,0);
-        double f;
-        for(auto old : before){
+        City *city = g->getCity(C_CODE, p.first, 0);
+        double f = 0;
+        for(const auto& old : before){
             if(old.first == p.first)
-                f = p.second;
+                f = old.second;
         }
-        std::cout << p.first << ": " << city->getName() << " --> Old flow: " << city->getDemand() - f   <<  "    |    New flow: " << city->getDemand() - p.second << "\n";
+        std::string name = p.first + ": " + city->getName();
+        double old = city->getDemand() - f;
+        double newFlow = city->getDemand() - p.second;
+        std::cout << std::left << std::setw(25) << name
+                  << std::setw(12) << old
+                  << std::setw(12) << newFlow
+                  << std::setw(12) << old - newFlow << "\n";
     }
 }
 
@@ -294,6 +301,7 @@ void App::removePumpingStation(std::string &code) {
     std::set<std::pair<std::string,double>> after = g->checkWaterNeeds();
     bool flag = false;
     std::cout << "\nRemoving Pumping Station: " << vertex->getNode()->getCode() << " affects the following cities:\n";
+    std::cout << std::left << std::setw(25) << " " << std::setw(12) << "Old Flow" << std::setw(12) << "New Flow" << std::setw(12) << "Diff" << "\n";
     for ( std::pair<std::string,double> pair : after) {
         std::set<std::pair<std::string,double>>::iterator it = before.end();
         for (auto iter = before.begin(); iter != before.end(); iter++) {
@@ -302,17 +310,29 @@ void App::removePumpingStation(std::string &code) {
                 if (iter->second < pair.second) {
                     City* city = g->getCity(C_CODE,pair.first,0);
                     flag = true;
-                    std::cout << pair.first << ": " << city->getName() << " --> Old flow: " << city->getDemand() - iter->second   <<  "    |    New flow: " << city->getDemand() - pair.second << "\n";
+                    std::string name = pair.first + ": " + city->getName();
+                    double old = city->getDemand() - it->second;
+                    double newFlow = city->getDemand() - pair.second;
+                    std::cout << std::left << std::setw(25) << name
+                              << std::setw(12) << old
+                              << std::setw(12) << newFlow
+                              << std::setw(12) << old - newFlow << "\n";
                 }
             }
         }
         if (it == before.end()) {
             flag = true;
             City* city = g->getCity(C_CODE,pair.first,0);
-            std::cout << pair.first << ": " << city->getName() << " --> Old flow: " << city->getDemand()  <<  "    |    New flow: " << city->getDemand() - pair.second << "\n";
+            std::string name = pair.first + ": " + city->getName();
+            double old = city->getDemand();
+            double newFlow = city->getDemand() - pair.second;
+            std::cout << std::left << std::setw(25) << name
+                      << std::setw(12) << old
+                      << std::setw(12) << newFlow
+                      << std::setw(12) << old - newFlow << "\n";
         }
     }
     if (!flag) {
-        std::cout << " -> No city is affected.\n";
+        std::cout << "No city is affected.\n";
     }
 }
