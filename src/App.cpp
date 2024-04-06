@@ -6,22 +6,24 @@
 #include <iomanip>
 
 void App::init() {
-    std::string cities = "Cities.csv";
-    std::string reservoirs = "Reservoir.csv";
-    std::string stations = "Stations.csv";
-    std::string pipes = "Pipes.csv";
-    std::string path;
-    g = new Graph();
-
     while (true){
+        std::string cities = "Cities.csv";
+        std::string reservoirs = "Reservoir.csv";
+        std::string stations = "Stations.csv";
+        std::string pipes = "Pipes.csv";
+        std::string path;
+        g = new Graph();
         displayChooseDataSet(reservoirs, stations, cities, pipes, path);
-        if (FileParse::readFiles(g, cities, pipes, reservoirs, stations, path)) break;
-        std::cout << "Something went wrong while reading the files. Make sure the names and path are correct.\n";
+        if (!FileParse::readFiles(g, cities, pipes, reservoirs, stations, path)){
+            std::cout << "Something went wrong while reading the files. Make sure the names and path are correct.\n";
+            continue;
+        }
+        bool close = domain();
+        if (close) break;
     }
-    domain();
 }
 
-void App::domain() {
+bool App::domain() {
     g->edmondsKarp();
     while (true){
         displayDomain();
@@ -32,8 +34,10 @@ void App::domain() {
             case 2:
                 ReliabilitySensitivity();
                 break;
+            case 8:
+                return false;
             case 9:
-                return;
+                return true;
             default:
                 std::cout << "Invalid number.\n";
                 break;
